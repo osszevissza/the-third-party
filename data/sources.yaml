@@ -1290,3 +1290,22 @@
     - Mullvad has operated public encrypted DNS servers since 2022.
     - Mullvad is shutting those public encrypted DNS servers down, with 2 November 2026 given as the date to switch by.
     - Mullvad states that it will sponsor Quad9 rather than run a public resolver itself.
+
+- id: signal-donate
+  title: "Donate to Signal"
+  authors: ["Signal Technology Foundation"]
+  publisher: Signal Technology Foundation
+  date: null         # the page is undated; the site footer reads 2013-2026
+  type: vendor-doc
+  url: https://signal.org/donate/
+  archive: http://web.archive.org/web/20261014191124/https://signal.org/donate/
+  verified_on: 2026-10-14   # control-probed: an impossible path on the same host returns 404 with 7450 bytes against this page's 200 with 22295, and the archived copy was fetched and read and carries the 501c3 sentence
+  weakness: >
+    A donation page, which is the one page where an organisation has an interest in how its
+    legal status reads. It establishes what the Signal Technology Foundation is, and it says
+    nothing about how the organisation behaves, what it retains, or what it can be compelled
+    to hand over. Nonprofit status is a statement about ownership and profit, not a privacy
+    guarantee, and it should never be presented as one.
+  supports:
+    - Signal Technology Foundation is a nonprofit under section 501c3 of the US Internal Revenue Code.
+    - Signal describes itself as an independent nonprofit, supported by grants and donations.

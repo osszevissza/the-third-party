@@ -18,7 +18,8 @@ sources = [
   "codeberg",
   "peertube",
   "mullvad-public-dns",
-  "mullvad-dns-shutdown"
+  "mullvad-dns-shutdown",
+  "signal-donate"
 ]
 +++
 
@@ -88,7 +89,7 @@ So the practical answer is: install the Lite version if you're staying on Chrome
 
 **What WhatsApp does to you.** Message content is end-to-end encrypted, and that part is real. The metadata (who talks to whom, when, how often) belongs to a company whose business is advertising, and the account is anchored to a phone number and a contact graph that gets uploaded.
 
-**The swap.** Signal: a nonprofit, end-to-end encrypted, with no advertising business and a much smaller set of things it can be asked for. Roughly a decade of criticism centred on its requirement that you register with a phone number, which is a genuine metadata exposure. Signal has since added usernames, so you can now contact people without handing over your number. {{< cite "signal-usernames" >}}
+**The swap.** Signal: a nonprofit {{< cite "signal-donate" >}}, end-to-end encrypted, with no advertising business and a much smaller set of things it can be asked for. Roughly a decade of criticism centred on its requirement that you register with a phone number, which is a genuine metadata exposure. Signal has since added usernames, so you can now contact people without handing over your number. {{< cite "signal-usernames" >}}
 
 **What it costs.** Ten minutes to install. Months to convince anyone else.
 

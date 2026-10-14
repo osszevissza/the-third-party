@@ -33,8 +33,8 @@ Sizes are given both raw and gzipped, because gzip is what a server actually sen
 | Cookies | 0 | 0 | met |
 | Web fonts | 0, system font stack | | met |
 | Median page, gzipped | 9,171 bytes | under 100 KB | met |
-| Heaviest page, gzipped | 29,957 bytes (`/sources/`) | under 100 KB | met |
-| Heaviest page, raw | 102,316 bytes (`/sources/`) | under 100 KB | met |
+| Heaviest page, gzipped | 30,233 bytes (`/sources/`) | under 100 KB | met |
+| Heaviest page, raw | 103,482 bytes (`/sources/`) | under 100 KB | met |
 | All 12 pages, gzipped | about 108 KB | | |
 
 So a page here asks your browser for three files, all of them from this domain. The heaviest page on the site is the bibliography, and it is the one page deliberately exempt from the length rule, since it is a list of records rather than an argument.
@@ -97,7 +97,7 @@ The median page here transfers 9,171 bytes gzipped, which is 0.0000085 GB, so:
 
 > 0.0000085 GB × 148 gCO2e/GB = **0.0013 grams**, about 1.3 milligrams per page view
 
-The heaviest page works out at about 4.1 milligrams, and reading every page on the site once comes to roughly 15 milligrams.
+The heaviest page works out at about 4.2 milligrams, and reading every page on the site once comes to roughly 15 milligrams.
 
 Three things about that number, because it is easy to overread. It is **an estimate from a model, not a measurement**. About a third of it is *embodied* emissions, the cost of manufacturing the devices and networks in the first place, which no website controls and no website can reduce by being lighter. And the grid intensity is a global average: on a grid that is cleaner or dirtier than that, the figure moves, which is why the model's own documentation tells you to substitute your own.
 

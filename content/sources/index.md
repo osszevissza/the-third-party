@@ -176,12 +176,12 @@ Generated from `data/sources.yaml` by `scripts/render-bibliography.py`. Do not e
 
 | What this counts | Number |
 |---|---|
-| Sources in the file | 69 |
-| Cited by at least one page | 69 |
-| Link opened and confirmed, with a date | 49 |
-| Snapshotted to the Wayback Machine | 57 |
+| Sources in the file | 70 |
+| Cited by at least one page | 70 |
+| Link opened and confirmed, with a date | 50 |
+| Snapshotted to the Wayback Machine | 58 |
 | No stable URL found yet | 1 |
-| The document itself carries no date | 25 |
+| The document itself carries no date | 26 |
 
 Every number above is computed from the citation file when this page is built. If the site claims a source is verified and this table disagrees, the table is right.
 
@@ -1203,6 +1203,21 @@ Prebid.org · Prebid.org · no date on the document · [the source itself](https
 - Around ten bidders per auction is a common industry practice.
 - Publishers weigh bidder count against page latency.
 
+### <a id="source-signal-donate"></a>signal-donate
+
+**Donate to Signal**
+
+Signal Technology Foundation · Signal Technology Foundation · no date on the document · [the source itself](https://signal.org/donate/) · [archived copy](http://web.archive.org/web/20261014191124/https://signal.org/donate/)
+
+**Status: verified 2026-10-14, archived.**
+
+**Weak at:** A donation page, which is the one page where an organisation has an interest in how its legal status reads. It establishes what the Signal Technology Foundation is, and it says nothing about how the organisation behaves, what it retains, or what it can be compelled to hand over. Nonprofit status is a statement about ownership and profit, not a privacy guarantee, and it should never be presented as one.
+
+**Carries:**
+
+- Signal Technology Foundation is a nonprofit under section 501c3 of the US Internal Revenue Code.
+- Signal describes itself as an independent nonprofit, supported by grants and donations.
+
 ### <a id="source-themarkup-blacklight"></a>themarkup-blacklight
 
 **Blacklight**
@@ -1266,7 +1281,7 @@ Umami · Umami · no date on the document · [the source itself](https://umami.i
 
 **Start Here** (3): [`eff-cover-your-tracks`](#source-eff-cover-your-tracks), [`ublock-origin`](#source-ublock-origin), [`themarkup-blacklight`](#source-themarkup-blacklight)
 
-**The Swap Shop** (13): [`posteo`](#source-posteo), [`mailbox-org`](#source-mailbox-org), [`gmail-scanning-2017`](#source-gmail-scanning-2017), [`mullvad`](#source-mullvad), [`mullvad-audit-cure53`](#source-mullvad-audit-cure53), [`ublock-origin`](#source-ublock-origin), [`ublock-origin-chrome`](#source-ublock-origin-chrome), [`signal-usernames`](#source-signal-usernames), [`search-index-concentration`](#source-search-index-concentration), [`codeberg`](#source-codeberg), [`peertube`](#source-peertube), [`mullvad-public-dns`](#source-mullvad-public-dns), [`mullvad-dns-shutdown`](#source-mullvad-dns-shutdown)
+**The Swap Shop** (14): [`posteo`](#source-posteo), [`mailbox-org`](#source-mailbox-org), [`gmail-scanning-2017`](#source-gmail-scanning-2017), [`mullvad`](#source-mullvad), [`mullvad-audit-cure53`](#source-mullvad-audit-cure53), [`ublock-origin`](#source-ublock-origin), [`ublock-origin-chrome`](#source-ublock-origin-chrome), [`signal-usernames`](#source-signal-usernames), [`search-index-concentration`](#source-search-index-concentration), [`codeberg`](#source-codeberg), [`peertube`](#source-peertube), [`mullvad-public-dns`](#source-mullvad-public-dns), [`mullvad-dns-shutdown`](#source-mullvad-dns-shutdown), [`signal-donate`](#source-signal-donate)
 
 **What Leaves Your Browser** (6): [`eckersley-fingerprinting`](#source-eckersley-fingerprinting), [`eff-cover-your-tracks`](#source-eff-cover-your-tracks), [`web-almanac`](#source-web-almanac), [`pohlmann-first-party-cookies`](#source-pohlmann-first-party-cookies), [`ftc-surveillance-pricing`](#source-ftc-surveillance-pricing), [`sweeney-demographics`](#source-sweeney-demographics)
 
