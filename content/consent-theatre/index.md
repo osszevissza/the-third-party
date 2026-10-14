@@ -4,6 +4,7 @@ subtitle = "The banner is not there to protect you from tracking. It is there to
 description = "Why cookie banners exist, why they fail in ways regulators have already documented, and why the button you are looking for is missing on purpose."
 status_as_of = 2026-10-14
 weight = 7
+nav = "Consent theatre"
 sources = [
   "edpb-cookie-banner-taskforce",
   "cjeu-iab-europe-tcf",

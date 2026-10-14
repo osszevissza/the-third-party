@@ -4,6 +4,7 @@ subtitle = "What to replace, and what it costs you"
 description = "Eight substitutions worth considering, each with the honest price of switching, plus the swaps that aren't worth making, and why."
 status_as_of = 2026-10-13
 weight = 11
+nav = "Swap shop"
 sources = [
   "posteo",
   "mailbox-org",
@@ -15,7 +16,9 @@ sources = [
   "signal-usernames",
   "search-index-concentration",
   "codeberg",
-  "peertube"
+  "peertube",
+  "mullvad-public-dns",
+  "mullvad-dns-shutdown"
 ]
 +++
 
@@ -132,6 +135,8 @@ If you want something that isn't tied to a phone number at all, Matrix is the an
 **What your ISP's resolver does to you.** Every domain you look up passes through it, which builds a near-complete record of the sites you visit, including things HTTPS hides, because the lookup happens before the encrypted connection starts.
 
 **The swap.** A public resolver, or DNS-over-HTTPS to encrypt the lookup itself.
+
+**Which resolver, and why this page puts a date on things.** The reasoning above matters more than the brand, and any public resolver is the same kind of trade. One example, though, because it makes the dating argument better than any sentence could. Mullvad has run public encrypted DNS since 2022, and in September 2026 it announced that it is shutting those servers down on 2 November 2026 and **sponsoring Quad9 instead of running its own** {{< cite "mullvad-public-dns" >}} {{< cite "mullvad-dns-shutdown" >}}. So a resolver this page could have recommended without a date would have expired within weeks, and the successor is a non-profit rather than a company, which is worth knowing before you pick. Advice without a date is not advice, it is a guess with a shelf life.
 
 **What you give up, and this is the honest part.** You are not removing the record. You are **moving who holds it**: from your internet provider to a DNS company, which is a different set of incentives rather than no incentives. If that company also runs advertising or security products, you may have swapped a regulated utility for an unregulated one.
 

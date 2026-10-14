@@ -4,7 +4,12 @@ subtitle = "Everything on this site is checkable, including the parts that are n
 description = "How the sources behind this site were chosen, what verification does and does not mean, the ones that could not be confirmed, and how to tell me I am wrong."
 status_as_of = 2026-10-14
 weight = 12
-sources = []
+nav = "Sources"
+sources = [
+  "ecosia-eusp-index",
+  "mullvad-public-dns",
+  "mullvad-dns-shutdown"
+]
 +++
 
 A site that tells you to check things had better be checkable itself. So this page is the
@@ -116,14 +121,18 @@ pages reflect what I think is worth the trouble, not a neutral survey. And where
 recommend something I use myself, I have said so, with the honest cost of switching on
 the same page. A recommendation without its cost is an advert.
 
-<!-- STILL OPEN, and it needs the maintainer rather than an agent: the sentence above
-     commits this page to naming which recommendations are ones I actually run, and that
-     disclosure is now the only unsupported claim left on the site. The eight swaps it has
-     to cover are listed in /swap-shop/ section headings: email (Posteo or mailbox.org),
-     search, ad blocking (uBlock Origin), chat (Signal), documents (CryptPad or Nextcloud),
-     code hosting (Codeberg), video (PeerTube), DNS (a public resolver). Answer with the
-     ones you run and this becomes two lines. If the answer is "none of them yet", that is
-     a publishable answer too, and it would be a more honest one than silence. -->
+**Which of these swaps I have actually made.** That sentence commits me to naming them, so here they are, including the ones I have not made and the one I have made badly.
+
+- **Search: Ecosia.** Not one of the three engines that page recommends, and the difference is worth explaining rather than glossing. Ecosia has been building its own index with Qwant, and says that results for its users in France now come from it directly {{< cite "ecosia-eusp-index" >}}, which is the criterion the search section tells you to apply. I have not compared it against the three engines it does recommend, so the recommendation there is unchanged and this is not an endorsement of mine.
+- **Email: Posteo.** The option this site calls the purist's choice, and the one I run.
+- **Ad blocking: uBlock Origin**, on Firefox, which is the only browser where the page says the unrestricted version still runs. That pairing is the swap rather than a detail of it.
+- **Chat: Signal**, with the caveat that page carries. The caveat is about who your contacts are, not about the tool.
+- **DNS: Mullvad, with a deadline attached.** A different company holds the lookups than held them before, which is the whole of what that swap does and all the page claims for it. Mullvad is shutting its public encrypted DNS servers down on 2 November 2026 and sponsoring Quad9 rather than running a resolver itself {{< cite "mullvad-public-dns" >}} {{< cite "mullvad-dns-shutdown" >}}. The resolver built into the VPN is a separate service and that notice does not cover it, so whether this line outlives the next few weeks depends on which of the two is actually in use here.
+- **Code hosting: not properly.** I have a Codeberg account, and this project lives on GitHub, because that is where its readers and its corrections are. The recommendation stands and my practice is partial.
+- **Video: not made.** I watch YouTube. PeerTube is recommended here and not adopted, for the reason that page gives: my attention is the thing that would have to move, and it has not.
+- **Documents: not made.** The swap is on the list and I have not done it.
+
+Listing the ones I have not done costs me something, which is the point. A disclosure that named only the swaps I had finished would be an advert with extra steps.
 
 ## How this site is built and checked
 
@@ -138,6 +147,8 @@ The site's own choices are part of what a reader is entitled to know, so here th
 **The repository is public, and hosting is a static host.** The source is on GitHub, which is also the correction route above. The site is served by statichost.eu, which builds from the repository: there is no server of mine holding logs of your visit and no CDN in front of it.
 
 **Written with an AI agent, which is worth saying plainly.** The prose, the code and much of the source verification were produced by an AI agent, DeepSeek V4 Flash, running in a local harness under my direction. I set the rules and made the editorial decisions, including cutting a planned page on the law because it could not be kept current; the agent wrote, measured and checked, and its mistakes are recorded in the project's own working notes rather than quietly fixed. The caveats throughout [Receipts](/receipts/) and the "not verified" lines in the bibliography are a direct result of that arrangement: verification is done by something that documents its failures.
+
+**Edited in Helix, Sublime Text and Neovim**, roughly in that order of use. None of them is recommended anywhere on this site, and they are listed because the question this section answers is what I actually run rather than what I would like to be seen running.
 
 **Not used anywhere:** a CMS, a CSS or JavaScript framework, a bundler, a font service, a CDN, third-party analytics, or generated imagery. There is no newsletter, because a newsletter is a mailing list and this site is not collecting one. Analytics is planned as a cookieless counter and is not running yet, which is why the claim here is the stronger "no analytics" rather than the weaker "no cookies".
 
@@ -165,10 +176,10 @@ Generated from `data/sources.yaml` by `scripts/render-bibliography.py`. Do not e
 
 | What this counts | Number |
 |---|---|
-| Sources in the file | 66 |
-| Cited by at least one page | 66 |
-| Link opened and confirmed, with a date | 46 |
-| Snapshotted to the Wayback Machine | 54 |
+| Sources in the file | 69 |
+| Cited by at least one page | 69 |
+| Link opened and confirmed, with a date | 49 |
+| Snapshotted to the Wayback Machine | 57 |
 | No stable URL found yet | 1 |
 | The document itself carries no date | 25 |
 
@@ -176,7 +187,7 @@ Every number above is computed from the citation file when this page is built. I
 
 ## Research and evidence
 
-### sweeney-demographics
+### <a id="source-sweeney-demographics"></a>sweeney-demographics
 
 **Simple Demographics Often Identify People Uniquely**
 
@@ -191,7 +202,7 @@ Latanya Sweeney · Carnegie Mellon University, Data Privacy Working Paper 3 · 2
 - 87% of the US population likely identifiable from ZIP + birth date + sex.
 - Anonymity by field-deletion is not anonymity.
 
-### solove-taxonomy
+### <a id="source-solove-taxonomy"></a>solove-taxonomy
 
 **A Taxonomy of Privacy**
 
@@ -206,7 +217,7 @@ Daniel J. Solove · University of Pennsylvania Law Review, vol. 154, p. 477 · 2
 - Harms of collection, processing, dissemination and intrusion are distinct.
 - Aggregation, secondary use and exclusion are three distinct named harms.
 
-### solove-nothing-to-hide
+### <a id="source-solove-nothing-to-hide"></a>solove-nothing-to-hide
 
 **"I've Got Nothing to Hide" and Other Misunderstandings of Privacy**
 
@@ -221,7 +232,7 @@ Daniel J. Solove · San Diego Law Review, vol. 44, no. 4, p. 745 · 2007 · [the
 - Privacy is a family of concerns, not a synonym for secrecy.
 - The "nothing to hide" argument answers a question nobody asked.
 
-### netflix-prize
+### <a id="source-netflix-prize"></a>netflix-prize
 
 **How to Break Anonymity of the Netflix Prize Dataset (FAQ)**
 
@@ -236,7 +247,7 @@ Arvind Narayanan, Vitaly Shmatikov · Cornell University / IEEE Symposium on Sec
 - Cross-referencing an "anonymous" dataset against an unrelated public one breaks anonymity.
 - The join, not the record, is where the harm lives.
 
-### brignull-dark-patterns
+### <a id="source-brignull-dark-patterns"></a>brignull-dark-patterns
 
 **Deceptive Patterns (book), and the origin of the term**
 
@@ -251,7 +262,7 @@ Harry Brignull · deceptive.design · 2010 · [the source itself](https://www.de
 - The term dark patterns was coined by Harry Brignull.
 - Brignull now prefers the term deceptive design.
 
-### eckersley-fingerprinting
+### <a id="source-eckersley-fingerprinting"></a>eckersley-fingerprinting
 
 **How Unique Is Your Web Browser?**
 
@@ -266,7 +277,7 @@ Peter Eckersley · Privacy Enhancing Technologies (PETS) 2010, Springer · 2010 
 - Browser configuration alone can single out a visitor without stored state.
 - Fingerprinting defeats cookie deletion by design.
 
-### penney-chilling
+### <a id="source-penney-chilling"></a>penney-chilling
 
 **Chilling Effects: Online Surveillance and Wikipedia Use**
 
@@ -281,7 +292,7 @@ Jonathon W. Penney · Berkeley Technology Law Journal, vol. 31, p. 117 · 2016 �
 - Measurable behavioural change following disclosure of mass surveillance.
 - Chilling effects operate without any enforcement action being taken.
 
-### garcia-shadow-profiles
+### <a id="source-garcia-shadow-profiles"></a>garcia-shadow-profiles
 
 **Leaking privacy and shadow profiles in online social networks**
 
@@ -297,7 +308,7 @@ David Garcia · Science Advances, vol. 3, no. 8, e1701172 · 2017-08-04 · [the 
 - Data disclosed by users predicts personal information about non-users.
 - One person's privacy decision changes what can be inferred about other people.
 
-### zuboff-surveillance-capitalism
+### <a id="source-zuboff-surveillance-capitalism"></a>zuboff-surveillance-capitalism
 
 **The Age of Surveillance Capitalism: The Fight for a Human Future at the New Frontier of Power**
 
@@ -312,7 +323,7 @@ Shoshana Zuboff · PublicAffairs · 2019 · [the source itself](https://www.loc.
 - Instrumentarian power (power exercised through the instrumentation of behaviour).
 - The asymmetry of knowledge is itself the structural harm.
 
-### ali-ad-delivery
+### <a id="source-ali-ad-delivery"></a>ali-ad-delivery
 
 **Discrimination through Optimization: How Facebook's Ad Delivery Can Lead to Biased Outcomes**
 
@@ -327,7 +338,7 @@ Muhammad Ali, Piotr Sapiezynski, Miranda Bogen, Aleksandra Korolova, Alan Mislov
 - Identical targeting inputs produce systematically different delivery by race and gender.
 - Not everyone is seen equally, so "being seen" is not a uniform cost.
 
-### mathur-dark-patterns-2019
+### <a id="source-mathur-dark-patterns-2019"></a>mathur-dark-patterns-2019
 
 **Dark Patterns at Scale: Findings from a Crawl of 11K Shopping Websites**
 
@@ -342,7 +353,7 @@ Arunesh Mathur, Gunes Acar, Michael Friedman, Eli Lucherini, Jonathan Mayer, Mar
 - 1,818 dark patterns found across 1,254 of roughly 11,000 shopping sites.
 - 15 pattern types identified, concentrated on cart and checkout pages.
 
-### phone-number-recycling
+### <a id="source-phone-number-recycling"></a>phone-number-recycling
 
 **Security and Privacy Risks of Number Recycling at Mobile Carriers in the United States**
 
@@ -358,7 +369,7 @@ Kevin Lee, Arvind Narayanan · 2021 APWG Symposium on Electronic Crime Research 
 - Recycled numbers carry the previous owner's accounts and leaked credentials.
 - People-search services publish personal data about previous number owners.
 
-### pohlmann-first-party-cookies
+### <a id="source-pohlmann-first-party-cookies"></a>pohlmann-first-party-cookies
 
 **Towards Understanding First-Party Cookie Tracking in the Field**
 
@@ -373,7 +384,7 @@ Norbert Pohlmann et al. · ACM Internet Measurement Conference (IMC) · 2022 · 
 - Third-party tracking is routinely served from first-party subdomains.
 - Blocklists based on third-party domain matching can be evaded.
 
-### mullvad-audit-cure53
+### <a id="source-mullvad-audit-cure53"></a>mullvad-audit-cure53
 
 **Mullvad VPN: Pentest Report (2024)**
 
@@ -388,7 +399,7 @@ Cure53 · Cure53 · 2024 · [the source itself](https://cure53.de/pentest-report
 - Mullvad commissions and publishes independent third-party security audits.
 - A published audit is a materially stronger claim than a self-description.
 
-### web-almanac
+### <a id="source-web-almanac"></a>web-almanac
 
 **Web Almanac**
 
@@ -403,7 +414,7 @@ HTTP Archive · HTTP Archive · 2025 · [the source itself](https://almanac.http
 - Annual public measurement of third-party requests and page composition.
 - The authoritative dataset for "how many requests does a typical page make".
 
-### ecc-encrypted-client-hello
+### <a id="source-ecc-encrypted-client-hello"></a>ecc-encrypted-client-hello
 
 **The Fragile Privacy of Encrypted Client Hello: Quantifying Systemic Gaps in a Centralized Ecosystem**
 
@@ -418,7 +429,7 @@ Hajda, Oezdil · IFIP Networking 2026 · 2026 · [the source itself](https://iee
 - Encrypted Client Hello protects the visited hostname only partially.
 - Centralisation reintroduces metadata leaks that a protocol fix cannot close.
 
-### verizon-dbir
+### <a id="source-verizon-dbir"></a>verizon-dbir
 
 **Data Breach Investigations Report**
 
@@ -433,7 +444,7 @@ Verizon Business · Verizon · 2026 · [the source itself](https://www.verizon.c
 - Data compromise is routine and recurring rather than exceptional.
 - Every dataset held is a liability independent of collector intent.
 
-### deceptive-design-types
+### <a id="source-deceptive-design-types"></a>deceptive-design-types
 
 **Deceptive Patterns: the pattern types**
 
@@ -448,7 +459,7 @@ Harry Brignull, and contributors · deceptive.design · no date on the document 
 - Eighteen catalogued deceptive pattern types as of October 2026.
 - The canonical names used throughout the field guide.
 
-### sludge-audits
+### <a id="source-sludge-audits"></a>sludge-audits
 
 **Dark patterns and sludge audits: an integrated approach**
 
@@ -463,7 +474,7 @@ Behavioural Public Policy (Cambridge University Press) · no date on the documen
 - Sludge is distinct from dark patterns: friction against a legitimate action.
 - The two are argued to require joint auditing.
 
-### swd-emissions-model
+### <a id="source-swd-emissions-model"></a>swd-emissions-model
 
 **Estimating Digital Emissions**
 
@@ -482,7 +493,7 @@ Sustainable Web Design · Sustainable Web Design · no date on the document · [
 
 ## Law, regulation and regulators
 
-### ftc-data-brokers-2014
+### <a id="source-ftc-data-brokers-2014"></a>ftc-data-brokers-2014
 
 **Data Brokers: A Call for Transparency and Accountability**
 
@@ -498,7 +509,7 @@ Federal Trade Commission · US Federal Trade Commission · 2014-05 · [the sourc
 - Broker data feeds decisions about credit, employment, insurance and housing.
 - A risk-scoring product can refuse a transaction without explaining why.
 
-### ccpa-sale-definition
+### <a id="source-ccpa-sale-definition"></a>ccpa-sale-definition
 
 **California Consumer Privacy Act: definition of 'sale', Cal. Civ. Code § 1798.140(ad)**
 
@@ -513,7 +524,7 @@ State of California · California Legislative Information · 2018 · [the source
 - The word sale is defined more broadly than an exchange of money.
 - Sharing for cross-context behavioural advertising can fall within it.
 
-### cjeu-planet49
+### <a id="source-cjeu-planet49"></a>cjeu-planet49
 
 **Bundesverband der Verbraucherzentralen v Planet49 GmbH, Case C-673/17**
 
@@ -528,7 +539,7 @@ Court of Justice of the European Union · Court of Justice of the European Union
 - A pre-ticked checkbox is not valid consent; consent needs an active act.
 - Consent must be specific and informed to be valid.
 
-### austrian-dsb-google-analytics
+### <a id="source-austrian-dsb-google-analytics"></a>austrian-dsb-google-analytics
 
 **Transfer of Personal Data and the Use of Google Analytics: Austrian Data Protection Authority's Decision**
 
@@ -543,7 +554,7 @@ Lexology (summary of the Austrian DSB decision) · 2022 · [the source itself](h
 - EU regulators have found Google Analytics transfers unlawful in specific cases.
 - The legal position has been unstable and is worth checking rather than assuming.
 
-### dsa-regulation
+### <a id="source-dsa-regulation"></a>dsa-regulation
 
 **Regulation (EU) 2022/2065: the Digital Services Act**
 
@@ -558,7 +569,7 @@ European Parliament and Council of the European Union · EUR-Lex · 2022-10-19 �
 - Online platforms may not design interfaces that deceive or manipulate users.
 - The DSA creates the enforcement power behind the examples on the page.
 
-### edpb-cookie-banner-taskforce
+### <a id="source-edpb-cookie-banner-taskforce"></a>edpb-cookie-banner-taskforce
 
 **Report of the work undertaken by the Cookie Banner Taskforce**
 
@@ -578,7 +589,7 @@ European Data Protection Board · European Data Protection Board · 2023-01-17 �
 - Legitimate interests cannot be the legal basis for placing or reading cookies.
 - Cookies classified as essential when they are not is a recognised problem.
 
-### cjeu-iab-europe-tcf
+### <a id="source-cjeu-iab-europe-tcf"></a>cjeu-iab-europe-tcf
 
 **Press release No 44/24: Judgment of the Court in Case C-604/22, IAB Europe**
 
@@ -596,7 +607,7 @@ Court of Justice of the European Union · Court of Justice of the European Union
 - IAB Europe was held to be a joint controller for the recording of consent choices in a TC String.
 - The Court did not treat IAB Europe as controller of the processing that happens after that recording unless it influenced those purposes and means.
 
-### edpb-consent-or-pay
+### <a id="source-edpb-consent-or-pay"></a>edpb-consent-or-pay
 
 **Opinion 08/2024 on Valid Consent in the Context of Consent or Pay Models Implemented by Large Online Platforms**
 
@@ -611,7 +622,7 @@ European Data Protection Board · European Data Protection Board · 2024-04-17 �
 - Whether "consent or pay" is freely given is contested at EU level.
 - Regulators treat banner design as a consent-validity question.
 
-### ftc-gravy-venntel
+### <a id="source-ftc-gravy-venntel"></a>ftc-gravy-venntel
 
 **FTC Takes Action Against Gravy Analytics, Venntel for Unlawfully Selling Location Data Tracking Consumers to Sensitive Sites**
 
@@ -626,7 +637,7 @@ Federal Trade Commission · US Federal Trade Commission · 2024-12 · [the sourc
 - Location data collected for advertising was sold into unforeseen contexts.
 - Sensitive-location inference (clinics, worship, protest) is a named harm.
 
-### amsterdam-court-dsa-2025
+### <a id="source-amsterdam-court-dsa-2025"></a>amsterdam-court-dsa-2025
 
 **Rechtbank Amsterdam, ECLI:NL:RBAMS:2025:7253**
 
@@ -641,7 +652,7 @@ Rechtbank Amsterdam · de Rechtspraak (Netherlands Judiciary) · 2025 · [the so
 - A national court applied the DSA to interface design.
 - Non-persistent settings, where a refusal does not stick, were treated as a dark pattern.
 
-### ftc-mobilewalla
+### <a id="source-ftc-mobilewalla"></a>ftc-mobilewalla
 
 **FTC Finalizes Order Banning Mobilewalla from Selling Sensitive Location Data**
 
@@ -655,7 +666,7 @@ Federal Trade Commission · US Federal Trade Commission · 2025-01 · [the sourc
 
 - Regulators have treated sensitive location data as a categorical harm.
 
-### ftc-surveillance-pricing
+### <a id="source-ftc-surveillance-pricing"></a>ftc-surveillance-pricing
 
 **FTC Surveillance Pricing Study Indicates Wide Range of Personal Data Used to Set Individualized Consumer Prices**
 
@@ -670,7 +681,7 @@ Federal Trade Commission · US Federal Trade Commission · 2025-01 · [the sourc
 - Personal data unrelated to the transaction is used to set individual prices.
 - Inferred attributes have direct financial consequences.
 
-### cnil-analytics-self-assessment
+### <a id="source-cnil-analytics-self-assessment"></a>cnil-analytics-self-assessment
 
 **Outil d'auto-évaluation relatif à la mise en œuvre d'une solution de mesure d'audience exemptée de consentement**
 
@@ -685,7 +696,7 @@ CNIL · Commission nationale de l'informatique et des libertés (France) · 2025
 - Regulators provide a configuration-level test rather than a product list.
 - Compliance is assessable by the site owner without legal counsel.
 
-### ftc-click-to-cancel-rosca
+### <a id="source-ftc-click-to-cancel-rosca"></a>ftc-click-to-cancel-rosca
 
 **Click-to-cancel lives on under ROSCA and Section 5**
 
@@ -700,7 +711,7 @@ DLA Piper · DLA Piper · 2025-09 · [the source itself](https://www.dlapiper.co
 - The FTC click-to-cancel rule was struck down in 2025.
 - Subscription-trap enforcement continued under ROSCA and the FTC Act.
 
-### cnil-google-san-2025-004
+### <a id="source-cnil-google-san-2025-004"></a>cnil-google-san-2025-004
 
 **Deliberation of restricted committee No SAN-2025-004 of 1 September 2025 concerning Google LLC and Google Ireland Limited**
 
@@ -715,7 +726,7 @@ CNIL · Commission nationale de l'informatique et des libertés (France) · 2025
 - The CNIL opened a verification mission specifically into tracers read and placed on the devices of signed-in users.
 - A national regulator treats advertising linked to a signed-in account as a consent question, not a terms-of-service question.
 
-### conseil-etat-yahoo-cookies
+### <a id="source-conseil-etat-yahoo-cookies"></a>conseil-etat-yahoo-cookies
 
 **Conseil d'État, 10ème et 9ème chambres réunies, 7 October 2025, No 494300 (Yahoo EMEA Limited)**
 
@@ -732,7 +743,7 @@ Conseil d'État · Conseil d'État (France) · 2025-10-07 · [the source itself]
 - The Conseil d'État held that the CNIL can act on cookie rules even where the operation is not processing of personal data.
 - Consent can be expressed through settings of the user's device or another device under the user's control.
 
-### cnil-analytics-exemption
+### <a id="source-cnil-analytics-exemption"></a>cnil-analytics-exemption
 
 **Cookies: solutions pour les outils de mesure d'audience**
 
@@ -747,7 +758,7 @@ CNIL · Commission nationale de l'informatique et des libertés (France) · no d
 - Some audience-measurement configurations can be exempt from consent.
 - Exemption depends on configuration and conditions, not on the product brand.
 
-### search-index-concentration
+### <a id="source-search-index-concentration"></a>search-index-concentration
 
 **Filing in United States v. Google LLC, No. 1:20-cv-03010 (D.D.C.)**
 
@@ -762,7 +773,7 @@ US District Court for the District of Columbia (via CourtListener RECAP) · no d
 - Only a small number of general search engines run independent proprietary indices.
 - DuckDuckGo's dependence on a licensed index is a structural limitation.
 
-### website-wiretap-litigation
+### <a id="source-website-wiretap-litigation"></a>website-wiretap-litigation
 
 **Veradigm Ruling Highlights Website Tracker and Wiretap Litigation Risk**
 
@@ -779,7 +790,7 @@ Thompson Coburn LLP · Thompson Coburn LLP · no date on the document · [the so
 
 ## Journalism
 
-### aol-4417749
+### <a id="source-aol-4417749"></a>aol-4417749
 
 **A Face Is Exposed for AOL Searcher No. 4417749**
 
@@ -794,7 +805,7 @@ Michael Barbaro, Tom Zeller Jr. · The New York Times · 2006-08-09 · [the sour
 - Aggregation harms require no breach or malice.
 - Pseudonymised data is re-identifiable from content alone.
 
-### gmail-scanning-2017
+### <a id="source-gmail-scanning-2017"></a>gmail-scanning-2017
 
 **Google will stop scanning content of personal emails**
 
@@ -809,7 +820,7 @@ The Guardian · The Guardian · 2017-06-26 · [the source itself](https://www.th
 - Google ended ad-personalisation scanning of consumer Gmail in 2017.
 - The widely repeated claim that Google reads Gmail to target ads is out of date.
 
-### signal-usernames
+### <a id="source-signal-usernames"></a>signal-usernames
 
 **Signal Finally Rolls Out Usernames, So You Can Keep Your Phone Number Private**
 
@@ -824,7 +835,7 @@ Wired · Wired · 2024-02 · [the source itself](https://www.wired.com/story/sig
 - Signal now supports usernames, reducing phone-number exposure to contacts.
 - The phone-number-based criticism is well enough established to be the premise.
 
-### google-incognito-settlement
+### <a id="source-google-incognito-settlement"></a>google-incognito-settlement
 
 **Google to delete billions of browser records to settle 'Incognito' lawsuit**
 
@@ -839,7 +850,7 @@ CNN Business · CNN · 2024-04-01 · [the source itself](https://www.cnn.com/202
 - The gap between what private browsing does and what users believe was substantial enough to litigate.
 - Billions of records were collected from private sessions.
 
-### ftc-amazon-25b
+### <a id="source-ftc-amazon-25b"></a>ftc-amazon-25b
 
 **Amazon to pay $2.5 billion to settle Prime deception allegations**
 
@@ -854,7 +865,7 @@ Reuters · Reuters · 2025-09-25 · [the source itself](https://www.reuters.com/
 - A multi-billion dollar US settlement over subscription enrolment and cancellation.
 - The alleged harm was the design of the cancellation flow, not the product.
 
-### ec-x-fine-120m
+### <a id="source-ec-x-fine-120m"></a>ec-x-fine-120m
 
 **EU fines X 120m euros for breaching online content rules**
 
@@ -871,7 +882,7 @@ ABC News (Australian Broadcasting Corporation) · ABC News · 2025-12-06 · [the
 
 ## The projects and companies themselves
 
-### matomo-log-analytics
+### <a id="source-matomo-log-analytics"></a>matomo-log-analytics
 
 **What is Web Log Analytics and Why You Should Use It**
 
@@ -886,7 +897,55 @@ Matomo · Matomo · 2024-06 · [the source itself](https://matomo.org/blog/2024/
 - Server logs are first-party, require no JavaScript and cannot be blocked.
 - Log analysis is a viable baseline before buying any tool.
 
-### ublock-origin-chrome
+### <a id="source-ecosia-eusp-index"></a>ecosia-eusp-index
+
+**L'émergence d'un meilleur Internet : notre index de recherche européen vient d'être déployé**
+
+Ecosia · Ecosia · 2025-08-12 · [the source itself](https://fr.blog.ecosia.org/notre-index-de-recherche-europeen-vient-detre-deploye/) · [archived copy](http://web.archive.org/web/20261014185333/https://fr.blog.ecosia.org/notre-index-de-recherche-europeen-vient-detre-deploye/)
+
+**Status: verified 2026-10-14, archived.**
+
+**Weak at:** A company's own account of its own product, published in French, and the only source here for what Ecosia's results are built from. It establishes that the joint index exists and that results for users in France are served from it. It says nothing about coverage elsewhere, about result quality, or about how much of a query is still answered by a licensed index, so it is not evidence that Ecosia is independent of the large indexes everywhere. The "European" in the index's name should not be read as "complete".
+
+**Carries:**
+
+- Ecosia and Qwant built a search index together, called European Search Perspective.
+- Ecosia states that search results for its users in France now come from that index directly.
+- Ecosia states that only a handful of companies have built their own index.
+
+### <a id="source-mullvad-dns-shutdown"></a>mullvad-dns-shutdown
+
+**Shutting down our public encrypted DNS servers and sponsoring Quad9 instead**
+
+Mullvad · Mullvad VPN · 2026-09-03 · [the source itself](https://mullvad.net/en/blog/shutting-down-our-public-encrypted-dns-servers-and-sponsoring-quad9-instead) · [archived copy](http://web.archive.org/web/20261014185932/https://mullvad.net/en/blog/shutting-down-our-public-encrypted-dns-servers-and-sponsoring-quad9-instead)
+
+**Status: verified 2026-10-14, archived.**
+
+**Weak at:** A company announcing the end of its own service, which makes it authoritative about the date and about nothing else. It says what Mullvad will sponsor and does not evaluate Quad9, so it is not evidence that Quad9 is good, only that Mullvad is paying for it. The post is also the whole record for the successor: there is no independent assessment here of how Quad9 compares on logging, blocking policy or jurisdiction.
+
+**Carries:**
+
+- Mullvad has operated public encrypted DNS servers since 2022.
+- Mullvad is shutting those public encrypted DNS servers down, with 2 November 2026 given as the date to switch by.
+- Mullvad states that it will sponsor Quad9 rather than run a public resolver itself.
+
+### <a id="source-mullvad-public-dns"></a>mullvad-public-dns
+
+**DNS over HTTPS and DNS over TLS**
+
+Mullvad · Mullvad VPN · 2026-09-03 · [the source itself](https://mullvad.net/en/help/dns-over-https-and-dns-over-tls) · [archived copy](http://web.archive.org/web/20261014185705/https://mullvad.net/en/help/dns-over-https-and-dns-over-tls)
+
+**Status: verified 2026-10-14, archived.**
+
+**Weak at:** A company's own help page about a service it is in the middle of switching off, so it is a notice rather than a stable description, and it says nothing about the successor. The page's "last updated" date is 3 September 2026 and the discontinuation it announces is dated 2 November 2026, which means anything cited from it is time-limited by design. Read it for the date, not for a recommendation.
+
+**Carries:**
+
+- Mullvad runs a public encrypted DNS service.
+- Mullvad states that the public encrypted DNS service will be discontinued on 2 November 2026.
+- The DNS resolver built into the Mullvad VPN is a separate service from the public one.
+
+### <a id="source-ublock-origin-chrome"></a>ublock-origin-chrome
 
 **uBlock Origin on Chrome**
 
@@ -902,7 +961,7 @@ uBlock Origin project · ublockorigin.com · 2026-09-22 · [the source itself](h
 - uBlock Origin Lite is a separate Manifest V3 extension by the same developer.
 - The Lite version is not equivalent for sites that resist blocking.
 
-### awesome-privacy-analytics
+### <a id="source-awesome-privacy-analytics"></a>awesome-privacy-analytics
 
 **Awesome Privacy-Friendly Web Analytics**
 
@@ -917,7 +976,7 @@ spekulatius (community-maintained) · GitHub · no date on the document · [the 
 - A more current field of alternatives than any article can maintain.
 - Demonstrates the category is large enough to choose within.
 
-### cnil-dark-patterns-quiz
+### <a id="source-cnil-dark-patterns-quiz"></a>cnil-dark-patterns-quiz
 
 **Quiz: will you be able to recognize dark patterns?**
 
@@ -932,7 +991,7 @@ CNIL (LINC) · Commission nationale de l'informatique et des libertés (France) 
 - A regulator-built interactive exercise in recognising deceptive design.
 - Useful as a reader action at the end of the page.
 
-### codeberg
+### <a id="source-codeberg"></a>codeberg
 
 **Codeberg: a non-profit home for free and open source projects**
 
@@ -947,7 +1006,7 @@ Codeberg e.V. · Codeberg e.V. · no date on the document · [the source itself]
 - Non-profit, donation-funded hosting running Forgejo.
 - An alternative to a single company owning open-source infrastructure.
 
-### eff-cover-your-tracks
+### <a id="source-eff-cover-your-tracks"></a>eff-cover-your-tracks
 
 **Cover Your Tracks**
 
@@ -962,7 +1021,7 @@ Electronic Frontier Foundation · Electronic Frontier Foundation · no date on t
 - Lets a reader measure their own fingerprint instead of trusting a claim.
 - Demonstrates what survives opening a private window.
 
-### ga4-consent-mode
+### <a id="source-ga4-consent-mode"></a>ga4-consent-mode
 
 **Consent Mode v2 in Practice: What Actually Gets Sent to Google Ads and GA4 After Consent Is Denied**
 
@@ -977,7 +1036,7 @@ Sii Poland · Sii Poland · no date on the document · [the source itself](https
 - Consent Mode still transmits reduced events after a visitor declines.
 - The technical behaviour differs from what visitors likely assume refusal means.
 
-### goatcounter
+### <a id="source-goatcounter"></a>goatcounter
 
 **GoatCounter**
 
@@ -992,7 +1051,7 @@ Martin Tournoij · GoatCounter · no date on the document · [the source itself]
 - A visit counter can work with no cookies and no personal data.
 - Open source and self-hostable as well as hosted.
 
-### google-build-profiles
+### <a id="source-google-build-profiles"></a>google-build-profiles
 
 **Use bid requests to build user profiles**
 
@@ -1008,7 +1067,7 @@ Google · Google for Developers (Authorized Buyers RTB) · no date on the docume
 - The bid request carries the Google User ID in the BidRequest.user.id field.
 - Building profiles from bid request data is documented as a supported practice.
 
-### google-cookie-matching
+### <a id="source-google-cookie-matching"></a>google-cookie-matching
 
 **Cookie Matching**
 
@@ -1023,7 +1082,7 @@ Google · Google for Developers (Authorized Buyers RTB) · no date on the docume
 - Cookie matching links a bidder's user ID to a corresponding Google User ID.
 - Match tables map identifiers between domains.
 
-### google-openrtb-guide
+### <a id="source-google-openrtb-guide"></a>google-openrtb-guide
 
 **OpenRTB Integration**
 
@@ -1038,7 +1097,7 @@ Google · Google for Developers (Authorized Buyers RTB) · no date on the docume
 - Bid requests contain BidRequest, Device, User and Geo objects.
 - Geo information is coarse device location approximated from the IP address.
 
-### mailbox-org
+### <a id="source-mailbox-org"></a>mailbox-org
 
 **mailbox.org: pricing and features**
 
@@ -1053,7 +1112,7 @@ mailbox.org · Heinlein Support GmbH · no date on the document · [the source i
 - Custom domain names are supported, including on the entry paid tier.
 - Entry tier includes mail, calendar, address book and drive storage.
 
-### matomo
+### <a id="source-matomo"></a>matomo
 
 **Matomo**
 
@@ -1068,7 +1127,7 @@ Matomo · Matomo · no date on the document · [the source itself](https://matom
 - Open source analytics available self-hosted or as a service.
 - Closest feature-comparable replacement for a full analytics platform.
 
-### mullvad
+### <a id="source-mullvad"></a>mullvad
 
 **Mullvad VPN**
 
@@ -1083,7 +1142,7 @@ Mullvad VPN AB · Mullvad VPN AB · no date on the document · [the source itsel
 - Accounts are numbered rather than tied to an email address.
 - Cash payment is accepted, reducing the identity attached to an account.
 
-### peertube
+### <a id="source-peertube"></a>peertube
 
 **PeerTube: federated video hosting**
 
@@ -1098,7 +1157,7 @@ Framasoft · Framasoft · no date on the document · [the source itself](https:/
 - Federated video hosting across independent instances.
 - No single platform decides recommendation or removal.
 
-### plausible
+### <a id="source-plausible"></a>plausible
 
 **Plausible Analytics**
 
@@ -1113,7 +1172,7 @@ Plausible Analytics · Plausible Analytics · no date on the document · [the so
 - Hosted cookieless analytics with a pay-for-service rather than ad-funded model.
 - EU-based operation, relevant to transfer concerns.
 
-### posteo
+### <a id="source-posteo"></a>posteo
 
 **Posteo FAQ**
 
@@ -1129,7 +1188,7 @@ Posteo e.K. · Posteo · no date on the document · [the source itself](https://
 - Supporting custom domains would require storing customer identity data.
 - Ad-free, paid model with no free tier.
 
-### prebid-bidder-count
+### <a id="source-prebid-bidder-count"></a>prebid-bidder-count
 
 **How many bidders should I work with for header bidding?**
 
@@ -1144,7 +1203,7 @@ Prebid.org · Prebid.org · no date on the document · [the source itself](https
 - Around ten bidders per auction is a common industry practice.
 - Publishers weigh bidder count against page latency.
 
-### themarkup-blacklight
+### <a id="source-themarkup-blacklight"></a>themarkup-blacklight
 
 **Blacklight**
 
@@ -1159,7 +1218,7 @@ The Markup · The Markup · no date on the document · [the source itself](https
 - Lets a reader measure a site rather than read its privacy policy.
 - Detects session recording, fingerprinting and ad targeting on a live page.
 
-### ublock-origin
+### <a id="source-ublock-origin"></a>ublock-origin
 
 **uBlock Origin**
 
@@ -1174,7 +1233,7 @@ Raymond Hill · GitHub · no date on the document · [the source itself](https:/
 - A single free action substantially reduces third-party requests per page.
 - Open source with an independently maintained blocklist ecosystem.
 
-### umami
+### <a id="source-umami"></a>umami
 
 **Umami**
 
@@ -1191,25 +1250,25 @@ Umami · Umami · no date on the document · [the source itself](https://umami.i
 
 ## Which page rests on which sources
 
-**You Don't Need Google Analytics** (11): [`cnil-analytics-exemption`](#cnil-analytics-exemption), [`cnil-analytics-self-assessment`](#cnil-analytics-self-assessment), [`matomo-log-analytics`](#matomo-log-analytics), [`austrian-dsb-google-analytics`](#austrian-dsb-google-analytics), [`ga4-consent-mode`](#ga4-consent-mode), [`web-almanac`](#web-almanac), [`goatcounter`](#goatcounter), [`plausible`](#plausible), [`matomo`](#matomo), [`umami`](#umami), [`awesome-privacy-analytics`](#awesome-privacy-analytics)
+**You Don't Need Google Analytics** (11): [`cnil-analytics-exemption`](#source-cnil-analytics-exemption), [`cnil-analytics-self-assessment`](#source-cnil-analytics-self-assessment), [`matomo-log-analytics`](#source-matomo-log-analytics), [`austrian-dsb-google-analytics`](#source-austrian-dsb-google-analytics), [`ga4-consent-mode`](#source-ga4-consent-mode), [`web-almanac`](#source-web-almanac), [`goatcounter`](#source-goatcounter), [`plausible`](#source-plausible), [`matomo`](#source-matomo), [`umami`](#source-umami), [`awesome-privacy-analytics`](#source-awesome-privacy-analytics)
 
-**Consent Theatre** (6): [`edpb-cookie-banner-taskforce`](#edpb-cookie-banner-taskforce), [`cjeu-iab-europe-tcf`](#cjeu-iab-europe-tcf), [`conseil-etat-yahoo-cookies`](#conseil-etat-yahoo-cookies), [`cnil-google-san-2025-004`](#cnil-google-san-2025-004), [`edpb-consent-or-pay`](#edpb-consent-or-pay), [`cjeu-planet49`](#cjeu-planet49)
+**Consent Theatre** (6): [`edpb-cookie-banner-taskforce`](#source-edpb-cookie-banner-taskforce), [`cjeu-iab-europe-tcf`](#source-cjeu-iab-europe-tcf), [`conseil-etat-yahoo-cookies`](#source-conseil-etat-yahoo-cookies), [`cnil-google-san-2025-004`](#source-cnil-google-san-2025-004), [`edpb-consent-or-pay`](#source-edpb-consent-or-pay), [`cjeu-planet49`](#source-cjeu-planet49)
 
-**The Dark Patterns Field Guide** (11): [`deceptive-design-types`](#deceptive-design-types), [`mathur-dark-patterns-2019`](#mathur-dark-patterns-2019), [`brignull-dark-patterns`](#brignull-dark-patterns), [`sludge-audits`](#sludge-audits), [`dsa-regulation`](#dsa-regulation), [`ec-x-fine-120m`](#ec-x-fine-120m), [`ftc-amazon-25b`](#ftc-amazon-25b), [`amsterdam-court-dsa-2025`](#amsterdam-court-dsa-2025), [`ftc-click-to-cancel-rosca`](#ftc-click-to-cancel-rosca), [`cjeu-planet49`](#cjeu-planet49), [`cnil-dark-patterns-quiz`](#cnil-dark-patterns-quiz)
+**The Dark Patterns Field Guide** (11): [`deceptive-design-types`](#source-deceptive-design-types), [`mathur-dark-patterns-2019`](#source-mathur-dark-patterns-2019), [`brignull-dark-patterns`](#source-brignull-dark-patterns), [`sludge-audits`](#source-sludge-audits), [`dsa-regulation`](#source-dsa-regulation), [`ec-x-fine-120m`](#source-ec-x-fine-120m), [`ftc-amazon-25b`](#source-ftc-amazon-25b), [`amsterdam-court-dsa-2025`](#source-amsterdam-court-dsa-2025), [`ftc-click-to-cancel-rosca`](#source-ftc-click-to-cancel-rosca), [`cjeu-planet49`](#source-cjeu-planet49), [`cnil-dark-patterns-quiz`](#source-cnil-dark-patterns-quiz)
 
-**Seven Things That Aren't True** (12): [`eckersley-fingerprinting`](#eckersley-fingerprinting), [`eff-cover-your-tracks`](#eff-cover-your-tracks), [`themarkup-blacklight`](#themarkup-blacklight), [`ecc-encrypted-client-hello`](#ecc-encrypted-client-hello), [`google-incognito-settlement`](#google-incognito-settlement), [`sweeney-demographics`](#sweeney-demographics), [`netflix-prize`](#netflix-prize), [`aol-4417749`](#aol-4417749), [`ccpa-sale-definition`](#ccpa-sale-definition), [`cjeu-planet49`](#cjeu-planet49), [`edpb-consent-or-pay`](#edpb-consent-or-pay), [`pohlmann-first-party-cookies`](#pohlmann-first-party-cookies)
+**Seven Things That Aren't True** (12): [`eckersley-fingerprinting`](#source-eckersley-fingerprinting), [`eff-cover-your-tracks`](#source-eff-cover-your-tracks), [`themarkup-blacklight`](#source-themarkup-blacklight), [`ecc-encrypted-client-hello`](#source-ecc-encrypted-client-hello), [`google-incognito-settlement`](#source-google-incognito-settlement), [`sweeney-demographics`](#source-sweeney-demographics), [`netflix-prize`](#source-netflix-prize), [`aol-4417749`](#source-aol-4417749), [`ccpa-sale-definition`](#source-ccpa-sale-definition), [`cjeu-planet49`](#source-cjeu-planet49), [`edpb-consent-or-pay`](#source-edpb-consent-or-pay), [`pohlmann-first-party-cookies`](#source-pohlmann-first-party-cookies)
 
-**Nine Things People Say** (16): [`aol-4417749`](#aol-4417749), [`sweeney-demographics`](#sweeney-demographics), [`netflix-prize`](#netflix-prize), [`ftc-surveillance-pricing`](#ftc-surveillance-pricing), [`ali-ad-delivery`](#ali-ad-delivery), [`ftc-gravy-venntel`](#ftc-gravy-venntel), [`ftc-mobilewalla`](#ftc-mobilewalla), [`penney-chilling`](#penney-chilling), [`solove-nothing-to-hide`](#solove-nothing-to-hide), [`solove-taxonomy`](#solove-taxonomy), [`zuboff-surveillance-capitalism`](#zuboff-surveillance-capitalism), [`verizon-dbir`](#verizon-dbir), [`garcia-shadow-profiles`](#garcia-shadow-profiles), [`phone-number-recycling`](#phone-number-recycling), [`ftc-data-brokers-2014`](#ftc-data-brokers-2014), [`google-build-profiles`](#google-build-profiles)
+**Nine Things People Say** (16): [`aol-4417749`](#source-aol-4417749), [`sweeney-demographics`](#source-sweeney-demographics), [`netflix-prize`](#source-netflix-prize), [`ftc-surveillance-pricing`](#source-ftc-surveillance-pricing), [`ali-ad-delivery`](#source-ali-ad-delivery), [`ftc-gravy-venntel`](#source-ftc-gravy-venntel), [`ftc-mobilewalla`](#source-ftc-mobilewalla), [`penney-chilling`](#source-penney-chilling), [`solove-nothing-to-hide`](#source-solove-nothing-to-hide), [`solove-taxonomy`](#source-solove-taxonomy), [`zuboff-surveillance-capitalism`](#source-zuboff-surveillance-capitalism), [`verizon-dbir`](#source-verizon-dbir), [`garcia-shadow-profiles`](#source-garcia-shadow-profiles), [`phone-number-recycling`](#source-phone-number-recycling), [`ftc-data-brokers-2014`](#source-ftc-data-brokers-2014), [`google-build-profiles`](#source-google-build-profiles)
 
-**One Page Load** (9): [`google-openrtb-guide`](#google-openrtb-guide), [`google-cookie-matching`](#google-cookie-matching), [`google-build-profiles`](#google-build-profiles), [`prebid-bidder-count`](#prebid-bidder-count), [`website-wiretap-litigation`](#website-wiretap-litigation), [`web-almanac`](#web-almanac), [`eff-cover-your-tracks`](#eff-cover-your-tracks), [`pohlmann-first-party-cookies`](#pohlmann-first-party-cookies), [`ftc-surveillance-pricing`](#ftc-surveillance-pricing)
+**One Page Load** (9): [`google-openrtb-guide`](#source-google-openrtb-guide), [`google-cookie-matching`](#source-google-cookie-matching), [`google-build-profiles`](#source-google-build-profiles), [`prebid-bidder-count`](#source-prebid-bidder-count), [`website-wiretap-litigation`](#source-website-wiretap-litigation), [`web-almanac`](#source-web-almanac), [`eff-cover-your-tracks`](#source-eff-cover-your-tracks), [`pohlmann-first-party-cookies`](#source-pohlmann-first-party-cookies), [`ftc-surveillance-pricing`](#source-ftc-surveillance-pricing)
 
-**Receipts** (2): [`web-almanac`](#web-almanac), [`swd-emissions-model`](#swd-emissions-model)
+**Receipts** (2): [`web-almanac`](#source-web-almanac), [`swd-emissions-model`](#source-swd-emissions-model)
 
-**Start Here** (3): [`eff-cover-your-tracks`](#eff-cover-your-tracks), [`ublock-origin`](#ublock-origin), [`themarkup-blacklight`](#themarkup-blacklight)
+**Start Here** (3): [`eff-cover-your-tracks`](#source-eff-cover-your-tracks), [`ublock-origin`](#source-ublock-origin), [`themarkup-blacklight`](#source-themarkup-blacklight)
 
-**The Swap Shop** (11): [`posteo`](#posteo), [`mailbox-org`](#mailbox-org), [`gmail-scanning-2017`](#gmail-scanning-2017), [`mullvad`](#mullvad), [`mullvad-audit-cure53`](#mullvad-audit-cure53), [`ublock-origin`](#ublock-origin), [`ublock-origin-chrome`](#ublock-origin-chrome), [`signal-usernames`](#signal-usernames), [`search-index-concentration`](#search-index-concentration), [`codeberg`](#codeberg), [`peertube`](#peertube)
+**The Swap Shop** (13): [`posteo`](#source-posteo), [`mailbox-org`](#source-mailbox-org), [`gmail-scanning-2017`](#source-gmail-scanning-2017), [`mullvad`](#source-mullvad), [`mullvad-audit-cure53`](#source-mullvad-audit-cure53), [`ublock-origin`](#source-ublock-origin), [`ublock-origin-chrome`](#source-ublock-origin-chrome), [`signal-usernames`](#source-signal-usernames), [`search-index-concentration`](#source-search-index-concentration), [`codeberg`](#source-codeberg), [`peertube`](#source-peertube), [`mullvad-public-dns`](#source-mullvad-public-dns), [`mullvad-dns-shutdown`](#source-mullvad-dns-shutdown)
 
-**What Leaves Your Browser** (6): [`eckersley-fingerprinting`](#eckersley-fingerprinting), [`eff-cover-your-tracks`](#eff-cover-your-tracks), [`web-almanac`](#web-almanac), [`pohlmann-first-party-cookies`](#pohlmann-first-party-cookies), [`ftc-surveillance-pricing`](#ftc-surveillance-pricing), [`sweeney-demographics`](#sweeney-demographics)
+**What Leaves Your Browser** (6): [`eckersley-fingerprinting`](#source-eckersley-fingerprinting), [`eff-cover-your-tracks`](#source-eff-cover-your-tracks), [`web-almanac`](#source-web-almanac), [`pohlmann-first-party-cookies`](#source-pohlmann-first-party-cookies), [`ftc-surveillance-pricing`](#source-ftc-surveillance-pricing), [`sweeney-demographics`](#source-sweeney-demographics)
 
 <!-- END GENERATED BIBLIOGRAPHY -->
 

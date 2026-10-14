@@ -4,6 +4,7 @@ subtitle = "Three kinds of information, and the one that actually matters"
 description = "A page load sends far more than you typed. This is what goes, in what order, and why the deductions drawn from it are a bigger problem than the collection itself."
 status_as_of = 2026-10-13
 weight = 3
+nav = "What leaves your browser"
 sources = [
   "eckersley-fingerprinting",
   "eff-cover-your-tracks",

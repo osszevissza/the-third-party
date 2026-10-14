@@ -4,6 +4,7 @@ subtitle = "Seventeen ways an interface is built to defeat you"
 description = "A field guide to deceptive design: what each pattern does, where you meet it, how to spot it, and what the law has actually done about it, including the first DSA fine."
 status_as_of = 2026-10-13
 weight = 6
+nav = "Dark patterns"
 sources = [
   "deceptive-design-types",
   "mathur-dark-patterns-2019",

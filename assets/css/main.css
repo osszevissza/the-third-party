@@ -132,6 +132,15 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .site-header nav a:hover { color: var(--accent); text-decoration: underline; }
 
+/* The current page, marked in the markup with aria-current="page" and shown here as the
+   only menu item that is not muted. The attribute is what a screen reader announces; this
+   rule is only so that sighted readers get the same information. */
+.site-header nav a[aria-current="page"] {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 /* ---------------------------------------------------------------------------
    Page
    --------------------------------------------------------------------------- */

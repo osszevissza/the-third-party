@@ -4,6 +4,7 @@ subtitle = "This site's own numbers, measured, including the ones that are not f
 description = "What this site loads, what it weighs, what it sets on your device, what it emits, and what it cannot yet prove. Measured on 2026-10-14 against the build that includes this page."
 status_as_of = 2026-10-14
 weight = 8
+nav = "Receipts"
 sources = [
   "web-almanac",
   "swd-emissions-model"
@@ -31,16 +32,16 @@ Sizes are given both raw and gzipped, because gzip is what a server actually sen
 | Scripts | 0 | | met |
 | Cookies | 0 | 0 | met |
 | Web fonts | 0, system font stack | | met |
-| Median page, gzipped | 9,081 bytes | under 100 KB | met |
-| Heaviest page, gzipped | 27,273 bytes (`/sources/`) | under 100 KB | met |
-| Heaviest page, raw | 91,895 bytes (`/sources/`) | under 100 KB | met |
-| All 12 pages, gzipped | about 104 KB | | |
+| Median page, gzipped | 9,171 bytes | under 100 KB | met |
+| Heaviest page, gzipped | 29,981 bytes (`/sources/`) | under 100 KB | met |
+| Heaviest page, raw | 102,336 bytes (`/sources/`) | under 100 KB | met |
+| All 12 pages, gzipped | about 108 KB | | |
 
 So a page here asks your browser for three files, all of them from this domain. The heaviest page on the site is the bibliography, and it is the one page deliberately exempt from the length rule, since it is a list of records rather than an argument.
 
 Nothing in the site can set a cookie: there is no JavaScript and no server-side code to do it with. What cannot be checked yet is the response headers, because the site has no host, and that is one of the failures listed below.
 
-The site-wide row is rounded, unlike the per-page figures. It includes this page's own bytes, so it moves by a byte or two every time this page is edited, including the edit that published these numbers. The per-page figures have no such problem: build the site yourself and you will get exactly the numbers above.
+The site-wide row is rounded, unlike the per-page figures. Editing any page moves the aggregate rows by tens of bytes, including the edit that published these numbers, which is why this page dates them and rounds the one figure that would otherwise be wrong within a day. The per-page figures have no such problem: build the site yourself from the same source and you will get exactly the numbers above.
 
 That is this site's number. The number for the median page on the web is measured every year by the HTTP Archive for its Web Almanac, and you should read it there rather than take a figure quoted here, because a figure copied into a page like this one is out of date within a year. {{< cite "web-almanac" >}}
 
@@ -78,9 +79,9 @@ This is the section that makes the page worth publishing. Every item is a real d
 
 **No analytics is running at all.** The plan is a cookieless counter. Right now the site loads no analytics of any kind, which is a stronger statement than "analytics without cookies", and it will become weaker on the day a counter is added. When that happens, this page will say so.
 
-**The bibliography is the heaviest page, and it is where the budget would break first.** `/sources/` is 3.0 times the median page, and it is mostly generated from `data/sources.yaml`. It is within budget today.
+**The bibliography is the heaviest page, and it is where the budget would break first.** `/sources/` is 3.3 times the median page, and it is mostly generated from `data/sources.yaml`. It is within budget today.
 
-**Two publication blockers on `/sources/` need a person rather than a script**: the route for reporting an error, and the disclosure of which of the recommended tools the maintainer actually runs. Both are marked with HTML comments in that page.
+**The two `/sources/` blockers were closed while this page was being written**, which is worth recording rather than quietly deleting: the route for reporting an error is published, and so is the disclosure of which recommended tools its author actually runs. What was a defect in the last draft of this page is a sentence in this one.
 
 ## Carbon
 
@@ -92,11 +93,11 @@ The Sustainable Web Design model gives energy intensities per gigabyte transferr
 - embodied: 0.012, 0.013 and 0.081 kWh/GB for the same three segments
 - total: **0.300 kWh/GB**, which at 494 gCO2e/kWh is **148 grams of CO2e per gigabyte** transferred
 
-The median page here transfers 9,081 bytes gzipped, which is 0.0000085 GB, so:
+The median page here transfers 9,171 bytes gzipped, which is 0.0000085 GB, so:
 
 > 0.0000085 GB × 148 gCO2e/GB = **0.0013 grams**, about 1.3 milligrams per page view
 
-The heaviest page works out at about 3.8 milligrams, and reading every page on the site once comes to roughly 15 milligrams.
+The heaviest page works out at about 4.1 milligrams, and reading every page on the site once comes to roughly 15 milligrams.
 
 Three things about that number, because it is easy to overread. It is **an estimate from a model, not a measurement**. About a third of it is *embodied* emissions, the cost of manufacturing the devices and networks in the first place, which no website controls and no website can reduce by being lighter. And the grid intensity is a global average: on a grid that is cleaner or dirtier than that, the figure moves, which is why the model's own documentation tells you to substitute your own.
 
@@ -106,7 +107,7 @@ For scale, the honest comparison is not with other websites but with almost anyt
 
 Because it is checkable, and because a site arguing that claims should be checkable does not get to exempt itself.
 
-There is a second reason, and it is the uncomfortable one. The figures above are not spectacular. Zero third-party requests is unusual; 27 kilobytes is unremarkable; and the failures listed further up are real ones, including two accessibility defects and a sitemap pointing at a domain that does not exist. A page that published only the flattering half of this would be marketing, and this site's whole argument is that marketing is what the rest of the web already does.
+There is a second reason, and it is the uncomfortable one. The figures above are not spectacular. Zero third-party requests is unusual; 30 kilobytes is unremarkable; and the failures listed further up are real ones, including two accessibility defects and a sitemap pointing at a domain that does not exist. A page that published only the flattering half of this would be marketing, and this site's whole argument is that marketing is what the rest of the web already does.
 
 Every site could publish this page. Every browser has a Network panel; every server has logs; every platform will show you the file sizes. The tools are not scarce. What is scarce is the willingness to publish the numbers when they are not good, which is why almost nobody does.
 

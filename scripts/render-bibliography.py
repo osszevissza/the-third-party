@@ -209,7 +209,11 @@ def render(records: list[dict], by_id: dict[str, dict], pages: list[dict]) -> st
         for record in sorted(
             entries, key=lambda r: (str(r.get("date") or "9999"), r["id"])
         ):
-            add(f"### {record['id']}")
+            # The explicit `source-` anchor matters: the `cite` shortcode links to
+            # `#source-<id>` on every page, so without it an inline citation made *on this
+            # page* points at nothing. Goldmark's own heading id stays as it was, and the
+            # reverse index below links to the same anchor the shortcode uses.
+            add(f'### <a id="source-{record["id"]}"></a>{record["id"]}')
             add("")
             add(f"**{record['title']}**")
             add("")
@@ -233,7 +237,7 @@ def render(records: list[dict], by_id: dict[str, dict], pages: list[dict]) -> st
         if not page["sources"]:
             add(f"**{page['title']}**: no declared sources.")
             continue
-        links = ", ".join(f"[`{sid}`](#{sid})" for sid in page["sources"])
+        links = ", ".join(f"[`{sid}`](#source-{sid})" for sid in page["sources"])
         add(f"**{page['title']}** ({len(page['sources'])}): {links}")
         add("")
 

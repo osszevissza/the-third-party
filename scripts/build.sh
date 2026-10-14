@@ -37,5 +37,17 @@ if [ "$1" = "serve" ]; then
   exec hugo server --bind 127.0.0.1 --port 1313 --disableFastRender
 fi
 
+# The destination is emptied first, and that is deliberate. The stylesheet is fingerprinted,
+# so every edit to assets/css/main.css produces a NEW filename, and the old fingerprint would
+# otherwise stay in public/ forever, unreferenced but present. `--cleanDestinationDir` does
+# not fix it: that flag cleans files not found in the static directories, and Hugo Pipes
+# output is not a static file. This bit twice in round 11, because "the site's weight" was
+# being measured by summing the files in public/ rather than the files a page references, and
+# a stale stylesheet inflated every number by about 1.5 KB. A build whose output directory is
+# a pure function of its input cannot mislead that way.
+#
+# Do not run this while a `hugo server` is running: it has its own in-memory build and
+# deleting the output directory underneath it is not supported (AGENT.md gotcha 12).
+rm -rf public
 hugo --gc --minify
 echo "==> built into public/"

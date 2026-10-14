@@ -1229,3 +1229,64 @@
     - The model's default grid intensity is 494 gCO2e per kWh, the global average for electricity.
     - Its energy intensities total 0.300 kWh per gigabyte across data centres, networks and user devices, operational and embodied combined.
     - Roughly a third of the modelled total is embodied emissions, from manufacturing devices and networks rather than from running them.
+
+- id: ecosia-eusp-index
+  title: "L'émergence d'un meilleur Internet : notre index de recherche européen vient d'être déployé"
+  authors: ["Ecosia"]
+  publisher: Ecosia
+  date: 2025-08-12
+  type: vendor-blog
+  url: https://fr.blog.ecosia.org/notre-index-de-recherche-europeen-vient-detre-deploye/
+  archive: http://web.archive.org/web/20261014185333/https://fr.blog.ecosia.org/notre-index-de-recherche-europeen-vient-detre-deploye/
+  verified_on: 2026-10-14   # control-probed: a bogus path on the same host returns 404 against this page's 200, and the archived copy was fetched and read and carries the Qwant and EUSP passages
+  weakness: >
+    A company's own account of its own product, published in French, and the only source
+    here for what Ecosia's results are built from. It establishes that the joint index
+    exists and that results for users in France are served from it. It says nothing about
+    coverage elsewhere, about result quality, or about how much of a query is still answered
+    by a licensed index, so it is not evidence that Ecosia is independent of the large
+    indexes everywhere. The "European" in the index's name should not be read as "complete".
+  supports:
+    - Ecosia and Qwant built a search index together, called European Search Perspective.
+    - Ecosia states that search results for its users in France now come from that index directly.
+    - Ecosia states that only a handful of companies have built their own index.
+
+- id: mullvad-public-dns
+  title: "DNS over HTTPS and DNS over TLS"
+  authors: ["Mullvad"]
+  publisher: Mullvad VPN
+  date: 2026-09-03
+  type: vendor-doc
+  url: https://mullvad.net/en/help/dns-over-https-and-dns-over-tls
+  archive: http://web.archive.org/web/20261014185705/https://mullvad.net/en/help/dns-over-https-and-dns-over-tls
+  verified_on: 2026-10-14   # control-probed: a bogus path on the same host returns 404 with 6686 bytes against this page's 200 with 95926, and the archived copy was fetched and read and carries the discontinuation notice
+  weakness: >
+    A company's own help page about a service it is in the middle of switching off, so it is
+    a notice rather than a stable description, and it says nothing about the successor. The
+    page's "last updated" date is 3 September 2026 and the discontinuation it announces is
+    dated 2 November 2026, which means anything cited from it is time-limited by design.
+    Read it for the date, not for a recommendation.
+  supports:
+    - Mullvad runs a public encrypted DNS service.
+    - Mullvad states that the public encrypted DNS service will be discontinued on 2 November 2026.
+    - The DNS resolver built into the Mullvad VPN is a separate service from the public one.
+
+- id: mullvad-dns-shutdown
+  title: "Shutting down our public encrypted DNS servers and sponsoring Quad9 instead"
+  authors: ["Mullvad"]
+  publisher: Mullvad VPN
+  date: 2026-09-03
+  type: vendor-blog
+  url: https://mullvad.net/en/blog/shutting-down-our-public-encrypted-dns-servers-and-sponsoring-quad9-instead
+  archive: http://web.archive.org/web/20261014185932/https://mullvad.net/en/blog/shutting-down-our-public-encrypted-dns-servers-and-sponsoring-quad9-instead
+  verified_on: 2026-10-14   # control-probed: a bogus path on the same host returns 404 with 6672 bytes against this post's 200 with 38657, and the archived copy was fetched and read and names Quad9 and the November date
+  weakness: >
+    A company announcing the end of its own service, which makes it authoritative about the
+    date and about nothing else. It says what Mullvad will sponsor and does not evaluate
+    Quad9, so it is not evidence that Quad9 is good, only that Mullvad is paying for it. The
+    post is also the whole record for the successor: there is no independent assessment here
+    of how Quad9 compares on logging, blocking policy or jurisdiction.
+  supports:
+    - Mullvad has operated public encrypted DNS servers since 2022.
+    - Mullvad is shutting those public encrypted DNS servers down, with 2 November 2026 given as the date to switch by.
+    - Mullvad states that it will sponsor Quad9 rather than run a public resolver itself.

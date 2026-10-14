@@ -4,6 +4,7 @@ subtitle = "Follow a single page view from your browser into the ad auction"
 description = "A timed reconstruction of what leaves a browser during one ordinary page load, built from the ad industry's own documentation, and ending with the same page done differently."
 status_as_of = 2026-10-13
 weight = 3
+nav = "One page load"
 sources = [
   "google-openrtb-guide",
   "google-cookie-matching",

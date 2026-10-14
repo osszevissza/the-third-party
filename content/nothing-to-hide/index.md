@@ -4,6 +4,7 @@ subtitle = "The standard objections to caring about privacy, taken one at a time
 description = "For each common objection, the best available answer, including the three cases where the objection is simply correct."
 status_as_of = 2026-10-14
 weight = 4
+nav = "Nothing to hide"
 sources = [
   "aol-4417749",
   "sweeney-demographics",

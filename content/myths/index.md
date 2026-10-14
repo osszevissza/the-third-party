@@ -4,6 +4,7 @@ subtitle = "Misconceptions about how the web works, each with a way to check it 
 description = "Privacy advice is full of comforting half-truths. Here are seven, with what's actually the case and a way to verify it in a browser rather than taking my word for it."
 status_as_of = 2026-10-13
 weight = 5
+nav = "Myths"
 sources = [
   "eckersley-fingerprinting",
   "eff-cover-your-tracks",

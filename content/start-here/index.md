@@ -4,6 +4,7 @@ subtitle = "One step, in any order, and then permission to stop"
 description = "How to read this site if you have ten minutes, an hour, or an afternoon, plus two ladders of concrete actions, with honest cost estimates for each rung."
 status_as_of = 2026-10-13
 weight = 2
+nav = "Start here"
 sources = [
   "eff-cover-your-tracks",
   "ublock-origin",

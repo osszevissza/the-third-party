@@ -1,23 +1,30 @@
 {{- /*
-  Navigation.
+  Navigation, generated from the content tree.
 
-  Deliberately NOT built by ranging over .Site.RegularPages, which would be the tidy way:
-  three of the thirteen core pages do not exist yet (/, /the-rules/, /receipts/), so a
-  generated menu would render links to pages that are not there. A site whose central claim
-  is that its claims are checkable does not get to ship broken navigation.
+  This used to be a hand-written list of six links, and that is exactly how /swap-shop/,
+  /analytics/, /myths/, /what-leaves-your-browser/ and /receipts/ stayed invisible in the
+  menu after they were written. The old comment promised to generate the menu once every
+  page existed; every page exists now, so it is generated, and a page cannot be left out
+  again: a page cannot be absent from a list built out of the pages.
 
-  Replace this with the generated version once all thirteen pages exist.
+  Order comes from `weight`, the same order the page inventory in AGENT.md uses, which is
+  roughly the reading order rather than the alphabet.
+
+  Labels come from the optional `nav` frontmatter field and fall back to the page title, so
+  a page can be headed "Nine Things People Say" and still appear here as "Nothing to hide"
+  without either name being wrong. Titles are for headings; labels are for a menu.
+
+  The home page is not a RegularPage and so is not in the list: the site title above the
+  menu has always been the link home, and it still is.
 */ -}}
 <header class="site-header">
   <a class="site-title" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
   <nav aria-label="Main">
     <ul>
-      <li><a href="{{ "/start-here/" | relURL }}">Start here</a></li>
-      <li><a href="{{ "/nothing-to-hide/" | relURL }}">Nothing to hide</a></li>
-      <li><a href="{{ "/one-page-load/" | relURL }}">One page load</a></li>
-      <li><a href="{{ "/consent-theatre/" | relURL }}">Consent theatre</a></li>
-      <li><a href="{{ "/dark-patterns/" | relURL }}">Dark patterns</a></li>
-      <li><a href="{{ "/sources/" | relURL }}">Sources</a></li>
+      {{- range .Site.RegularPages.ByWeight }}
+      {{- $label := or .Params.nav .Title }}
+      <li><a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $.RelPermalink }} aria-current="page"{{ end }}>{{ $label }}</a></li>
+      {{- end }}
     </ul>
   </nav>
 </header>

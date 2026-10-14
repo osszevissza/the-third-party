@@ -4,6 +4,7 @@ subtitle = "You need about four numbers"
 description = "Most site owners look at three or four figures a month. Here's what you actually need, what the alternatives cost, and the honest caveat that cookieless does not automatically mean consent-free."
 status_as_of = 2026-10-13
 weight = 10
+nav = "Analytics"
 sources = [
   "cnil-analytics-exemption",
   "cnil-analytics-self-assessment",

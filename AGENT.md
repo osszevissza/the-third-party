@@ -73,7 +73,7 @@ inferred, and both are stated in the footer. Do not invent a different author st
 different licence for this project.
 
 **State:** twelve pages, which is every page the site intends to have: the home page plus 11
-content pages. 31,462 words of body text by the count in §5, of which 9,259 is `/sources/`
+content pages. 31,767 words of body text by the count in §5, of which 10,127 is `/sources/`
 and mostly its generated bibliography. 2 archived drafts, 66 sources, four scripts, a
 LICENSE, and a Hugo build that passes all four checks and renders all twelve pages with no
 errors. The repository is under git with one commit. `/the-rules/` was dropped in round 11,
@@ -352,7 +352,7 @@ scripts/render-bibliography.py   regenerates the generated block on /sources/ (w
 content/_index.md      the home page. Written in round 11
 content/<slug>/index.md    one directory per page
 layouts/               baseof.html, index.html (home, renders the page), _default/single.html
-layouts/partials/      head.html, nav.html, footer.html, source-record.html
+layouts/partials/      head.html, nav.html (generated from the page tree), footer.html, source-record.html
 layouts/shortcodes/    cite.html, source-list.html
 assets/                css/main.css, favicon.svg (Hugo Pipes: minify + fingerprint)
 drafts/README.md       the voice decision, and the reasoning behind it
@@ -402,6 +402,14 @@ which cost time in round 10:
   `2019-10-01` and an `int` for a bare year like `2016`, never a `time.Time`, and
   `reflect.IsTime` errors on an `interface{}`. `printf "%v"` renders every case correctly.
   This was probed, not assumed; the comment in `source-record.html` says so.
+- **The menu is generated now, because a hand-written one lied.** Until round 11 `nav.html`
+  listed six pages by hand, and five of the twelve were simply absent from it (`/swap-shop/`,
+  `/analytics/`, `/myths/`, `/what-leaves-your-browser/`, `/receipts/`). Nobody noticed until
+  the maintainer went looking for the swap shop and could not find it. It now ranges over
+  `.Site.RegularPages.ByWeight`, so a page cannot be left out, and the label comes from an
+  optional `nav` frontmatter field, so a page can be headed "Nine Things People Say" and still
+  appear in the menu as "Nothing to hide". All eleven content pages carry a label; a page
+  without one falls back to its title. The current page is marked with `aria-current="page"`.
 - **Watch out when checking minified output.** `--minify` strips quotes from simple
   attributes (`<sup class=cite>`), so any verification regex must accept both `class=cite`
   and `class="cite"`. A quote-only regex reports zero citations on a page that has
@@ -409,22 +417,22 @@ which cost time in round 10:
 
 ### Page inventory
 
-**Done: all twelve pages** (the home page plus `content/`, 31,462 words, measured in round 11
+**Done: all twelve pages** (the home page plus `content/`, 31,767 words, measured in round 11
 as body words after frontmatter, whitespace-split, generated text included):
 
 | Page | Words | Shape |
 |---|---|---|
-| `sources/` | 9,259 | reference. *Mostly generated from `data/sources.yaml`* |
+| `sources/` | 10,127 | reference. *Mostly generated from `data/sources.yaml`* |
 | `nothing-to-hide/` | 3,030 | B, merged: nine objections, A's opening, A's concession, two harms argued |
 | `consent-theatre/` | 2,996 | A, explanatory, with the static eight-click walkthrough |
 | `dark-patterns/` | 2,351 | field guide, 17 patterns |
-| `swap-shop/` | 2,205 | reference, 8 swaps |
+| `swap-shop/` | 2,337 | reference, 8 swaps |
 | `what-leaves-your-browser/` | 1,979 | A |
 | `one-page-load/` | 1,908 | A. *Is itself the interactive's fallback* |
 | `myths/` | 1,671 | B-style units, 7 myths |
 | `analytics/` | 1,608 | A, practical |
 | `start-here/` | 1,193 | reference |
-| `receipts/` | 1,721 | this site's own measured numbers, including its failures |
+| `receipts/` | 1,835 | this site's own measured numbers, including its failures |
 | `/` (home) | 730 | thesis, three doors, no-banner callout |
 
 **On those numbers.** They are larger than the ones this table used to carry for the same
@@ -712,8 +720,8 @@ later suspected of having drifted. All four scripts pass, the build renders all 
 and `data/sources.yaml` is:
 
 ```
-md5  a069bd58b99b4d096acf8aa0a6bcdb59
-66 sources: 54 with an `archive:` value, 12 without, 20 `verified_on: null`
+md5  8b8d5820187c1d3d5bbf9e4d516bc5b9
+69 sources: 57 with an `archive:` value, 12 without, 20 `verified_on: null`
 ```
 
 The round-10 figure it replaces was `md5 972567407df5404c8f32dd329462bfb5`, 52 archived, 13
@@ -722,7 +730,7 @@ md5 is now a cross-check rather than the only record of the file's state, and `g
 the better tool when something looks wrong.
 
 **The receipts figures, as published on `/receipts/`** (they are exact, and a rebuild
-reproduces them): median page 9,081 bytes gzipped; heaviest page 27,273 gzipped and 91,895
+reproduces them): median page 9,171 bytes gzipped; heaviest page 29,981 gzipped and 102,336
 raw, both `/sources/`, which is 3.0 times the median; both colour schemes pass 4.5:1 with a
 lowest ratio of 6.66:1; zero third-party subresources across all twelve pages. If a later
 round changes the stylesheet, the templates, or adds to a page, these go stale immediately:
@@ -884,6 +892,24 @@ that is the intended behaviour rather than a defect.
     Cloudflare challenge that answers 403 to everything, so California's code is readable
     only as an archived copy of the official page.
 
+    **Found in round 11: a fingerprinted asset leaves a stale twin behind, and it will lie to
+    you about page weight.** Editing `assets/css/main.css` gives the stylesheet a new filename,
+    and the old fingerprint **stays in `public/` forever**, unreferenced but present.
+    `--cleanDestinationDir` does not remove it: that flag cleans files not found in the static
+    directories, and Hugo Pipes output is not a static file. This produced two separate wrong
+    sets of numbers on `/receipts/` before it was caught, because "the site's weight" was being
+    computed by summing every file in `public/` rather than the files a page actually
+    references. Two rules came out of it, and both are now enforced:
+
+    1. `scripts/build.sh` deletes `public/` before building, so the output directory is a pure
+       function of the input. (Do not do that while `hugo server` runs: gotcha 12.)
+    2. **Measure what the page fetches, not what the directory contains.** Parse the page's own
+       `<link>` tags for the stylesheet and the icon, and sum those. It is the only definition
+       that matches the sentence on the page, and it is immune to this whole class of error.
+
+    The general lesson is the project's own: a number produced by a convenient method is not a
+    measurement until the method has been checked against the definition it claims to serve.
+
     **The general lesson, which is the expensive one:** a passing status code is not a
     verified source, and neither is a *failing* one. Open the thing, or say you did not.
     `conseil-etat.fr` control-probes cleanly (real path 200, impossible path 404), and so
@@ -1015,16 +1041,15 @@ moment the site itself is hypocritical.
      tracker logged out in a private window and confirm the form appears. That is the old
      warning, "do not publish a channel you will not read", applied to whether the channel
      accepts input.
-   - **Tools disclosure: written in half, and the other half needs the maintainer.** The
-     *build* disclosure now exists as a section headed "How this site is built and checked":
-     Hugo with no theme, Python for the four checks, `curl` and the Wayback Machine and
-     `pdftotext` for verification, GitHub and statichost.eu, and an AI agent named as the
-     writer of the prose and the code. What is **not** answered is the narrower question the
-     page actually committed to: **which of the eight recommended swaps the maintainer
-     personally runs.** The section headings of `/swap-shop/` are the list (email, search, ad
-     blocking, chat, documents, code hosting, video, DNS), and an HTML comment in `/sources/`
-     records it. "None of them yet" is a publishable answer, and a better one than silence.
-     Until it is answered, that sentence is the only unsupported claim on the site.
+   - **Tools disclosure: closed in round 11.** Both halves are published on `/sources/`: the
+     build disclosure in "How this site is built and checked" (Hugo with no theme, Python for
+     the four checks, `curl` and the Wayback Machine and `pdftotext` for verification, GitHub
+     and statichost.eu, an AI agent named as the writer of the prose and the code, and Helix,
+     Sublime Text and Neovim as the editors), and the narrower disclosure the page actually
+     committed to, "Which of these swaps I have actually made". Five swaps are run (Ecosia for
+     search, Posteo for email, uBlock Origin on Firefox, Signal, Mullvad for DNS), one is
+     partial (a Codeberg account, with this project on GitHub anyway) and two are not made
+     (PeerTube, and documents). **Nothing on `/sources/` is unsupported any more.**
 5. ~~**Fix the two-line `edpb-consent-or-pay` entry** (§6 item 5).~~ **Done in round 11**,
    and it took more than two lines. See §6 item 5 for what was corrected along the way (the
    PDF path, the corrigendum of October 2024, and a date that had to rest on the page's
@@ -1075,12 +1100,12 @@ grounded in a verified, dated citation. **All twelve exist** as of round 11: `/`
 was dropped by the maintainer, so the target moved from thirteen pages to twelve. All four
 scripts pass with 0 errors and the build renders every page.
 
-**Three conditions of the original definition of done are still open, and none of them is
-writing work.** The source worklist in §6 is not clear: 20 sources still carry
-`verified_on: null`, several of them because no terminal can verify them at all. 12 sources
-are not archived. And one published sentence on `/sources/` still commits the maintainer to
-naming which recommended tools they actually run (§9 item 4). All three are tracked in §6
-and §9, and all three are honest limitations rather than oversights.
+**Two conditions of the original definition of done are still open, and neither is writing
+work.** The source worklist in §6 is not clear: 20 sources still carry `verified_on: null`,
+several of them because no terminal can verify them at all. And 12 sources are not archived.
+Both are tracked in §6, and both are honest limitations rather than oversights. The third
+condition that used to sit here, the unsupported disclosure sentence on `/sources/`, closed in
+round 11 (§9 item 4).
 
 **The repository is now a repository.** Round 11 initialised git (`main`, first commit
 `09f1643`, 39 files) and added a `LICENSE` carrying the CC0 1.0 legal code verbatim, which
