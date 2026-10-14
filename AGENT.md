@@ -771,9 +771,24 @@ must-revalidate`, `etag`, `last-modified`, `vary: Accept-Encoding`, **gzip but n
 and **no `content-security-policy`**. It discriminates correctly, which is what makes its
 codes worth reading: a path that cannot exist returns `404` with a 13-byte body while a real
 page returns `200`. All of that is published on `/receipts/` under "What the host sends".
-**Pushing to `main` appears to deploy**: the build landed within a couple of minutes of the
-push that carried the domain change. Treat a push as publishing, and confirm it rather than
-assuming.
+**A push to `main` does not deploy, and assuming it did was the second time this session that
+a coincidence was written down as a cause.** The first deploy landed within a couple of
+minutes of the push carrying the domain change, which looked exactly like auto-deploy and was
+recorded as one. It was not. Two commits pushed later sat unpublished: the live
+`last-modified` stayed at 19:31:35 and the new text was absent from the served pages, checked
+over several minutes. **The cause is not established** and should not be guessed at again: the
+deploy may be triggered by hand in the host's dashboard, by a schedule, or by a setting that
+is switched off. What is established is that **pushing is not publishing**. So after a push,
+trigger the deploy deliberately, and then verify it the way this file already says: fetch the
+page and read its own title, or grep the served HTML for a phrase that exists only in the new
+commit. `curl -sS https://third-party.statichost.page/receipts/ | grep -c "a phrase from the
+commit"` is the whole check.
+
+**Until somebody triggers one, the live site is a past version of itself, and it can be a
+wrong one.** As this was written, the served `/receipts/` still said the site was not
+deployed, in the very deploy that made that sentence false. The correction is committed and
+merely waiting. Nothing in the repository can tell you which commit is live: the only source
+of truth is the served bytes, and the `last-modified` header is the cheapest hint.
 
 **The host's gzip is looser than the figures on `/receipts/`.** Those are a local `gzip -9`
 measurement and are the reproducible ones; statichost compresses at a lower level and sends
@@ -1088,6 +1103,11 @@ reports.
     nothing**; the host's TLS layer is what discriminates. And the two record types point at
     different addresses, only one of which answered from this machine, which is why the page
     reports the IPv4 result and says nothing about IPv6 either way.
+
+    **This gotcha immediately caught itself again.** The same afternoon, a first deploy landing
+    minutes after a push was written up in §7 as "pushing appears to deploy". The next two
+    pushes did not deploy at all. Two coincidences, one afternoon, both recorded as causes,
+    both wrong. When the temptation is to explain rather than to describe, describe.
 
 ---
 
