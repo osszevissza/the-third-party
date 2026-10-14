@@ -778,18 +778,21 @@ must-revalidate`, `etag`, `last-modified`, `vary: Accept-Encoding`, **gzip but n
 and **no `content-security-policy`**. It discriminates correctly, which is what makes its
 codes worth reading: a path that cannot exist returns `404` with a 13-byte body while a real
 page returns `200`. All of that is published on `/receipts/` under "What the host sends".
-**A push to `main` does not deploy, and assuming it did was the second time this session that
-a coincidence was written down as a cause.** The first deploy landed within a couple of
-minutes of the push carrying the domain change, which looked exactly like auto-deploy and was
-recorded as one. It was not. Two commits pushed later sat unpublished: the live
-`last-modified` stayed at 19:31:35 and the new text was absent from the served pages, checked
-over several minutes. **The cause is not established** and should not be guessed at again: the
-deploy may be triggered by hand in the host's dashboard, by a schedule, or by a setting that
-is switched off. What is established is that **pushing is not publishing**. So after a push,
-trigger the deploy deliberately, and then verify it the way this file already says: fetch the
-page and read its own title, or grep the served HTML for a phrase that exists only in the new
-commit. `curl -sS https://third-party.statichost.page/receipts/ | grep -c "a phrase from the
-commit"` is the whole check.
+**A push to `main` does not deploy: the deploy is triggered by hand on statichost's own
+dashboard.** The maintainer confirmed this on 2026-10-14, adding that it has always worked
+that way and that they do it every time. **So the manual step is routine, not a fault**: do not
+re-diagnose it, do not read it as a broken webhook, and do not spend a session looking for a
+setting to switch on. Why statichost requires it is unknown and does not matter.
+
+**The part worth keeping is that this was first written up wrongly.** The first deploy landed
+within a couple of minutes of the push carrying the domain change, and §7 recorded that as
+"pushing appears to deploy". The next two pushes did not deploy at all: the live `last-modified`
+stayed at 19:31:35 and the new text never appeared, checked over several minutes. The timing was
+a coincidence, and the coincidence was the entire evidence. **Pushing is not publishing.** After
+a push the deploy is the maintainer's step, and the check afterwards is ours: fetch the page and
+read its own title, or grep the served HTML for a phrase that exists only in the new commit.
+`curl -sS https://third-party.statichost.page/receipts/ | grep -c "a phrase from the commit"` is
+the whole check.
 
 **Until somebody triggers one, the live site is a past version of itself, and it can be a
 wrong one.** As this was written, the served `/receipts/` still said the site was not
@@ -1113,7 +1116,8 @@ reports.
 
     **This gotcha immediately caught itself again.** The same afternoon, a first deploy landing
     minutes after a push was written up in §7 as "pushing appears to deploy". The next two
-    pushes did not deploy at all. Two coincidences, one afternoon, both recorded as causes,
+    pushes did not deploy at all, because deploys are in fact triggered by hand on the host's
+    dashboard and always have been. Two coincidences, one afternoon, both recorded as causes,
     both wrong. When the temptation is to explain rather than to describe, describe.
 
 ---
