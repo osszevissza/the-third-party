@@ -306,6 +306,13 @@ pages are added.
   copy is then the thing that was actually read, and the entry says so. Copy this pattern
   for `ftc.gov`, `nytimes.com`, `dl.acm.org`, `reuters.com` and the other domains in
   §7 gotcha 2.
+- **Watch for unsourced background knowledge, which is the failure mode an AI-written page
+  is most prone to.** Round 11 produced a clean example: a sentence on `/swap-shop/` said
+  Quad9 is "a non-profit rather than a company", which is probably true and was not sourced
+  to anything. Checking it found the phrase only in a *sponsor's quote* on Quad9's homepage,
+  not in Quad9's own description of itself, so the clause was cut. The rule that catches this
+  is the one already in §4, applied to yourself: if the sentence would need a citation in
+  someone else's article, it needs one here, and plausible is not the same as verified.
 - **`supports` items must be plain strings.** An unquoted colon inside a list item
   (`- Foo: bar`) makes YAML build a mapping instead of a sentence, so `/sources/` would
   render a dictionary where a claim belongs. Nothing else notices, because the file still
