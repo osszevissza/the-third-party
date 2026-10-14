@@ -754,6 +754,13 @@ remote was empty beforehand, so nothing needed reconciling; two commits followed
 **Do not quote a head hash in this file**, it was already stale within the hour: use
 `git log --oneline -1` and `git log origin/main..HEAD` instead, and expect the second to be
 empty.
+
+**Commit messages are a few words on one line.** Round 11 wrote them that way and the
+maintainer restated it on 2026-10-14, so it is the house rule rather than a preference: the
+reasoning behind a change belongs in this file, and `git log --oneline` should read as a list
+of subjects rather than as paragraphs. One exception, and only one: a correction of something
+already published on the site earns a sentence saying what was wrong, because that is the kind
+of thing a reader may come looking for.
 `public/`, `resources/`, `tmp/`, `__pycache__/` and the scratch directories are ignored, so
 the repository holds source rather than build output. The audit that preceded the push is
 worth repeating before any future public push: 39 tracked files, no key, token or password
