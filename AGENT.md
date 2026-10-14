@@ -27,9 +27,11 @@ every page-weight figure on `/receipts/` was found and fixed (§7 gotcha 13).
 1. **The CSS work block**, which the maintainer wants treated as a separate pass now that the
    text is done and readable raw (§9 item 8). It will change every page's weight, so
    `/receipts/` must be re-measured at the end of it.
-2. **A host connection and a first deploy.** The domain and the host are decided, `baseURL`
-   is set to the real one, and the GitHub remote is connected and pushed as of 2026-10-14.
-   What remains is `statichost.yml` and the first build at the address (§9 item 7).
+2. **The small things the deploy exposed**, none of them blocking and all of them cheap:
+   no `statichost.yml` in the repository, so the host's build command is configured in its
+   dashboard and is not version-controlled; no `content-security-policy` header on a site
+   whose central claim one would enforce; and a `robots.txt` that does not point at the
+   sitemap. §9 item 7 has the detail.
 3. **The source worklist in §6**: 20 sources without a `verified_on` date, 12 without an
    archive, and the cheap upgrades to existing entries that this round's verification found.
 
@@ -83,6 +85,11 @@ and a page publishing its own measured numbers.
 
 **Working title:** *The Third Party*.
 
+**Live at [third-party.statichost.page](https://third-party.statichost.page/)** since
+2026-10-14, served by statichost.eu from the public GitHub repository. The deploy is real and
+verified: all twelve pages answer `200` with their own correct titles and canonicals. See §7
+for what the host sends and §9 item 7 for what the deploy left open.
+
 **Author and licence:** Underdog Guild ([barsimarina.hu](https://barsimarina.hu)), and the
 site's own text is released under **CC0 1.0**, apart from quotations, which stay with the
 sources they came from. Both facts were supplied by the maintainer in round 11 rather than
@@ -92,9 +99,11 @@ different licence for this project.
 **State:** twelve pages, which is every page the site intends to have: the home page plus 11
 content pages. 32,019 words of body text by the count in §5, of which 10,255 is `/sources/`
 and mostly its generated bibliography. 2 archived drafts, 70 sources, four scripts, a
-LICENSE, six commits, and a Hugo build that passes all four checks and renders all twelve
+LICENSE, ten commits, and a Hugo build that passes all four checks and renders all twelve
 pages with no errors. `/the-rules/` was dropped in round 11,
-so the target is 12 core pages rather than 13.
+so the target is 12 core pages rather than 13. **It is live, and that is new**: the writing
+being finished and the site being published are two different states, and only the first was
+true before 2026-10-14.
 
 **Read next, in this order:** `FOR-REVIEW.md` (concept, and the review outcome),
 `SITE_PLAN.md` (full IA and rationale), `data/sources.yaml` header (citation rules).
@@ -739,14 +748,39 @@ checks passed.
 commit `09f1643`, 39 files. The repository is no longer unprotected, so a maintenance sweep
 can be diffed instead of copied first, and the `md5` records below are a convenience rather
 than the only evidence of drift. The remote is `origin` =
-`git@github.com:osszevissza/the-third-party.git`, **connected and pushed on 2026-10-14**:
-`main` tracks `origin/main` and both are at `a8a7b97`. That first push carried the eight
-round-11 commits, and the remote was empty beforehand, so nothing needed reconciling.
+`git@github.com:osszevissza/the-third-party.git`, **connected and pushed on 2026-10-14**, with
+`main` tracking `origin/main`. That first push carried the eight round-11 commits and the
+remote was empty beforehand, so nothing needed reconciling; two commits followed the same day.
+**Do not quote a head hash in this file**, it was already stale within the hour: use
+`git log --oneline -1` and `git log origin/main..HEAD` instead, and expect the second to be
+empty.
 `public/`, `resources/`, `tmp/`, `__pycache__/` and the scratch directories are ignored, so
 the repository holds source rather than build output. The audit that preceded the push is
 worth repeating before any future public push: 39 tracked files, no key, token or password
 in any of them, no absolute home path, and `git status --untracked-files=all` showing that
 every untracked path is ignored rather than merely unnoticed.
+
+**The site went live on 2026-10-14 at 19:31:35 UTC**, which is the `last-modified` header on
+the deployed pages, roughly an hour after the domain was registered in statichost's panel and
+its TLS certificate was issued (18:34:14, Let's Encrypt, that hostname alone, valid to
+12 January 2027). **The deploy is verified by content**, not by a status code: all twelve
+pages were fetched and each one's own `<title>` and `rel=canonical` read off the response.
+What the host sends, measured from outside with `curl`: HTTP/2 and HTTP/3 both work, HSTS
+with `preload`, `x-content-type-options: nosniff`, `cache-control: public, max-age=0,
+must-revalidate`, `etag`, `last-modified`, `vary: Accept-Encoding`, **gzip but no brotli**,
+and **no `content-security-policy`**. It discriminates correctly, which is what makes its
+codes worth reading: a path that cannot exist returns `404` with a 13-byte body while a real
+page returns `200`. All of that is published on `/receipts/` under "What the host sends".
+**Pushing to `main` appears to deploy**: the build landed within a couple of minutes of the
+push that carried the domain change. Treat a push as publishing, and confirm it rather than
+assuming.
+
+**The host's gzip is looser than the figures on `/receipts/`.** Those are a local `gzip -9`
+measurement and are the reproducible ones; statichost compresses at a lower level and sends
+the icon uncompressed, so the wire is about 3% larger: the heaviest page is 31,253 bytes as
+served against the 30,228 published, and the median about 9,460 against 9,171. The page says
+so in the same section. If a future measurement is taken from the live site instead, say
+which of the two it is, because they are not interchangeable.
 
 **Known-good state at the end of round 11**, for use as a reference point if something is
 later suspected of having drifted. All four scripts pass, the build renders all twelve pages,
@@ -1033,6 +1067,28 @@ reports.
     `osszevissza` at GitHub when the config problem is bypassed, which is how this was
     separated from a bad key.
 
+15. **An error you can observe is not a cause you can name, and this project published the
+    wrong cause once.** Before the first deploy, `https://third-party.statichost.page/` failed
+    TLS with `tlsv1 alert internal error`, and a hostname that cannot exist failed the same
+    way. The observation was sound and went into `/receipts/`; an explanation went in with it,
+    that the two behaved alike "because neither has a certificate, since no site has been
+    provisioned". **The certificate contradicts that**: the one now serving this site was
+    issued at 18:34:14, before the probe was taken, so what was missing was the name answering
+    rather than a certificate existing. Reading the certificate's own `notBefore` an hour later
+    is what caught it.
+
+    **The rule that follows:** record what a probe showed and leave the cause unknown, or name
+    a cause only from evidence that can still be checked afterwards. This is gotcha 10 one
+    level down. There a status code proves nothing about a URL; here a TLS error proved nothing
+    about why. Both mistakes come from reading a symptom as a finding, which is the failure
+    mode this whole project documents.
+
+    **Two related traps from the same afternoon.** The domain's DNS is a wildcard, so the real
+    name and an impossible name share both an `A` and an `AAAA` record and **resolution proves
+    nothing**; the host's TLS layer is what discriminates. And the two record types point at
+    different addresses, only one of which answered from this machine, which is why the page
+    reports the IPv4 result and says nothing about IPv6 either way.
+
 ---
 
 ## 8. Standing build constraints: the site must pass its own test
@@ -1057,6 +1113,12 @@ moment the site itself is hypocritical.
   11**: request counts, page weights, the carbon estimate with its model named, the static
   accessibility checks that pass, and the failures that do not. It deliberately does **not**
   claim a verified WCAG AA result, because no audit tool has been run, and it says so.
+- **Response headers are part of passing the site's own test, and one is missing.** The host
+  sends HSTS, `nosniff` and a revalidating cache policy, and it does not send a
+  `content-security-policy`. A site whose central claim is "no third-party requests" should
+  have a browser check that claim rather than a reader take it on trust, so the missing header
+  is tracked as a defect on `/receipts/` instead of being waved away as a detail of somebody
+  else's server. `robots.txt` also does not point at the sitemap.
 - **Honesty about maintenance, and it belongs on the page, not only in this file.** The
   footer states on every page that the site was written in October 2026, that it is not
   maintained on a schedule, that there is no capacity to keep every page current, and that
@@ -1132,22 +1194,29 @@ moment the site itself is hypocritical.
    keeps the abandoned outline. **The content target is met, at twelve pages.** What follows
    from here is the work that is not writing: the source worklist in §6, the cheap source
    upgrades listed there, and hosting.
-7. **Set up the GitHub repo and statichost.eu when the local site is approved.** The
-   maintainer has confirmed the repo will be **public**, and deferred the setup until the
-   site runs locally without errors, which it does. **Round 11 created the GitHub
-   repository; 2026-10-14 connected the local checkout to it and pushed it.** `origin` is
-   `git@github.com:osszevissza/the-third-party.git`, `main` tracks `origin/main`, and both
-   are at `a8a7b97` (§7). The remote was empty, so nothing needed reconciling. `.gitignore`,
-   `.tool-versions`, `LICENSE`, the build script, the remote and the domain are all in place
-   now. **What remains is `statichost.yml` and the first deploy.** Hosting notes:
-   statichost.eu builds from the Git repo via `statichost.yml` (image
-   `hugomods/hugo:exts-0.150.0`, `command: hugo`, `public: public`), needs no GitHub
-   Actions, and has password protection on its free tier for staging. **Decide deliberately
-   whether the host runs our checks or only `hugo`**: that image carries Hugo, and not
-   necessarily Python and PyYAML, so `scripts/build.sh` may not be runnable there, which
-   would leave the four checks to whoever pushes. See §7 gotcha 10 for the
-   source-verification consequences of going public while 20 sources still carry
-   `verified_on: null`.
+7. **~~Set up the GitHub repo and statichost.eu.~~ Done, and the site is live as of
+   2026-10-14.** The repo is public, the local checkout is connected to it, and the
+   maintainer's chosen domain was set as `baseURL` and deployed at 19:31:35 UTC. `origin` is
+   `git@github.com:osszevissza/the-third-party.git` with `main` tracking it; `.gitignore`,
+   `.tool-versions`, `LICENSE`, the build script and the domain are all in place. §7 holds
+   the serving facts and the verification method. **What the deploy left open:**
+
+   - **There is no `statichost.yml` in the repository.** The host's build configuration lives
+     in its dashboard, so it is not version-controlled and cannot be reviewed from the source
+     tree. If statichost.eu accepts one (image `hugomods/hugo:exts-0.150.0`,
+     `command: hugo`, `public: public`), committing it would make the build reproducible from
+     the repository alone.
+   - **Whether the host runs the four checks is unknown, and the safe assumption is that it
+     does not.** The deployed stylesheet fingerprint matches a local build exactly, so the
+     host ran the same Hugo and the same asset pipeline, but nothing in the output says
+     whether `scripts/build.sh` ran, and that image carries Hugo rather than Python and
+     PyYAML. **Assume the checks ran locally and nowhere else**: a push that fails one and is
+     not caught locally would deploy anyway.
+   - **No `content-security-policy`, and `robots.txt` does not point at the sitemap.** Both
+     are published as gaps on `/receipts/` and in §8, and both are one-line fixes on a host
+     that already sends HSTS and `nosniff`.
+   - See §7 gotcha 10 for the source-verification consequences of being public while 20
+     sources still carry `verified_on: null`.
 
    **The domain is decided as of 2026-10-14: `https://third-party.statichost.page/`.** It is
    set as `baseURL` in `hugo.toml`, replacing the `https://example.invalid/` placeholder
@@ -1161,7 +1230,9 @@ moment the site itself is hypocritical.
    (`this-cannot-exist-9f2a.statichost.page` answers identically), and all of them refuse TLS
    with the same alert until a site is provisioned, so the DNS record is a wildcard and
    proves nothing. Verify a deploy the way this project verifies sources: fetch the page and
-   read its own title.
+   read its own title. **That is how this deploy was checked on 2026-10-14**: twelve pages
+   fetched, twelve correct titles and canonicals, which is the only evidence that a name is
+   serving this site rather than nothing.
 
 8. **The CSS work block, which the maintainer wants treated as a separate pass.** The text is
    finished and readable raw, so styling is now a self-contained job instead of one that keeps
@@ -1204,9 +1275,11 @@ round 11 (§9 item 4).
 and added a `LICENSE` carrying the CC0 1.0 legal code verbatim, which is what makes the
 footer's licence line true rather than aspirational. **The eight commits were pushed to
 `origin` on 2026-10-14** (`git@github.com:osszevissza/the-third-party.git`), so the source is
-public and the correction route printed on `/sources/` now has something behind it. What is
-still not public is the site itself: nothing is deployed, so the address in `baseURL` serves
-nothing yet.
+public and the correction route printed on `/sources/` now has something behind it. **The
+site itself is public too as of the same day**: it is live at
+`https://third-party.statichost.page/`, verified by reading each page's own title, so the
+project has moved from "finished" to "published" and the footer's honesty about maintenance
+is now a promise made in public rather than a note in a file.
 
 **Not blocked, and no longer blocked on content.** Round 11 closed `/`, `/receipts/`, the two
 unargued harms, the `edpb-consent-or-pay` record and both `/sources/` TODOs, removed the

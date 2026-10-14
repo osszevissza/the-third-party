@@ -1,7 +1,7 @@
 +++
 title = "Receipts"
 subtitle = "This site's own numbers, measured, including the ones that are not flattering"
-description = "What this site loads, what it weighs, what it sets on your device, what it emits, and what it cannot yet prove. Measured on 2026-10-14 against the build that includes this page."
+description = "What this site loads, what it weighs, what it sets on your device, what it emits, and what it cannot yet prove. Measured on 2026-10-14 against the build that includes this page, and against the live site the same day."
 status_as_of = 2026-10-14
 weight = 8
 nav = "Receipts"
@@ -17,7 +17,7 @@ Most sites could publish a page like this. Almost none do, and the reason is not
 
 ## How these numbers were taken
 
-The site is built with `sh scripts/build.sh`, which runs four checks and then renders `public/`. Every figure on this page was then read out of that built directory rather than estimated: file sizes, request counts, and the contrast ratios, which are computed from the actual colour values in `assets/css/main.css`.
+The site is built with `sh scripts/build.sh`, which runs four checks and then renders `public/`. Every figure on this page was then read out of that built directory rather than estimated: file sizes, request counts, and the contrast ratios, which are computed from the actual colour values in `assets/css/main.css`. The exception is "What the host sends" further down, which describes the serving rather than the files, and was therefore taken from the live site with `curl` on the same day.
 
 Sizes are given both raw and gzipped, because gzip is what a server actually sends. Where something is a model estimate rather than a measurement, the page says so at the point where it appears.
 
@@ -43,11 +43,24 @@ So a page here asks your browser for three files, all of them from this domain. 
 
 **The raw row is the one place the budget does not hold, and it is printed rather than rounded away.** The 100 KB budget is written for what a page costs a reader, and what crosses the wire is compressed: 30,228 bytes, comfortably inside. Read as raw bytes instead, the heaviest page is 103,483, which is over 100 KB whether you read KB as 1,000 bytes or as 1,024, and no other page comes close, because the median is 25,343 bytes raw. So that row is marked over on the raw reading and met on the transferred one, and both numbers are here because the honest answer depends on which one the budget is about.
 
-Nothing in the site can set a cookie: there is no JavaScript and no server-side code to do it with. What cannot be checked yet is the response headers, because nothing is deployed. The host and the domain are both chosen, but no request to this site has been served by anything, so there is no header to read back and that is one of the failures listed below.
+Nothing in the site can set a cookie: there is no JavaScript and no server-side code to do it with. The response headers used to be the one thing this page could not check, because there was nothing deployed to read them from. The site is live now, so they are measured rather than promised, in the next section.
 
 The site-wide row is rounded, unlike the per-page figures. Editing any page moves the aggregate rows by tens of bytes, including the edit that published these numbers, which is why this page dates them and rounds the one figure that would otherwise be wrong within a day. The per-page figures have no such problem: build the site yourself from the same source and you will get exactly the numbers above.
 
 That is this site's number. The number for the median page on the web is measured every year by the HTTP Archive for its Web Almanac, and you should read it there rather than take a figure quoted here, because a figure copied into a page like this one is out of date within a year. {{< cite "web-almanac" >}}
+
+## What the host sends
+
+The figures above measure the files. This section records what happens when somebody asks for them, taken with `curl` against the live site on 2026-10-14 rather than against a local build. It is the disclosure this page promised on the day it was written and could not make until there was a host to interrogate.
+
+- **The server names itself** as `statichost.eu`, and it discriminates: a path that cannot exist returns `404` with a 13-byte body, while a real page returns `200`. That is the same control probe this site applies to its sources, and it is why a status code from this host is worth something.
+- **HTTP/2 and HTTP/3 both work.** The `alt-svc` header advertises `h3`, and a request over QUIC returns the page with HTTP/3, so the advertisement is not decoration.
+- **TLS is a Let's Encrypt certificate for this hostname alone**, issued at 18:34 UTC on the day the site went up and valid until 12 January 2027. It carries one name rather than a wildcard, which is the detail that makes the control probe above meaningful.
+- **These headers are present:** `strict-transport-security: max-age=31536000; includeSubDomains; preload`, `x-content-type-options: nosniff`, `cache-control: public, max-age=0, must-revalidate`, an `etag`, `last-modified`, `vary: Accept-Encoding`, and `accept-ranges: bytes`.
+- **These headers are absent:** `content-security-policy`, `referrer-policy`, `permissions-policy` and `x-frame-options`. A site with no scripts, no forms, no cookies and no third-party requests has little for them to protect, and that is an explanation rather than a defence. A policy of `default-src 'self'` would let your browser enforce this site's central claim instead of taking my word for it, so the absence is a defect and it is listed below.
+- **Compression is gzip, and it is looser than the tables above.** Those figures are a local measurement, `gzip -9` on the machine the site was built on, reproducible by anybody who builds it. The host compresses at a lower setting and sends the icon uncompressed, so **what crosses the wire is about 3% larger than this page reports**: the heaviest page is 31,253 bytes as served against the 30,228 published above, and the median page is about 9,460 against 9,171. The published numbers stay as they are because they are the reproducible ones, and this bullet is the correction that keeps them honest.
+- **What the host logs is not observable from outside**, and this page does not claim to know. The disclosure on [Sources](/sources/) says there is no server of mine in the path, which is a statement about architecture, and it is the accurate form of the claim.
+- **Only the IPv4 address answered from the machine this was measured on.** The domain has both an `A` and an `AAAA` record, and the IPv6 attempt failed immediately with "network unreachable", which is a local condition rather than a statement about the host. So this page reports the IPv4 result and says nothing about IPv6 either way.
 
 ## What could not be measured
 
@@ -77,11 +90,11 @@ This is the section that makes the page worth publishing. Every item is a real d
 
 **Citation markers are small targets, which is a borderline failure of WCAG 2.5.8.** They are set at 0.75em with no line box, so the clickable area is a few pixels high. WCAG exempts targets set inline in a sentence, and these are, so the site is arguably compliant. It is still the weakest point here for anybody with a tremor, and it is on the list.
 
-**The canonical URL, the RSS link and the sitemap name the real domain, and nothing is published at it yet.** The placeholder went on 2026-10-14, when `hugo.toml` was pointed at `https://third-party.statichost.page/`. Every page's `rel=canonical`, the RSS `alternate` link on the home page and `sitemap.xml` now advertise the address the site is meant to live at, which is a decision rather than a mistake. The defect that remains is the deploy. The source is public on GitHub and the host is not connected to it, so until a first build is published those URLs serve nothing, and a search engine that finds them meanwhile has been told that the canonical copy of each page is somewhere it cannot fetch. That is the honest half of a one-line fix: the configuration is right and the hosting is not there.
+**The canonical URL pointed at a domain with nothing published at it, and the deploy closed it.** The placeholder went on 2026-10-14, when `hugo.toml` was pointed at `https://third-party.statichost.page/`, and the site went up the same evening. The change was then checked the way this site checks a source rather than the way it checks a status code: all twelve pages were fetched and each one's own title and `rel=canonical` were read off the response. Every page answers `200` with the title it should have, so the canonical copy of each page is now the page itself.
 
-**The name resolves, and that proves nothing, which is worth one sentence here.** `third-party.statichost.page` does have a DNS record today, pointing at the host. So does a name that cannot exist: `this-cannot-exist-9f2a.statichost.page` resolves to the same address and fails in the same way. Both refuse a TLS connection because neither has a certificate, since no site has been provisioned under either name. The record comes from a wildcard, so it is not evidence that anything is live at this address, and the check that would settle it is the one this site applies to its sources: open the page and read its own title.
+**Before the deploy, this domain behaved exactly like a name that cannot exist, and the reason this page gave for that was wrong.** `third-party.statichost.page` and `this-cannot-exist-9f2a.statichost.page` have identical DNS records, both pointing at the host through a wildcard, so a resolving name is not evidence that anything is live. The real name also refused a TLS connection with `tlsv1 alert internal error`, which is the same error the impossible name still gives today. This page originally read that as "neither has a certificate". **That was an inference, and the certificate contradicts it**: the one now serving this site was issued at 18:34 UTC, before the probe was taken, so what failed was the name answering rather than a certificate existing. An error you can observe is not the same thing as a cause you can name. This page made that mistake about its own domain, which is the mistake it exists to warn about everywhere else.
 
-**The hosting disclosure is a decision, not yet a measurement.** The site is meant to be served by statichost.eu, which builds it from the public repository, and there is no server of mine in the path. What this page cannot yet say is what that host does with a request: nothing is deployed, so no response header has been read back and there is no log to inspect. That line belongs to the first deploy, and until it is written the honest version of the claim is that a host has been chosen, not that its behaviour has been checked.
+**There is no `content-security-policy`, and it is the defect here worth fixing first.** The full header set the host sends is listed above. A site with no scripts, no forms, no cookies and no third-party requests has almost nothing for a policy to restrict, which is precisely why its absence went unnoticed, and it is still a missing enforcement of the claim this whole site is built on: `default-src 'self'` would make "no third-party requests" something your browser checks rather than something I assert.
 
 **No analytics is running at all.** The plan is a cookieless counter. Right now the site loads no analytics of any kind, which is a stronger statement than "analytics without cookies", and it will become weaker on the day a counter is added. When that happens, this page will say so.
 
@@ -105,6 +118,8 @@ The median page here transfers 9,171 bytes gzipped, which is 0.0000085 GB, so:
 
 The heaviest page works out at about 4.2 milligrams, and reading every page on the site once comes to roughly 15 milligrams.
 
+These three figures use the local gzip measurement, which is the reproducible one. The host sends about 3% more than that, as the section above records, which would move them to roughly 1.3, 4.3 and 16 milligrams. The difference is small enough to be within the model's own error, and it is printed here rather than quietly applied so that both readings are on the page.
+
 Three things about that number, because it is easy to overread. It is **an estimate from a model, not a measurement**. About a third of it is *embodied* emissions, the cost of manufacturing the devices and networks in the first place, which no website controls and no website can reduce by being lighter. And the grid intensity is a global average: on a grid that is cleaner or dirtier than that, the figure moves, which is why the model's own documentation tells you to substitute your own.
 
 For scale, the honest comparison is not with other websites but with almost anything else you could do in the same second. A single page view at this weight is not the interesting number. A page that loads four megabytes of video to show you a paragraph is.
@@ -113,7 +128,7 @@ For scale, the honest comparison is not with other websites but with almost anyt
 
 Because it is checkable, and because a site arguing that claims should be checkable does not get to exempt itself.
 
-There is a second reason, and it is the uncomfortable one. The figures above are not spectacular. Zero third-party requests is unusual; 30 kilobytes is unremarkable; and the failures listed further up are real ones, including two accessibility defects and a site configured for a domain that has nothing published at it yet. A page that published only the flattering half of this would be marketing, and this site's whole argument is that marketing is what the rest of the web already does.
+There is a second reason, and it is the uncomfortable one. The figures above are not spectacular. Zero third-party requests is unusual; 30 kilobytes is unremarkable; and the failures listed further up are real ones, including two accessibility defects and a missing `content-security-policy` on a site whose claim a policy could enforce. A page that published only the flattering half of this would be marketing, and this site's whole argument is that marketing is what the rest of the web already does.
 
 Every site could publish this page. Every browser has a Network panel; every server has logs; every platform will show you the file sizes. The tools are not scarce. What is scarce is the willingness to publish the numbers when they are not good, which is why almost nobody does.
 

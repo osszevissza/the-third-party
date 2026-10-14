@@ -152,12 +152,14 @@ The site's own choices are part of what a reader is entitled to know, so here th
 
 **Not used anywhere:** a CMS, a CSS or JavaScript framework, a bundler, a font service, a CDN, third-party analytics, or generated imagery. There is no newsletter, because a newsletter is a mailing list and this site is not collecting one. Analytics is planned as a cookieless counter and is not running yet, which is why the claim here is the stronger "no analytics" rather than the weaker "no cookies".
 
-<!-- The three claims in that section are dated by their nature and should be re-read
-     before publishing: the Hugo and Python versions, whether statichost.eu is still the
-     host, and whether the AI agent disclosure still describes how the text was actually
-     produced. The AI paragraph is a judgement call about voice and belongs to the
-     maintainer; if it should be shorter, shorter is fine, but deleting it while keeping
-     "no vendor worship" would not be. -->
+<!-- The three claims in that section are dated by their nature, and the note that used to sit
+     here said to re-read them before publishing. They were re-read on 2026-10-14, the day the
+     site went live: Hugo is still 0.150.0 extended and Python still 3.14.8, both confirmed by
+     running them; statichost.eu is still the host, confirmed from the `server` response header
+     on the live site; and the AI paragraph still describes how the text was actually produced.
+     That last one is a judgement call about voice and belongs to the maintainer; if it should
+     be shorter, shorter is fine, but deleting it while keeping "no vendor worship" would not
+     be. Re-read all three again if the site is ever rebuilt on another machine. -->
 
 ## What this page is not
 
