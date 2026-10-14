@@ -6,27 +6,35 @@ Read this first. It assumes no memory of previous sessions.
 authority and several pages carry `status_as_of` fields that need refreshing if a lot
 of time has passed.
 
-**▶ ACTIVE, and the writing is finished.** Round 11 wrote `/receipts/` with every number
-measured rather than estimated, closed `/`, the `edpb-consent-or-pay` record and the two
-unargued harms on `/nothing-to-hide/`, retired the site's last em dash, and **dropped
-`/the-rules/` on the maintainer's instruction**, because it is the one page whose whole value
-is being current and this site now states in its own footer that it is not kept current. §5
-records the reasoning in full, and `SITE_PLAN.md` §4 keeps the abandoned outline so nobody
-re-adds it out of tidiness.
+**▶ ACTIVE: the site is live, and the styling pass is next.** Everything below in this header
+block was true at the end of round 11, and a second session on the same day (2026-10-14)
+changed rather more than a session usually does. **Read this list before the round-11 history
+further down, because several of those statements have been superseded.**
 
-The round also closed both `/sources/` TODOs: the correction route is published (GitHub
-issues, email via `barsimarina.hu` as the fallback), and so is the disclosure of what the site
-is built with and which of its own recommended swaps its author actually runs. **Nothing on
-`/sources/` is unsupported any more.** The menu was a hand-written list of six links that had
-quietly lost five of the twelve pages; it is generated from the page tree now (§5). The
-repository was put under git with a `LICENSE`, and a measurement bug that had been inflating
-every page-weight figure on `/receipts/` was found and fixed (§7 gotcha 13).
+What that session did, in the order it happened:
 
-**All twelve pages exist and all four checks pass.** What is left is not writing:
+1. **The domain was decided and set**: `baseURL` is now
+   `https://third-party.statichost.page/`, replacing the `example.invalid` placeholder that had
+   been deliberate. §9 item 7.
+2. **The GitHub remote was connected and the history pushed**, after auditing what was about to
+   become public. §7.
+3. **The site is live**, deployed by hand from statichost's dashboard, and verified by reading
+   each page's own title rather than by trusting a status code. §7 has the serving facts, and
+   `/receipts/` publishes them under "What the host sends". **A push does not deploy** (§7).
+4. **`/receipts/` was cut from 3,129 words to 1,338** at the maintainer's request, and its
+   median row now covers the other eleven pages rather than all twelve, because a page cannot
+   report a statistic it is part of. §5 and §7.
+5. **The search swap now recommends Ecosia first**, using `ecosia-eusp-index`, a source that had
+   been recorded and verified but cited by no page. §5.
+6. **Two wrong causes were written down and corrected** (§7 gotcha 15), which is why that gotcha
+   exists at all: it caught itself twice in one afternoon.
 
-1. **The CSS work block**, which the maintainer wants treated as a separate pass now that the
-   text is done and readable raw (§9 item 8). It will change every page's weight, so
-   `/receipts/` must be re-measured at the end of it.
+**All twelve pages exist, all four checks pass, and the site is published.** What is left is
+not writing:
+
+1. **The styling pass, and it is next.** The maintainer is setting the direction themselves;
+   §9 item 8 has the constraints, the two concrete defects it should close, and the one thing
+   this environment cannot do. Nothing about it is blocked.
 2. **The small things the deploy exposed**, none of them blocking and all of them cheap:
    no `statichost.yml` in the repository, so the host's build command is configured in its
    dashboard and is not version-controlled; no `content-security-policy` header on a site
@@ -169,6 +177,15 @@ python3 scripts/check-links.py     # resolves every source URL. exit 1 only if t
 python3 scripts/check-dashes.py    # house punctuation rule. exit 1 on any em dash
 python3 scripts/render-bibliography.py --check   # exit 1 if /sources/ is out of date
 ```
+
+There is a fifth script that is deliberately not a check and does not run in the build:
+`python3 scripts/measure-pages.py` re-measures the figures published on `/receipts/` by the
+referenced-asset method in §7 gotcha 13, and prints the median of the other eleven pages, the
+heaviest page, the ratio, the site-wide total and the carbon estimates. **Run it after any edit
+to a page or the stylesheet, and always after the styling pass.** It found its own reason to
+exist: the hand-rolled version of this measurement is where the self-referential median came
+from, and it also prints the carbon figures in both decimal GB and GiB, because the page
+divides by 2^30 while writing "GB" (an open question, §7).
 
 Run all four before ending any session, and run `scripts/render-bibliography.py` without
 `--check` whenever `data/sources.yaml` or any page's `sources` list changes, because that
@@ -386,6 +403,7 @@ scripts/check-content.py   frontmatter + citation graph, fails fast on broken da
 scripts/check-links.py     network URL resolver with bot-block detection
 scripts/check-dashes.py    the house punctuation rule, with a reasoned allowlist
 scripts/render-bibliography.py   regenerates the generated block on /sources/ (writes)
+scripts/measure-pages.py   re-measures the figures on /receipts/ (reads public/, never writes)
 content/_index.md      the home page. Written in round 11
 content/<slug>/index.md    one directory per page
 layouts/               baseof.html, index.html (home, renders the page), _default/single.html
@@ -462,7 +480,7 @@ which cost time in round 10:
 | `sources/` | 10,323 | reference. *Mostly generated from `data/sources.yaml`* |
 | `nothing-to-hide/` | 3,030 | B, merged: nine objections, A's opening, A's concession, two harms argued |
 | `consent-theatre/` | 2,996 | A, explanatory, with the static eight-click walkthrough |
-| `swap-shop/` | 2,705 | reference, 8 swaps, with a dated notice on the DNS one |
+| `swap-shop/` | 2,705 | reference, 8 swaps, with a dated notice on the DNS one. **The search swap now leads with Ecosia**, see the note below |
 | `dark-patterns/` | 2,351 | field guide, 17 patterns |
 | `what-leaves-your-browser/` | 1,979 | A |
 | `one-page-load/` | 1,908 | A. *Is itself the interactive's fallback* |
@@ -571,6 +589,21 @@ without the content changing.
 **If a real click count is ever measured**, the upgrade is additive: keep the eight
 documented defects, and add the counter as enhancement on top. Do not replace the sourced
 content with the counter.
+
+**Note on `/swap-shop/` and Ecosia, changed on 2026-10-14.** The search section used to
+recommend Brave, Mojeek and SearXNG and never mention Ecosia, while `/sources/` disclosed that
+Ecosia is the search swap the maintainer actually runs. The maintainer asked for Ecosia first,
+and it is: the section leads with it on the criterion the section already applied, which is
+whose index answers your query, since Ecosia has been building one with Qwant. `ecosia-eusp-index`
+had been recorded, verified and archived for exactly this claim and was cited by no page until
+then; it is now cited by `/swap-shop/` and by the disclosure on `/sources/`, whose reverse index
+lists the Swap Shop with fifteen sources. **The caveat is load-bearing and must not be
+trimmed**: that source is the company's own account, published in French, and it establishes
+only that the joint index exists and that French users are served from it directly. It says
+nothing about coverage elsewhere, about result quality, or about how much of a query is still
+answered by a licensed index. `/sources/` used to say the swap-shop recommendation was unchanged
+and that this was not an endorsement; that wording had to change in the same edit, because
+leaving it would have made a published sentence false.
 
 **Note on `/sources/`, written in round 9 and re-measured in round 11.** It is the one page
 exempt from the length rule in §0, because it is a bibliography rather than an argument:
@@ -800,10 +833,16 @@ read its own title, or grep the served HTML for a phrase that exists only in the
 the whole check.
 
 **Until somebody triggers one, the live site is a past version of itself, and it can be a
-wrong one.** As this was written, the served `/receipts/` still said the site was not
-deployed, in the very deploy that made that sentence false. The correction is committed and
-merely waiting. Nothing in the repository can tell you which commit is live: the only source
-of truth is the served bytes, and the `last-modified` header is the cheapest hint.
+confidently wrong one.** Before the second deploy of 2026-10-14, the live `/receipts/` was
+telling readers that nothing was published at the site, in the very deploy that had made that
+sentence false. Nothing in the repository can tell you which commit is live, and **the
+`last-modified` header is not the answer either**: it is per file, so it only moves for files
+whose bytes changed. After that second deploy, `/receipts/` and `/swap-shop/` served new text
+while the home page still reported 19:31:35, because the home page had not been edited.
+**The check that works is a phrase**, picked from the commit and grepped out of the served
+HTML, which is how both deploys here were confirmed. Deploy as soon as a published claim
+changes rather than batching commits, because the cost of waiting is a live page that
+contradicts itself.
 
 **The host's gzip is looser than the figures on `/receipts/`.** Those are a local `gzip -9`
 measurement and are the reproducible ones; statichost compresses at a lower level and sends the
@@ -1281,24 +1320,66 @@ moment the site itself is hypocritical.
    fetched, twelve correct titles and canonicals, which is the only evidence that a name is
    serving this site rather than nothing.
 
-8. **The CSS work block, which the maintainer wants treated as a separate pass.** The text is
-   finished and readable raw, so styling is now a self-contained job instead of one that keeps
-   chasing the content. It is one plain CSS file of about 280 lines with no preprocessor (§7
-   gotcha 3) and a small design vocabulary. Three things to know before starting:
+8. **The styling pass. This is the next job, and the maintainer sets the direction.** On
+   2026-10-14 they said they would describe what they want rather than approving a proposal,
+   so **do not start designing unilaterally**: ask for the direction, or implement the one you
+   are given. Everything else about the pass is known and written down here.
 
-   - **Every page's weight changes, so `/receipts/` must be re-measured and patched at the
-     end.** That happened four times in round 11 for content reasons; the page dates its
-     figures and rounds the site-wide row precisely so this stays honest rather than annoying.
-   - **The CSS is where two of `/receipts/`'s known failures can be fixed without JavaScript**:
-     citation markers currently have no styling affordance at all (they render as bare numbers
-     with CSS off), and their click target is below the WCAG 2.5.8 minimum. Both are style
-     problems, not markup ones.
-   - **Accessibility is the constraint, not a later pass**: WCAG 2.2 AA, visible focus, and
-     `prefers-reduced-motion`, which matters because `scroll-behavior: smooth` is already set
-     for the flagship page. No CSS framework, no webfont, no CDN, for the reasons in §8.
+   **What already exists, so that nothing is rebuilt from scratch.** `assets/css/main.css` is
+   279 lines and 7,263 bytes: a token layer in `:root` (`--bg`, `--surface`, `--ink`,
+   `--ink-muted`, `--rule`, `--accent`, `--accent-ink`, `--measure`, two font stacks), a full
+   dark scheme under `prefers-color-scheme`, visible focus everywhere, the skip link, the
+   header and its generated nav, `main`/`.page`/`.page-header`, heading scale, paragraphs,
+   `hr` dividers, lists, blockquote, inline `code`, images, tables, the citation marker, the
+   source list and its records, the footer, and **a print stylesheet** that `SITE_PLAN.md` §6b
+   asks for. It goes through Hugo Pipes (minify, fingerprint), so CSS edits need no build
+   changes and no new tooling.
 
-   When it is done, `/receipts/` is the only page that needs numbers updated, and its date
-   should move with them.
+   **Two concrete defects the pass should close, both published on `/receipts/`:**
+
+   - **`section.interactive` has no styling at all.** `layouts/shortcodes/interactive.html`
+     emits `<section class="interactive" data-interactive>` and no rule anywhere matches it, so
+     the eight-click walkthrough on `/consent-theatre/` and the harms block on
+     `/nothing-to-hide/` render as bare stacked text. This is the largest visual hole on the
+     site, and it is where a new visual idea would show first.
+   - **Citation markers.** `.cite` is `font-size: 0.75em; line-height: 0`, which is the
+     WCAG 2.5.8 target-size failure: the clickable area is a few pixels high. With CSS off they
+     are bare numbers with no affordance. Both are style problems rather than markup ones, so
+     both are fixable here, and fixing them retires two published defects.
+
+   **Before touching colour, build the contrast check.** `/receipts/` publishes that contrast is
+   computed from the values in this file rather than trusted, with a lowest ratio of 6.66:1 and
+   every pair passing 4.5:1 in both schemes. That claim is currently maintained by hand, which
+   means a colour edit can silently falsify a published number. **Write
+   `scripts/check-contrast.py` first**, parse the `:root` tokens plus the dark block, compute
+   WCAG 2.1 relative luminance for each pair the site actually renders (`--ink` on `--bg`,
+   `--ink-muted` on `--bg`, `--accent` on `--bg`, `--ink` and `--ink-muted` on `--surface`,
+   `--accent-ink` on `--accent`, and the focus ring colour against both backgrounds), fail
+   below 4.5:1 for text and 3:1 for the ring, and wire it into `scripts/build.sh` as a fifth
+   check. Then update the two places that state how many checks run: `/sources/` says "four
+   scripts" in prose, and §2 and §8 of this file.
+
+   **The constraints are not negotiable and are all in §8**: plain CSS (Hugo's bundled Sass is
+   frozen libsass, §7 gotcha 3), no framework, no webfont, no CDN, zero third-party requests,
+   WCAG 2.2 AA, `prefers-reduced-motion` honoured (which matters because
+   `scroll-behavior: smooth` is already set for the flagship page), and the under-100 KB page
+   budget. A page that loads a webfont to look better than the other pages has lost the
+   argument the site is making.
+
+   **The loop, and its one limitation.** There is no browser and no headless tooling that
+   launches from this environment (§7), so **the agent cannot see the result**. Write CSS, then
+   hand it to the maintainer to look at, and iterate on what they describe. `sh scripts/build.sh
+   serve` gives them `http://localhost:1313` with live reload if they prefer a local build to
+   the live site, but remember gotcha 12: restart the server after adding any template file,
+   and never delete `public/` while it runs. Everything measurable is still checkable here:
+   contrast, page weight, the static accessibility list, and zero third-party requests.
+
+   **When it is done, re-measure, because the stylesheet is shared by every page.** Run
+   `python3 scripts/measure-pages.py` (below) and patch `/receipts/`: the median row moves too,
+   since the CSS is in every page's weight and the eleven-page exclusion protects only against
+   edits to `/receipts/` itself. The site-wide row, the carbon figure and the "about 3%" served
+   difference all need re-checking, and the page's date moves with them. Then commit, push, and
+   the maintainer deploys (§7, hand-triggered).
 
 ---
 
@@ -1317,6 +1398,23 @@ several of them because no terminal can verify them at all. And 12 sources are n
 Both are tracked in §6, and both are honest limitations rather than oversights. The third
 condition that used to sit here, the unsupported disclosure sentence on `/sources/`, closed in
 round 11 (§9 item 4).
+
+**The written work is done, and the last piece of unwritten work is the styling** (§9 item 8).
+The maintainer is choosing the direction for that themselves, so a session that picks this file
+up should ask rather than design. Everything else that is left is maintenance of the kind §6
+tracks: source records a human has to open, and the cheap upgrades listed there.
+
+**Open questions carried forward, both small and both the maintainer's call:**
+
+- **The carbon figures divide by 2^30 and write "GB".** That is correct as GiB and wrong as GB,
+  and the difference is about 7%: the published 1.3 milligrams is 1.36 with decimal GB.
+  `scripts/measure-pages.py` prints both so the choice is one edit wide. Nothing else on the
+  site depends on it. The model's own documentation says "gigabytes per kilowatt-hour" without
+  settling which, which is why this is a question rather than a bug to fix quietly.
+- **The long commit messages in the middle of the history.** The maintainer asked for short
+  commits on 2026-10-14 and the rule is recorded in §7, but four commits from that session
+  still carry paragraph-length bodies. Rewriting them means a force-push to a public
+  repository, so it was left alone and offered instead. The offer stands.
 
 **The repository is now a repository, and it is public.** Round 11 initialised git (`main`)
 and added a `LICENSE` carrying the CC0 1.0 legal code verbatim, which is what makes the
