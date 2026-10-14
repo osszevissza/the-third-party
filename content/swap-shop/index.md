@@ -19,7 +19,8 @@ sources = [
   "peertube",
   "mullvad-public-dns",
   "mullvad-dns-shutdown",
-  "signal-donate"
+  "signal-donate",
+  "ecosia-eusp-index"
 ]
 +++
 
@@ -61,13 +62,17 @@ Beyond that, both: you lose Gmail's spam filtering, which is genuinely excellent
 
 **What Google does to you.** Search is where your intentions are most legible. Not your browsing, your *questions*, phrased in your own words, before you've decided anything. Query logs are also the input to the profile that determines what you're shown next, which means search feeds the rest of the web you see.
 
-**The swap.** The honest picture has a wrinkle. **DuckDuckGo** doesn't track you, but it licenses its results from Bing, so switching changes who collects your queries without changing whose index answers them. Genuinely independent indexes are rare: a US court filing in the antitrust litigation observed that only Google, Bing and Brave operate independent general search indices with proprietary technology in that market. {{< cite "search-index-concentration" >}}
+**The swap: Ecosia, which is the one I actually run.** It is also the shortest path to the criterion this section applies, which is whose index answers your query. Ecosia has been building a search index with Qwant, called European Search Perspective, and says that results for its users in France now come from that index directly. {{< cite "ecosia-eusp-index" >}}
 
-That leaves three real options. **Brave Search** has its own index. **Mojeek** is an independent UK engine with its own crawler. **SearXNG** is self-hostable metasearch that queries others on your behalf: the most private, and the one that requires you to run something.
+**What that claim is worth, which is less than it looks.** It is a company's account of its own product, published in French. It establishes that the joint index exists and that French users are served from it. It says nothing about coverage anywhere else, nothing about result quality, and nothing about how much of a query is still answered by a licensed index. So this is the first recommendation on the page and it is not a proof: your query may still reach one of the large indexes, and this page will not pretend otherwise.
 
-**What it costs.** Five minutes for the easy option, an afternoon if you self-host.
+**The popular alternative, and its structural limit.** **DuckDuckGo** doesn't track you, but it licenses its results from Bing, so switching changes who collects your queries without changing whose index answers them. That is not a reason to avoid it, and it is a reason to know it. Genuinely independent indexes are rare: a US court filing in the antitrust litigation observed that only Google, Bing and Brave operate independent general search indices with proprietary technology in that market. {{< cite "search-index-concentration" >}} That filing is about the United States specifically, so it does not account for engines outside that market, which is why the list below is not presented as complete.
 
-**What you give up.** Result quality on obscure technical queries, which is where Google's index advantage is real and noticeable. Local and shopping results get worse across the board. And you may find yourself keeping Google as a fallback for a while, which is fine and honest.
+**If what you want is an index that is unmistakably nobody else's, there are three.** **Brave Search** runs its own. **Mojeek** is an independent UK engine with its own crawler. **SearXNG** is self-hostable metasearch that queries others on your behalf: the most private of the three, and the one that requires you to run something.
+
+**What it costs.** Five minutes for Ecosia, Brave or DuckDuckGo. An afternoon if you self-host SearXNG.
+
+**What you give up.** Result quality on obscure technical queries, which is where Google's index advantage is real and noticeable. Local and shopping results get worse across the board. Ecosia's index is the youngest named here, so expect it to be the thinnest on the obscure corners of the web, which is an expectation rather than a measurement. And you may find yourself keeping Google as a fallback for a while, which is fine and honest.
 
 ---
 

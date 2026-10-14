@@ -23,7 +23,7 @@ Sizes are given both raw and gzipped, because gzip is what a server actually sen
 
 **Measured on 2026-10-14**, against the build that includes this page. A page's weight here means everything the browser fetches for one view of it: the document, the stylesheet and the icon. Editing any page changes these figures slightly, including editing this one, so treat them as a dated snapshot rather than a constant.
 
-The figures were re-taken after the site's real domain replaced the placeholder in `hugo.toml`, and again after the wording edits this page and `/sources/` received in the same session, because editing either page moves a row that names it. The domain edit alone adds 12 bytes to the canonical link in every page, and 24 to the home page, which also carries the RSS link. The median stayed at 9,171 bytes gzipped through all of it, and the two heaviest rows below are from the final run.
+The figures were re-taken several times on the day they were first taken, because the site's domain changed and because editing this page or `/sources/` moves a row that names it. The domain edit alone adds 12 bytes to the canonical link in every page, and 24 to the home page, which also carries the RSS link. The median held at 9,171 bytes gzipped while this page was smaller than the middle of the distribution. Writing the hosting section below pushed this page past one of the two middle pages, which is what turned the twelve-page median into a number this page could no longer report accurately, and why that row now reads "the other 11".
 
 ## What one page load costs
 
@@ -34,14 +34,16 @@ The figures were re-taken after the site's real domain replaced the placeholder 
 | Scripts | 0 | | met |
 | Cookies | 0 | 0 | met |
 | Web fonts | 0, system font stack | | met |
-| Median page, gzipped | 9,171 bytes | under 100 KB | met |
-| Heaviest page, gzipped | 30,228 bytes (`/sources/`) | under 100 KB | met |
-| Heaviest page, raw | 103,483 bytes (`/sources/`) | 100 KB, measured transferred | **over as raw bytes** |
-| All 12 pages, gzipped | about 110 KB | | |
+| Median of the other 11 pages, gzipped | 9,221 bytes | under 100 KB | met |
+| Heaviest page, gzipped | 30,288 bytes (`/sources/`) | under 100 KB | met |
+| Heaviest page, raw | 103,681 bytes (`/sources/`) | 100 KB, measured transferred | **over as raw bytes** |
+| All 12 pages, gzipped | about 112 KB | | |
 
 So a page here asks your browser for three files, all of them from this domain. The heaviest page on the site is the bibliography, and it is the one page deliberately exempt from the length rule, since it is a list of records rather than an argument.
 
-**The raw row is the one place the budget does not hold, and it is printed rather than rounded away.** The 100 KB budget is written for what a page costs a reader, and what crosses the wire is compressed: 30,228 bytes, comfortably inside. Read as raw bytes instead, the heaviest page is 103,483, which is over 100 KB whether you read KB as 1,000 bytes or as 1,024, and no other page comes close, because the median is 25,343 bytes raw. So that row is marked over on the raw reading and met on the transferred one, and both numbers are here because the honest answer depends on which one the budget is about.
+**The raw row is the one place the budget does not hold, and it is printed rather than rounded away.** The 100 KB budget is written for what a page costs a reader, and what crosses the wire is compressed: 30,288 bytes, comfortably inside. Read as raw bytes instead, the heaviest page is 103,681, which is over 100 KB whether you read KB as 1,000 bytes or as 1,024, and no other page comes close, because the median of the other eleven is 25,927 bytes raw. So that row is marked over on the raw reading and met on the transferred one, and both numbers are here because the honest answer depends on which one the budget is about.
+
+**A note on the median, because this page is one of the twelve.** The median row leaves this page out, and the reason is not modesty. A page that is part of a statistic changes that statistic whenever it is edited, so a median that included this one could never be exactly right for the page reporting it: the number would move every time the text around the number changed. Worse, it would move in a way that the page could not see, because the measurement happens before the sentence describing it is finished. Taking the median of the other eleven breaks that loop, and those eleven are the pages a reader came for. The site-wide row below cannot be fixed the same way, because it is defined as all twelve, which is why that one is rounded.
 
 Nothing in the site can set a cookie: there is no JavaScript and no server-side code to do it with. The response headers used to be the one thing this page could not check, because there was nothing deployed to read them from. The site is live now, so they are measured rather than promised, in the next section.
 
@@ -58,7 +60,7 @@ The figures above measure the files. This section records what happens when some
 - **TLS is a Let's Encrypt certificate for this hostname alone**, issued at 18:34 UTC on the day the site went up and valid until 12 January 2027. It carries one name rather than a wildcard, which is the detail that makes the control probe above meaningful.
 - **These headers are present:** `strict-transport-security: max-age=31536000; includeSubDomains; preload`, `x-content-type-options: nosniff`, `cache-control: public, max-age=0, must-revalidate`, an `etag`, `last-modified`, `vary: Accept-Encoding`, and `accept-ranges: bytes`.
 - **These headers are absent:** `content-security-policy`, `referrer-policy`, `permissions-policy` and `x-frame-options`. A site with no scripts, no forms, no cookies and no third-party requests has little for them to protect, and that is an explanation rather than a defence. A policy of `default-src 'self'` would let your browser enforce this site's central claim instead of taking my word for it, so the absence is a defect and it is listed below.
-- **Compression is gzip, and it is looser than the tables above.** Those figures are a local measurement, `gzip -9` on the machine the site was built on, reproducible by anybody who builds it. The host compresses at a lower setting and sends the icon uncompressed, so **what crosses the wire is about 3% larger than this page reports**: the heaviest page is 31,253 bytes as served against the 30,228 published above, and the median page is about 9,460 against 9,171. The published numbers stay as they are because they are the reproducible ones, and this bullet is the correction that keeps them honest.
+- **Compression is gzip, and it is looser than the tables above.** Those figures are a local measurement, `gzip -9` on the machine the site was built on, reproducible by anybody who builds it. The host compresses at a lower setting and sends the icon uncompressed, so **what crosses the wire is consistently a little larger than this page reports, by about 3% measured across the twelve pages**. That comparison is given as a difference rather than a second table on purpose: the served sizes move with every deploy, including the deploy that published this page, while the local gzip figures do not, so only one of the two is worth writing down as a number.
 - **What the host logs is not observable from outside**, and this page does not claim to know. The disclosure on [Sources](/sources/) says there is no server of mine in the path, which is a statement about architecture, and it is the accurate form of the claim.
 - **Only the IPv4 address answered from the machine this was measured on.** The domain has both an `A` and an `AAAA` record, and the IPv6 attempt failed immediately with "network unreachable", which is a local condition rather than a statement about the host. So this page reports the IPv4 result and says nothing about IPv6 either way.
 
@@ -98,7 +100,7 @@ This is the section that makes the page worth publishing. Every item is a real d
 
 **No analytics is running at all.** The plan is a cookieless counter. Right now the site loads no analytics of any kind, which is a stronger statement than "analytics without cookies", and it will become weaker on the day a counter is added. When that happens, this page will say so.
 
-**The bibliography is the heaviest page, and it is where the budget breaks on one reading of it.** `/sources/` is 3.3 times the median page, and it is mostly generated from `data/sources.yaml`. Compressed it is 30,228 bytes, well inside the budget; raw it is 103,483, which is over the 100 KB line, as the table above records.
+**The bibliography is the heaviest page, and it is where the budget breaks on one reading of it.** `/sources/` is 3.3 times the median page, and it is mostly generated from `data/sources.yaml`. Compressed it is 30,288 bytes, well inside the budget; raw it is 103,681, which is over the 100 KB line, as the table above records.
 
 **The two `/sources/` blockers were closed while this page was being written**, which is worth recording rather than quietly deleting: the route for reporting an error is published, and so is the disclosure of which recommended tools its author actually runs. What was a defect in the last draft of this page is a sentence in this one.
 
@@ -112,13 +114,13 @@ The Sustainable Web Design model gives energy intensities per gigabyte transferr
 - embodied: 0.012, 0.013 and 0.081 kWh/GB for the same three segments
 - total: **0.300 kWh/GB**, which at 494 gCO2e/kWh is **148 grams of CO2e per gigabyte** transferred
 
-The median page here transfers 9,171 bytes gzipped, which is 0.0000085 GB, so:
+The median page here transfers 9,221 bytes gzipped, which is 0.0000086 GB, so:
 
-> 0.0000085 GB × 148 gCO2e/GB = **0.0013 grams**, about 1.3 milligrams per page view
+> 0.0000086 GB × 148 gCO2e/GB = **0.0013 grams**, about 1.3 milligrams per page view
 
-The heaviest page works out at about 4.2 milligrams, and reading every page on the site once comes to roughly 15 milligrams.
+The heaviest page works out at about 4.2 milligrams, and reading every page on the site once comes to roughly 16 milligrams.
 
-These three figures use the local gzip measurement, which is the reproducible one. The host sends about 3% more than that, as the section above records, which would move them to roughly 1.3, 4.3 and 16 milligrams. The difference is small enough to be within the model's own error, and it is printed here rather than quietly applied so that both readings are on the page.
+These three figures use the local gzip measurement, which is the reproducible one. Using the host's slightly larger wire sizes instead, as the section above records, would raise all three by about 3%, which changes none of them at this precision. Saying that is cheaper than a second set of numbers that would go stale with the next deploy.
 
 Three things about that number, because it is easy to overread. It is **an estimate from a model, not a measurement**. About a third of it is *embodied* emissions, the cost of manufacturing the devices and networks in the first place, which no website controls and no website can reduce by being lighter. And the grid intensity is a global average: on a grid that is cleaner or dirtier than that, the figure moves, which is why the model's own documentation tells you to substitute your own.
 
