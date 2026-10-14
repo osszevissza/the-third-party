@@ -27,7 +27,9 @@ every page-weight figure on `/receipts/` was found and fixed (§7 gotcha 13).
 1. **The CSS work block**, which the maintainer wants treated as a separate pass now that the
    text is done and readable raw (§9 item 8). It will change every page's weight, so
    `/receipts/` must be re-measured at the end of it.
-2. **A domain and a host**, and connecting the GitHub remote (§9 item 7).
+2. **A host connection and a first deploy.** The domain and the host are decided, `baseURL`
+   is set to the real one, and the GitHub remote is connected and pushed as of 2026-10-14.
+   What remains is `statichost.yml` and the first build at the address (§9 item 7).
 3. **The source worklist in §6**: 20 sources without a `verified_on` date, 12 without an
    archive, and the cheap upgrades to existing entries that this round's verification found.
 
@@ -116,7 +118,7 @@ both-by-purpose recommendation. The rule, which is now the house style:
 | `myths/` | **B**, standalone units, each checkable in a browser |
 | `consent-theatre/` | **A**, explanatory. Written in round 10 |
 | `what-leaves-your-browser/`, `one-page-load/`, `analytics/` | **A**, as written |
-| `start-here/`, `swap-shop/`, `dark-patterns/`, `the-rules/` | reference: lists of records |
+| `start-here/`, `swap-shop/`, `dark-patterns/` | reference: lists of records. `the-rules/` sat in this row until it was dropped in round 11, see §5 |
 | `sources/`, `receipts/` | reference: generated or measured, never argued |
 
 `drafts/README.md` records the decision in full, with the per-page reasoning. Do not
@@ -247,12 +249,14 @@ Frontmatter (TOML, `+++` delimited) requires `title`, `description`, `status_as_
 - **No vendor worship.** Disclose your own choices.
 - **No em dashes.** The maintainer asked for this in round 8, in these words: people
   rarely use them, so use one only when it is necessary. Write a comma, a colon, a full
-  stop, a semicolon, or a pair of parentheses instead. All eight published pages were
-  swept clean in round 8 and now contain none at all, and the same sweep covered this
-  file, `SITE_PLAN.md`, `FOR-REVIEW.md`, `drafts/` and `data/sources.yaml`. One remains
-  in the sources file: a French page title from the CNIL, kept because a title is a
-  citation rather than our prose and because CNIL's site was in maintenance, so the
-  title could not be confirmed. This is a hard rule for new prose, not a preference. The
+  stop, a semicolon, or a pair of parentheses instead. Every page was swept clean in round
+  8 and the repository's last one went in round 11, so the site contains none at all and
+  `check-dashes.py`'s allowlist is empty. **That empty allowlist is a real state rather
+  than an oversight**: the single entry it held claimed a CNIL document title was quoted
+  as published, and the archived copy of CNIL's own page showed the title contained no em
+  dash, so the dash had been ours. See §2 for what a failed check means, and add an entry
+  rather than editing a quotation if one is ever genuinely a source's own punctuation.
+  This is a hard rule for new prose, not a preference. The
   exception worth keeping: **text inside quotation marks that quotes a source, a law, or
   a company stays exactly as it is**, em dash and all, because a quotation you have
   tidied is no longer a quotation. If a sentence genuinely collapses without a dash,
@@ -479,7 +483,8 @@ measurement, not as a target.
 `/receipts/` publishes measured numbers only, and says out loud which figures it could not
 take. Read its "Known failures" section before quoting this site anywhere: it names two real
 accessibility defects (WCAG 3.1.2 language of parts, and citation markers below the 2.5.8
-target size), and the sitemap and canonical URLs pointing at a placeholder domain. **Its
+target size), and the fact that the site is configured for its real domain while nothing is
+published at it yet, which replaced the placeholder-domain entry on 2026-10-14. **Its
 numbers are exact and reproducible**: build the site and you get the same bytes. Two values
 are deliberately softer, and the page says why: the site-wide total is rounded because it
 includes that page's own bytes, and the carbon figure is labelled a model estimate rather
@@ -658,8 +663,8 @@ pages should take a weight that is not already used.
      Find the publisher's or SSRN's own page. **This is now the only item in §6 that an
      agent could finish without a human.**
 6. ~~**No Hugo build exists.**~~ **Closed in round 10, and this entry was left behind by
-   mistake.** The build exists: all four checks pass and `hugo` renders 14 pages with no
-   errors through `scripts/build.sh` (§5). It is kept as a stub only so the numbering of
+   mistake.** The build exists: all four checks pass and `hugo` renders all twelve pages
+   with no errors through `scripts/build.sh` (§5). It is kept as a stub only so the numbering of
    this list does not shift, because other sections refer to these items by number. If you
    are reading this looking for a missing piece, it is not missing.
 7. **Two deliberate gaps on `/sources/`, both marked with an HTML comment TODO in the
@@ -730,14 +735,18 @@ be launched from an agent shell (`Unable to allocate instance id`), which is why
 publishes no LCP figure and no audit scores, and says so on the page rather than implying the
 checks passed.
 
-**Git: initialised in round 11, and that changes the working rules.** Branch `main`, first
+**Git: initialised in round 11 and connected to GitHub on 2026-10-14.** Branch `main`, first
 commit `09f1643`, 39 files. The repository is no longer unprotected, so a maintenance sweep
 can be diffed instead of copied first, and the `md5` records below are a convenience rather
-than the only evidence of drift. The GitHub remote exists
-(`git@github.com:osszevissza/the-third-party.git`) but **has not been connected or pushed**:
-`git remote add origin ...` and a push are the next step, and they are the maintainer's call.
+than the only evidence of drift. The remote is `origin` =
+`git@github.com:osszevissza/the-third-party.git`, **connected and pushed on 2026-10-14**:
+`main` tracks `origin/main` and both are at `a8a7b97`. That first push carried the eight
+round-11 commits, and the remote was empty beforehand, so nothing needed reconciling.
 `public/`, `resources/`, `tmp/`, `__pycache__/` and the scratch directories are ignored, so
-the repository holds source rather than build output.
+the repository holds source rather than build output. The audit that preceded the push is
+worth repeating before any future public push: 39 tracked files, no key, token or password
+in any of them, no absolute home path, and `git status --untracked-files=all` showing that
+every untracked path is ignored rather than merely unnoticed.
 
 **Known-good state at the end of round 11**, for use as a reference point if something is
 later suspected of having drifted. All four scripts pass, the build renders all twelve pages,
@@ -1001,6 +1010,29 @@ reports.
     This is also the one gotcha here that the maintainer's CSS work block has to keep in mind,
     because a stylesheet edit is exactly what creates the stale twin.
 
+14. **Every file under `/etc/ssh` on this machine is owned by `nobody:nobody`, so plain `ssh`
+    and `git push` fail before they reach the network.** Found on 2026-10-14 while connecting
+    the GitHub remote. The error is `Bad owner or permissions on
+    /etc/ssh/ssh_config.d/20-systemd-ssh-proxy.conf`, which reads like a broken key or a
+    network problem and is neither: `ssh` refuses to read a system config file it does not
+    consider root-owned, and stops. The whole tree is affected, not one file
+    (`ssh_config`, `moduli`, the `ssh_config.d` symlink and `sshd_config` all list as
+    `nobody:nobody`), which points at how this environment was assembled rather than at
+    anything in this project.
+
+    **The workaround is repo-local and already applied.** `.git/config` carries
+    `core.sshCommand = ssh -F /dev/null -i ~/.ssh/github_key -o IdentitiesOnly=yes`, so
+    `-F /dev/null` skips system config entirely and git works with no environment variable.
+    It is untracked and machine-specific, so it does not follow the repository anywhere.
+    Remove it with `git config --unset core.sshCommand` once the ownership is fixed.
+
+    **The real fix needs root and is the maintainer's**: `sudo chown -R root:root /etc/ssh`.
+    Until then, any other `ssh` on this machine fails the same way, so **do not diagnose a
+    connection failure here as a key, credential or network fault** before checking the
+    ownership of `/etc/ssh`. Both `~/.ssh/github_key` and `~/.ssh/id_ed25519` authenticate as
+    `osszevissza` at GitHub when the config problem is bypassed, which is how this was
+    separated from a bad key.
+
 ---
 
 ## 8. Standing build constraints: the site must pass its own test
@@ -1032,9 +1064,11 @@ moment the site itself is hypocritical.
   for by the maintainer in round 11 and the reasoning is worth keeping: every page already
   renders a `status_as_of` date, but a date alone implies someone is watching it. Stating
   the opposite in the footer is cheaper than a site whose central claim is that its claims
-  are checkable quietly going stale. **Do not quietly remove it**, and when `/the-rules/`
-  is written it needs a stronger, page-level version in its header as well, because it is
-  the page rot will hit first (see `SITE_PLAN.md` §4).
+  are checkable quietly going stale. **Do not quietly remove it.** This used to end by
+  promising that `/the-rules/` would carry a stronger, page-level version of the same
+  warning in its own header, since that page was the one rot would hit first. That page was
+  dropped in round 11, so the footer carries the warning alone. If a page whose whole value
+  depends on being current is ever added, it inherits that requirement (`SITE_PLAN.md` §4).
 
 ---
 
@@ -1100,25 +1134,34 @@ moment the site itself is hypocritical.
    upgrades listed there, and hosting.
 7. **Set up the GitHub repo and statichost.eu when the local site is approved.** The
    maintainer has confirmed the repo will be **public**, and deferred the setup until the
-   site runs locally without errors, which it now does. **Round 11: the repository now
-   exists on GitHub as `osszevissza/the-third-party`, and the local checkout has its first
-   commit.** What remains is to connect the two
-   (`git remote add origin git@github.com:osszevissza/the-third-party.git`, then a push),
-   add `statichost.yml`, and choose the domain. `.gitignore`, `.tool-versions`, `LICENSE`
-   and the build script are already in place. Hosting notes: statichost.eu builds from the Git
-   repo via `statichost.yml` (image `hugomods/hugo:exts-0.150.0`, `command: hugo`,
-   `public: public`), needs no GitHub Actions, and has password protection on its free
-   tier for staging. See §7 gotcha 10 for the source-verification consequences of going
-   public while 20 sources still carry `verified_on: null`.
+   site runs locally without errors, which it does. **Round 11 created the GitHub
+   repository; 2026-10-14 connected the local checkout to it and pushed it.** `origin` is
+   `git@github.com:osszevissza/the-third-party.git`, `main` tracks `origin/main`, and both
+   are at `a8a7b97` (§7). The remote was empty, so nothing needed reconciling. `.gitignore`,
+   `.tool-versions`, `LICENSE`, the build script, the remote and the domain are all in place
+   now. **What remains is `statichost.yml` and the first deploy.** Hosting notes:
+   statichost.eu builds from the Git repo via `statichost.yml` (image
+   `hugomods/hugo:exts-0.150.0`, `command: hugo`, `public: public`), needs no GitHub
+   Actions, and has password protection on its free tier for staging. **Decide deliberately
+   whether the host runs our checks or only `hugo`**: that image carries Hugo, and not
+   necessarily Python and PyYAML, so `scripts/build.sh` may not be runnable there, which
+   would leave the four checks to whoever pushes. See §7 gotcha 10 for the
+   source-verification consequences of going public while 20 sources still carry
+   `verified_on: null`.
 
-   **The final domain is undecided as of round 11, so leave `baseURL` alone.** It is still
-   `https://example.invalid/`, which is a reserved TLD and deliberate rather than an
-   oversight the maintainer forgot. What that costs in the meantime is worth knowing so
-   nobody "fixes" it by inventing a domain: every page's `<link rel=canonical>`, the RSS
-   `alternate` link and `sitemap.xml` all advertise that placeholder, so search engines
-   would be told the canonical copy of each page lives somewhere that cannot resolve. None
-   of it is fetched by a browser, so the no-third-party-requests claim is unaffected. Set
-   the real domain in one edit when hosting is decided, and do not guess it before then.
+   **The domain is decided as of 2026-10-14: `https://third-party.statichost.page/`.** It is
+   set as `baseURL` in `hugo.toml`, replacing the `https://example.invalid/` placeholder
+   that round 11 deliberately left in place, and the maintainer chose it. That one edit
+   rewrites every page's `<link rel=canonical>` and `sitemap.xml`, plus the RSS `alternate`
+   link on the home page, and it costs 12 bytes per page and 24 on the home page. **The
+   figures on `/receipts/` were re-measured after it**, which is the pattern to expect for
+   any later domain or hosting change: the median stayed at 9,171 gzipped while the two
+   heaviest-page rows moved by a few bytes. **Do not read a resolving hostname as proof of a
+   deploy.** Every `*.statichost.page` name resolves, including names that cannot exist
+   (`this-cannot-exist-9f2a.statichost.page` answers identically), and all of them refuse TLS
+   with the same alert until a site is provisioned, so the DNS record is a wildcard and
+   proves nothing. Verify a deploy the way this project verifies sources: fetch the page and
+   read its own title.
 
 8. **The CSS work block, which the maintainer wants treated as a separate pass.** The text is
    finished and readable raw, so styling is now a self-contained job instead of one that keeps
@@ -1157,10 +1200,13 @@ Both are tracked in §6, and both are honest limitations rather than oversights.
 condition that used to sit here, the unsupported disclosure sentence on `/sources/`, closed in
 round 11 (§9 item 4).
 
-**The repository is now a repository.** Round 11 initialised git (`main`), added a `LICENSE`
-carrying the CC0 1.0 legal code verbatim, which is what makes the footer's licence line true
-rather than aspirational, and finished with six commits and a clean tree. Nothing has been
-pushed: connecting the GitHub remote is the maintainer's call.
+**The repository is now a repository, and it is public.** Round 11 initialised git (`main`)
+and added a `LICENSE` carrying the CC0 1.0 legal code verbatim, which is what makes the
+footer's licence line true rather than aspirational. **The eight commits were pushed to
+`origin` on 2026-10-14** (`git@github.com:osszevissza/the-third-party.git`), so the source is
+public and the correction route printed on `/sources/` now has something behind it. What is
+still not public is the site itself: nothing is deployed, so the address in `baseURL` serves
+nothing yet.
 
 **Not blocked, and no longer blocked on content.** Round 11 closed `/`, `/receipts/`, the two
 unargued harms, the `edpb-consent-or-pay` record and both `/sources/` TODOs, removed the

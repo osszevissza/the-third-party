@@ -144,7 +144,7 @@ The site's own choices are part of what a reader is entitled to know, so here th
 
 **Verified with ordinary tools rather than a service.** Corroborating the sources meant `curl` for control-probing hosts, the Wayback Machine for archived copies of pages that block automated requests or have vanished, `pdftotext` for reading the decisions published as PDFs, and `gzip` for the transfer sizes on [Receipts](/receipts/). Nothing here is a paid service and nothing is a black box.
 
-**The repository is public, and hosting is a static host.** The source is on GitHub, which is also the correction route above. The site is served by statichost.eu, which builds from the repository: there is no server of mine holding logs of your visit and no CDN in front of it.
+**The repository is public, and hosting is a static host.** The source is on GitHub, which is also the correction route above. Hosting is statichost.eu, which builds from the repository: there is no server of mine holding logs of your visit and no CDN in front of it.
 
 **Written with an AI agent, which is worth saying plainly.** The prose, the code and much of the source verification were produced by an AI agent, DeepSeek V4 Flash, running in a local harness under my direction. I set the rules and made the editorial decisions, including cutting a planned page on the law because it could not be kept current; the agent wrote, measured and checked, and its mistakes are recorded in the project's own working notes rather than quietly fixed. The caveats throughout [Receipts](/receipts/) and the "not verified" lines in the bibliography are a direct result of that arrangement: verification is done by something that documents its failures.
 

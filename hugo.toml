@@ -4,7 +4,10 @@
 # page so URLs stay clean. data/sources.yaml is the single source of truth for every
 # citation. See SITE_PLAN.md section 6b and AGENT.md.
 
-baseURL = "https://example.invalid/"
+# The real domain, decided by the maintainer on 2026-10-14. It is a statichost.eu site, so
+# the host and the domain come from the same decision. Until the first deploy these URLs do
+# not resolve yet; see the hosting note in content/receipts/index.md.
+baseURL = "https://third-party.statichost.page/"
 languageCode = "en"
 title = "The Third Party"
 enableRobotsTXT = true
