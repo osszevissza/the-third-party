@@ -919,24 +919,6 @@ reports.
     Cloudflare challenge that answers 403 to everything, so California's code is readable
     only as an archived copy of the official page.
 
-    **Found in round 11: a fingerprinted asset leaves a stale twin behind, and it will lie to
-    you about page weight.** Editing `assets/css/main.css` gives the stylesheet a new filename,
-    and the old fingerprint **stays in `public/` forever**, unreferenced but present.
-    `--cleanDestinationDir` does not remove it: that flag cleans files not found in the static
-    directories, and Hugo Pipes output is not a static file. This produced two separate wrong
-    sets of numbers on `/receipts/` before it was caught, because "the site's weight" was being
-    computed by summing every file in `public/` rather than the files a page actually
-    references. Two rules came out of it, and both are now enforced:
-
-    1. `scripts/build.sh` deletes `public/` before building, so the output directory is a pure
-       function of the input. (Do not do that while `hugo server` runs: gotcha 12.)
-    2. **Measure what the page fetches, not what the directory contains.** Parse the page's own
-       `<link>` tags for the stylesheet and the icon, and sum those. It is the only definition
-       that matches the sentence on the page, and it is immune to this whole class of error.
-
-    The general lesson is the project's own: a number produced by a convenient method is not a
-    measurement until the method has been checked against the definition it claims to serve.
-
     **The general lesson, which is the expensive one:** a passing status code is not a
     verified source, and neither is a *failing* one. Open the thing, or say you did not.
     `conseil-etat.fr` control-probes cleanly (real path 200, impossible path 404), and so
@@ -997,6 +979,27 @@ reports.
     building the site, not by reading it. Expect more of the same. Anything asserted
     about the rendered output (page weight, request count, accessibility) is unverified
     until a build exists to measure it, which is the whole point of `/receipts/`.
+
+13. **A fingerprinted asset leaves a stale twin behind, and it will lie to you about page
+    weight.** Found in round 11, and it produced wrong numbers on `/receipts/` twice before it
+    was caught. Editing `assets/css/main.css` gives the stylesheet a new filename, and the old
+    fingerprint **stays in `public/` forever**, unreferenced but present. `--cleanDestinationDir`
+    does not remove it: that flag cleans files not found in the static directories, and Hugo
+    Pipes output is not a static file. The measurement was summing every file in `public/`
+    rather than the files a page actually references, so every page was inflated by about
+    1.5 KB of a stylesheet no browser would fetch. Two rules came out of it, and both are
+    enforced:
+
+    1. **`scripts/build.sh` deletes `public/` before building**, so the output directory is a
+       pure function of the input. Do not do that while `hugo server` runs (gotcha 12).
+    2. **Measure what the page fetches, not what the directory contains.** Parse each page's own
+       `<link>` tags for the stylesheet and the icon, and sum those. It is the only definition
+       that matches the sentence on the page, and it is immune to this whole class of error.
+
+    The general lesson is the project's own: a number produced by a convenient method is not a
+    measurement until the method has been checked against the definition it claims to serve.
+    This is also the one gotcha here that the maintainer's CSS work block has to keep in mind,
+    because a stylesheet edit is exactly what creates the stale twin.
 
 ---
 
