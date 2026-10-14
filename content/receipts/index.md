@@ -33,8 +33,8 @@ Sizes are given both raw and gzipped, because gzip is what a server actually sen
 | Cookies | 0 | 0 | met |
 | Web fonts | 0, system font stack | | met |
 | Median page, gzipped | 9,171 bytes | under 100 KB | met |
-| Heaviest page, gzipped | 29,981 bytes (`/sources/`) | under 100 KB | met |
-| Heaviest page, raw | 102,336 bytes (`/sources/`) | under 100 KB | met |
+| Heaviest page, gzipped | 29,957 bytes (`/sources/`) | under 100 KB | met |
+| Heaviest page, raw | 102,316 bytes (`/sources/`) | under 100 KB | met |
 | All 12 pages, gzipped | about 108 KB | | |
 
 So a page here asks your browser for three files, all of them from this domain. The heaviest page on the site is the bibliography, and it is the one page deliberately exempt from the length rule, since it is a list of records rather than an argument.

@@ -2,7 +2,7 @@
 title = "The Swap Shop"
 subtitle = "What to replace, and what it costs you"
 description = "Eight substitutions worth considering, each with the honest price of switching, plus the swaps that aren't worth making, and why."
-status_as_of = 2026-10-13
+status_as_of = 2026-10-14
 weight = 11
 nav = "Swap shop"
 sources = [
@@ -137,6 +137,8 @@ If you want something that isn't tied to a phone number at all, Matrix is the an
 **The swap.** A public resolver, or DNS-over-HTTPS to encrypt the lookup itself.
 
 **Which resolver, and why this page puts a date on things.** The reasoning above matters more than the brand, and any public resolver is the same kind of trade. One example, though, because it makes the dating argument better than any sentence could. Mullvad has run public encrypted DNS since 2022, and in September 2026 it announced that it is shutting those servers down on 2 November 2026 and **sponsoring Quad9 instead of running its own** {{< cite "mullvad-public-dns" >}} {{< cite "mullvad-dns-shutdown" >}}. So a resolver this page could have recommended without a date would have expired within weeks, and the successor is a non-profit rather than a company, which is worth knowing before you pick. Advice without a date is not advice, it is a guess with a shelf life.
+
+**Notice: the resolver named here changes on 2 November 2026.** Everything above still stands, and the name does not. Mullvad's public resolvers stop that day, and what Mullvad points people at instead is Quad9, which it now funds rather than competes with. That is the switch this page's author is making, so this paragraph will be rewritten once it lands and the "status as of" date at the top of this page will move with it. **The link was going to break, and it is the kind of link that breaks quietly**, which is why the date is in the sentence rather than in a footnote. If you are configuring a resolver today: pick one that is not your ISP, check that it is still running, and expect to do it again in a year or two.
 
 **What you give up, and this is the honest part.** You are not removing the record. You are **moving who holds it**: from your internet provider to a DNS company, which is a different set of incentives rather than no incentives. If that company also runs advertising or security products, you may have swapped a regulated utility for an unregulated one.
 
