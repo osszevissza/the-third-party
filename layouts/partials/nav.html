@@ -1,0 +1,23 @@
+{{- /*
+  Navigation.
+
+  Deliberately NOT built by ranging over .Site.RegularPages, which would be the tidy way:
+  three of the thirteen core pages do not exist yet (/, /the-rules/, /receipts/), so a
+  generated menu would render links to pages that are not there. A site whose central claim
+  is that its claims are checkable does not get to ship broken navigation.
+
+  Replace this with the generated version once all thirteen pages exist.
+*/ -}}
+<header class="site-header">
+  <a class="site-title" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="{{ "/start-here/" | relURL }}">Start here</a></li>
+      <li><a href="{{ "/nothing-to-hide/" | relURL }}">Nothing to hide</a></li>
+      <li><a href="{{ "/one-page-load/" | relURL }}">One page load</a></li>
+      <li><a href="{{ "/consent-theatre/" | relURL }}">Consent theatre</a></li>
+      <li><a href="{{ "/dark-patterns/" | relURL }}">Dark patterns</a></li>
+      <li><a href="{{ "/sources/" | relURL }}">Sources</a></li>
+    </ul>
+  </nav>
+</header>

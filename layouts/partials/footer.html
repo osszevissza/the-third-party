@@ -1,0 +1,21 @@
+{{- /*
+  Footer, on every page.
+
+  Three jobs, in this order: restate the site's own test, carry the honest disclaimer about
+  the site not being maintained on a schedule, and credit the author and the licence.
+
+  The disclaimer is deliberate and was asked for by the maintainer in round 11. This project
+  is not a service: there is no capacity to keep dated claims current, and the pages most
+  likely to be wrong are the ones that cite law, enforcement or prices. Saying so in the
+  footer is cheaper than the alternative, which is a site whose central claim is that its
+  claims are checkable quietly going stale. Each page also renders its own `status_as_of`
+  line in the header, which is the per-page half of the same idea.
+
+  Nothing here loads from another origin. Outbound links are anchors, not requests, so the
+  no-third-party-requests line above stays true with the author link in place.
+*/ -}}
+<footer class="site-footer">
+  <p>No third-party requests. No cookies, no trackers, no consent banner. <a href="{{ "/sources/" | relURL }}">Every claim is sourced</a>, and the bibliography lists what each source is bad at.</p>
+  <p class="footer-note">Written in October 2026, and not maintained on a schedule. This is a project rather than a service: there is no capacity to keep every page current, and the claims that date fastest are the ones about law, enforcement and prices. Each page carries its own "status as of" date, which is when its claims were last checked.</p>
+  <p class="footer-note">By <a href="https://barsimarina.hu/">Underdog Guild</a>. Text released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a>, apart from the quotations, which stay with the sources they came from.</p>
+</footer>

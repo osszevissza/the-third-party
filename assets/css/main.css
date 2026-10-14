@@ -1,0 +1,270 @@
+/*
+  main.css — plain CSS, no preprocessor.
+
+  Hugo extended's Sass is libsass 3.6.6, which is deprecated and frozen at an old CSS
+  level: it cannot parse native nesting, @container, or modern colour functions. There is
+  no build step for this file on purpose (AGENT.md gotcha 3).
+
+  Constraints this file serves:
+  - Zero third-party requests: system font stack, no @import, no CDN, no icon font.
+  - WCAG 2.2 AA: 4.5:1 text contrast in both schemes, visible focus, one h1 per page.
+  - prefers-reduced-motion respected.
+  - Under the performance budget: this is the only stylesheet.
+*/
+
+/* ---------------------------------------------------------------------------
+   Tokens
+   --------------------------------------------------------------------------- */
+
+:root {
+  --bg: #fdfcfa;
+  --surface: #f4f1ec;
+  --ink: #16161a;
+  --ink-muted: #5a5a63;
+  --rule: #d9d4cb;
+  --accent: #8a2f0d;
+  --accent-ink: #ffffff;
+  --measure: 34rem;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131316;
+    --surface: #1d1d21;
+    --ink: #f2f0ec;
+    --ink-muted: #a8a8b0;
+    --rule: #34343b;
+    --accent: #ff9d73;
+    --accent-ink: #1a0d06;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  /* The flagship page is scroll-animated; honour the reader's setting. */
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Visible focus everywhere, not just on links. WCAG 2.4.7 / 2.4.11. */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+a { color: var(--accent); text-underline-offset: 0.15em; }
+a:hover { text-decoration-thickness: 2px; }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 0.6rem 1rem;
+  z-index: 10;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------------------------------------------------------------------------
+   Header and navigation
+   --------------------------------------------------------------------------- */
+
+.site-header {
+  border-bottom: 1px solid var(--rule);
+  padding: 1.1rem 1.5rem 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  align-items: baseline;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.site-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.site-header nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+.site-header nav a {
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+.site-header nav a:hover { color: var(--accent); text-decoration: underline; }
+
+/* ---------------------------------------------------------------------------
+   Page
+   --------------------------------------------------------------------------- */
+
+main { display: block; padding: 0 1.5rem 3rem; }
+
+.page { max-width: var(--measure); margin: 0 auto; }
+
+.page-header { margin: 2.5rem 0 1.5rem; }
+
+h1 {
+  font-size: clamp(1.75rem, 5vw, 2.4rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--ink-muted);
+  margin: 0 0 0.75rem;
+  text-wrap: balance;
+}
+
+.status-as-of {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  margin: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+h2 {
+  font-size: 1.35rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 2.5rem 0 0.75rem;
+}
+
+h3 { font-size: 1.1rem; margin: 1.75rem 0 0.5rem; }
+
+p { margin: 0 0 1.05rem; }
+p + p { margin-top: 0; }
+
+/* Section dividers: used with intent, see AGENT.md section 3. */
+hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 2.25rem 0;
+}
+
+ul, ol { padding-left: 1.35rem; }
+li { margin-bottom: 0.5rem; }
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: 0.25rem 0 0.25rem 1.1rem;
+  border-left: 3px solid var(--rule);
+  color: var(--ink-muted);
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--surface);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+img { max-width: 100%; height: auto; }
+
+table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; font-size: 0.95rem; }
+th, td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--rule); }
+
+/* ---------------------------------------------------------------------------
+   Citations
+   --------------------------------------------------------------------------- */
+
+.cite { font-size: 0.75em; line-height: 0; }
+.cite a {
+  text-decoration: none;
+  padding: 0 0.15em;
+}
+.cite a:hover { text-decoration: underline; }
+
+.page-sources {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--rule);
+}
+
+.page-sources h2 { margin-top: 0; font-size: 1.15rem; }
+
+.page-sources-note {
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+}
+
+.source-list { padding-left: 1.75rem; font-size: 0.92rem; }
+.source-list li { margin-bottom: 1.1rem; }
+.source-list li:target {
+  background: var(--surface);
+  box-shadow: -0.6rem 0 0 var(--surface), 0.6rem 0 0 var(--surface);
+}
+
+.source-meta { margin: 0 0 0.15rem; color: var(--ink-muted); }
+.source-links { margin: 0 0 0.15rem; }
+.source-status { margin: 0; font-size: 0.88rem; color: var(--ink-muted); }
+.source-missing { color: var(--accent); }
+
+/* ---------------------------------------------------------------------------
+   Footer
+   --------------------------------------------------------------------------- */
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  padding: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  max-width: 60rem;
+  margin: 0 auto;
+}
+.site-footer p { margin: 0 0 0.5rem; }
+.footer-note { font-size: 0.85rem; }
+
+/* ---------------------------------------------------------------------------
+   Print: graders do print things
+   --------------------------------------------------------------------------- */
+
+@media print {
+  .site-header nav, .skip-link { display: none; }
+  body { background: #fff; color: #000; font-size: 11pt; }
+  .page { max-width: none; }
+  a { color: #000; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; }
+}

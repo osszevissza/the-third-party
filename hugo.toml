@@ -1,0 +1,59 @@
+# hugo.toml — The Third Party
+#
+# Content lives in content/<slug>/index.md with TOML frontmatter (+++), one folder per
+# page so URLs stay clean. data/sources.yaml is the single source of truth for every
+# citation. See SITE_PLAN.md section 6b and AGENT.md.
+
+baseURL = "https://example.invalid/"
+languageCode = "en"
+title = "The Third Party"
+enableRobotsTXT = true
+
+# NOTE ON THE CACHE. Hugo caches to $HOME/.cache/hugo_cache by default. In a sandbox or
+# any environment with a read-only $HOME that fails with "mkdir ... read-only file
+# system" and exits 1 even though the site rendered fine. cacheDir is deliberately NOT
+# set here, because Hugo requires an absolute path and hardcoding one would make this
+# config machine-specific. scripts/build.sh sets HUGO_CACHEDIR to a local tmp/ instead.
+# Run the site through that script, or set the variable yourself.
+
+# The site has no tags or categories; each page lives at /<slug>/ via [permalinks].
+# Disabling these stops Hugo emitting two empty taxonomy pages and the warnings that
+# come with them.
+disableKinds = ["taxonomy", "term"]
+
+# Hugo 0.150 moved this key and warns about the old location on every build.
+[minify]
+  minifyOutput = true
+
+# ---------------------------------------------------------------------------
+# Markdown
+# ---------------------------------------------------------------------------
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      # Existing pages carry HTML comments as maintainer TODOs and structure notes.
+      unsafe = true
+    [markup.goldmark.extensions.typographer]
+      # READ THIS BEFORE RE-ENABLING. On by default, and it rewrites punctuation in the
+      # OUTPUT: "---" becomes &mdash; and "--" becomes &ndash;. check-dashes.py reads
+      # source files only, so with this enabled a page can pass the house rule and still
+      # render em dashes in a browser, which is a rule the tooling cannot see being
+      # broken. See AGENT.md gotcha 11, verified in a test build in round 10.
+      disable = true
+
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 3
+  ordered = false
+
+# ---------------------------------------------------------------------------
+# Output
+# ---------------------------------------------------------------------------
+
+[permalinks]
+  page = "/:slug/"
+
+[params]
+  # Disclose the site's own choices, because the whole argument depends on it.
+  description = "The web is more extractive than it looks. A site that passes its own test: no third-party requests, no cookies, no consent banner."

@@ -1,0 +1,32 @@
+{{- /*
+  interactive.html — the static form of a page interactive, plus its enhancement hook.
+
+  PROGRESSIVE ENHANCEMENT IS MANDATORY ON THIS SITE (SITE_PLAN.md section 5, AGENT.md
+  section 8). The rule is not "add a fallback": the full content is plain HTML and the
+  script only adds motion. That is why this shortcode has no data file and no arguments.
+
+  Call it with nothing:
+
+      {{< interactive >}}
+      ### Heading
+      The complete, readable content, with real citations.
+      {{< /interactive >}}
+
+  The inner content is what a reader with JavaScript disabled gets, and it must therefore
+  be the whole thing rather than a teaser. When a script is added later it takes over
+  `.interactive[data-interactive]` and the markup underneath stays as it is, which is what
+  keeps the page working with scripting off, on a slow connection, and under
+  prefers-reduced-motion.
+
+  TWO INTERACTIVES WERE PLANNED AND NEITHER IS BUILT. Read AGENT.md section 5 before
+  starting either:
+  - "would-this-bother-you" on /nothing-to-hide/ is written out as static content and
+    deliberately has no script.
+  - "Cookie Banner Hell" on /consent-theatre/ is NOT written, because its 47-click counter
+    cannot be built without first measuring a real opt-out sequence. Inventing the number
+    is the false precision AGENT.md section 4 forbids. Build the measured sequence first,
+    render it as a plain ordered list in the page, and only then add a counter.
+*/ -}}
+<section class="interactive" data-interactive>
+{{ .Inner | .Page.RenderString }}
+</section>

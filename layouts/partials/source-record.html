@@ -1,0 +1,49 @@
+{{- /*
+  Renders one citation record, matching the style scripts/render-bibliography.py writes into
+  /sources/ so the two renderings agree on author order, wording and links.
+
+  Expects a dict: (dict "ctx" . "id" "source-id" "record" $record)
+  The record is passed in rather than looked up, because data/sources.yaml is a list and
+  building the id -> record map costs a loop the caller has already done.
+
+  Dates: verified by probe, not assumed. Hugo hands these back as either a string
+  ("2019-10-01", "2014-05") or an int for a bare year (2016), never a time.Time, so
+  printf "%v" renders all of them correctly and reflect.IsTime errors on an interface{}.
+  Do not reintroduce time formatting here.
+*/ -}}
+{{- $id := .id -}}
+{{- with .record -}}
+  {{- $meta := slice -}}
+  {{- with .authors -}}{{- $meta = $meta | append (delimit . ", ") -}}{{- end -}}
+  {{- $meta = $meta | append .publisher -}}
+  {{- if .date -}}
+    {{- $meta = $meta | append (printf "%v" .date) -}}
+  {{- else -}}
+    {{- $meta = $meta | append "no date on the document" -}}
+  {{- end -}}
+  <p class="source-meta">{{ delimit $meta " · " }}</p>
+  {{- $links := slice -}}
+  {{- with .url -}}
+    {{- $links = $links | append (printf "<a href=\"%s\">the source itself</a>" .) -}}
+  {{- else -}}
+    {{- $links = $links | append "no stable URL found yet" -}}
+  {{- end -}}
+  {{- with .archive -}}
+    {{- $links = $links | append (printf "<a href=\"%s\">archived copy</a>" .) -}}
+  {{- end -}}
+  {{- with .doi -}}
+    {{- $links = $links | append (printf "doi:%s" .) -}}
+  {{- end -}}
+  <p class="source-links">{{ delimit $links " · " | safeHTML }}</p>
+  {{- if not .url -}}
+    <p class="source-status"><strong>Status: no URL.</strong> Cited, but not yet publishable.</p>
+  {{- else if not .verified_on -}}
+    <p class="source-status"><strong>Status: not verified.</strong> The link has not been opened and confirmed, so the claim it carries is unproven.</p>
+  {{- else if .archive -}}
+    <p class="source-status"><strong>Status: verified {{ printf "%v" .verified_on }}, archived.</strong></p>
+  {{- else -}}
+    <p class="source-status"><strong>Status: verified {{ printf "%v" .verified_on }}, not archived yet.</strong></p>
+  {{- end -}}
+{{- else -}}
+  <p class="source-missing"><strong>Source id <code>{{ $id }}</code> is not in data/sources.yaml.</strong></p>
+{{- end -}}

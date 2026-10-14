@@ -1,0 +1,32 @@
+{{- /*
+  Home.
+
+  Renders content/_index.md: the thesis, the three audience doors, the flagship teaser, the
+  preview of the action ladder, and the statement that this site needs no consent banner.
+
+  Deliberately no hero carousel, no newsletter box and no "trusted by" strip. Each of those
+  is a dark pattern in miniature, and on a site that catalogues them it would be
+  self-refuting (SITE_PLAN.md section 4).
+
+  This file was a placeholder that said the page was not written. It stays a separate
+  template rather than falling back to _default/single.html for one reason: the home page is
+  the only page whose <title> comes from the site title rather than the page title (see
+  head.html, .IsHome), and an implicit template fallback is harder to find later than two
+  files that differ in one line.
+*/ -}}
+{{ define "main" }}
+<article class="page">
+  <header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Params.subtitle }}
+    <p class="subtitle">{{ . }}</p>
+    {{- end }}
+    {{- with .Params.status_as_of }}
+    <p class="status-as-of">Status as of {{ . }}</p>
+    {{- end }}
+  </header>
+  <div class="content">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

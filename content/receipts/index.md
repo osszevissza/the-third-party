@@ -1,0 +1,113 @@
++++
+title = "Receipts"
+subtitle = "This site's own numbers, measured, including the ones that are not flattering"
+description = "What this site loads, what it weighs, what it sets on your device, what it emits, and what it cannot yet prove. Measured on 2026-10-14 against the build that includes this page."
+status_as_of = 2026-10-14
+weight = 8
+sources = [
+  "web-almanac",
+  "swd-emissions-model"
+]
++++
+
+Every other page here asks you to check its sources. This one turns the same standard on the site itself.
+
+Most sites could publish a page like this. Almost none do, and the reason is not technical. The numbers below took one build command and one script, and the parts that are unflattering are here alongside the rest, because a page that only published its good numbers would be doing the thing this site complains about.
+
+## How these numbers were taken
+
+The site is built with `sh scripts/build.sh`, which runs four checks and then renders `public/`. Every figure on this page was then read out of that built directory rather than estimated: file sizes, request counts, and the contrast ratios, which are computed from the actual colour values in `assets/css/main.css`.
+
+Sizes are given both raw and gzipped, because gzip is what a server actually sends. Where something is a model estimate rather than a measurement, the page says so at the point where it appears.
+
+**Measured on 2026-10-14**, against the build that includes this page. A page's weight here means everything the browser fetches for one view of it: the document, the stylesheet and the icon. Editing any page changes these figures slightly, including editing this one, so treat them as a dated snapshot rather than a constant.
+
+## What one page load costs
+
+| | Measured | This site's budget | |
+|---|---|---|---|
+| Requests, per page | 3 (the document, one stylesheet, one icon) | under 20 | met |
+| Requests to other companies | 0 | 0 | met |
+| Scripts | 0 | | met |
+| Cookies | 0 | 0 | met |
+| Web fonts | 0, system font stack | | met |
+| Median page, gzipped | 9,081 bytes | under 100 KB | met |
+| Heaviest page, gzipped | 27,273 bytes (`/sources/`) | under 100 KB | met |
+| Heaviest page, raw | 91,895 bytes (`/sources/`) | under 100 KB | met |
+| All 12 pages, gzipped | about 104 KB | | |
+
+So a page here asks your browser for three files, all of them from this domain. The heaviest page on the site is the bibliography, and it is the one page deliberately exempt from the length rule, since it is a list of records rather than an argument.
+
+Nothing in the site can set a cookie: there is no JavaScript and no server-side code to do it with. What cannot be checked yet is the response headers, because the site has no host, and that is one of the failures listed below.
+
+The site-wide row is rounded, unlike the per-page figures. It includes this page's own bytes, so it moves by a byte or two every time this page is edited, including the edit that published these numbers. The per-page figures have no such problem: build the site yourself and you will get exactly the numbers above.
+
+That is this site's number. The number for the median page on the web is measured every year by the HTTP Archive for its Web Almanac, and you should read it there rather than take a figure quoted here, because a figure copied into a page like this one is out of date within a year. {{< cite "web-almanac" >}}
+
+## What could not be measured
+
+**Largest Contentful Paint is not measured.** The site's budget says under 1.5 seconds. Measuring it needs a real browser loading the page. A browser is installed on the machine this was built on, but it cannot be started from the environment these numbers were taken in, and no headless audit tooling is installed. So that line stays a target and not a result, and it is the easiest thing on this page for somebody else to settle: open the site, run Lighthouse, and the number is either inside the budget or it is not.
+
+**No accessibility audit tool has been run.** Lighthouse, axe and WAVE all need a browser or a third-party service. The browser here cannot be launched from this environment and no headless audit tooling is installed, so none of them has been used. **This site therefore does not have a verified WCAG AA result.** This is the gap on this page that a reader can close in five minutes, and it is the one most likely to change the numbers above. What can be checked without a browser is checked, and here it is:
+
+- one `h1` per page, 12 of 12 pages
+- a language declared on the `html` element, 12 of 12
+- a skip link before the navigation, 12 of 12
+- images: none, so there is no missing alt text to find
+- keyboard traps: none possible, because there is no JavaScript and no custom widget on the site
+- focus styles: defined, and the focus ring measures 8.42:1 against its background in light mode and 9.35:1 in dark
+- `prefers-reduced-motion`: honoured in the stylesheet
+
+**Contrast is computed, not trusted.** The lowest ratio anywhere on the site is 6.66:1, on secondary text against the light background. Every text pair passes 4.5:1 in both colour schemes, and the highest is 17.6:1 on body text.
+
+**The request count comes from the markup, not from a browser.** A real Network panel might show fewer requests, if something is cached, or one more, if your browser retries the icon. It cannot show a request to another company, because there is none in the markup to make.
+
+**The HTML has not been validated.** The W3C validator is a third-party service. It could be run by hand without affecting the pages, and it has not been.
+
+## Known failures
+
+This is the section that makes the page worth publishing. Every item is a real defect, dated 2026-10-14.
+
+**Foreign language text is not marked as such, which fails WCAG 3.1.2.** The bibliography contains French, German and Dutch titles, and the prose quotes phrases in other languages. Every page carries exactly one `lang` attribute, on the `html` element, so a screen reader will read *Outil d'auto-évaluation* in an English voice. This is a genuine failure, found while writing this page, and it is not fixed yet.
+
+**Citation markers are small targets, which is a borderline failure of WCAG 2.5.8.** They are set at 0.75em with no line box, so the clickable area is a few pixels high. WCAG exempts targets set inline in a sentence, and these are, so the site is arguably compliant. It is still the weakest point here for anybody with a tremor, and it is on the list.
+
+**The canonical URL, the RSS link and the sitemap all point at a placeholder domain.** The site is not hosted yet, so the sitemap's entries and every page's `rel=canonical` advertise `https://example.invalid/`, a reserved domain that cannot resolve. Search engines would be told that the canonical copy of each page lives somewhere that does not exist. It is a one-line fix, and it stays wrong until a domain is chosen.
+
+**There is no hosting disclosure, because there is no host.** This page is meant to say who serves the site and what they log. It cannot honestly say either yet.
+
+**No analytics is running at all.** The plan is a cookieless counter. Right now the site loads no analytics of any kind, which is a stronger statement than "analytics without cookies", and it will become weaker on the day a counter is added. When that happens, this page will say so.
+
+**The bibliography is the heaviest page, and it is where the budget would break first.** `/sources/` is 3.0 times the median page, and it is mostly generated from `data/sources.yaml`. It is within budget today.
+
+**Two publication blockers on `/sources/` need a person rather than a script**: the route for reporting an error, and the disclosure of which of the recommended tools the maintainer actually runs. Both are marked with HTML comments in that page.
+
+## Carbon
+
+An emissions figure cannot be measured from here, and inventing one would be the exact failure this site documents elsewhere. What can be done honestly is to apply a published model by hand, name it, and show the arithmetic so you can check it.
+
+The Sustainable Web Design model gives energy intensities per gigabyte transferred, split by segment, and a default grid intensity of 494 grams of CO2e per kilowatt hour, which is the global average for electricity. {{< cite "swd-emissions-model" >}} Its constants add up like this:
+
+- operational: 0.055 kWh/GB for data centres, 0.059 for networks, 0.080 for user devices
+- embodied: 0.012, 0.013 and 0.081 kWh/GB for the same three segments
+- total: **0.300 kWh/GB**, which at 494 gCO2e/kWh is **148 grams of CO2e per gigabyte** transferred
+
+The median page here transfers 9,081 bytes gzipped, which is 0.0000085 GB, so:
+
+> 0.0000085 GB × 148 gCO2e/GB = **0.0013 grams**, about 1.3 milligrams per page view
+
+The heaviest page works out at about 3.8 milligrams, and reading every page on the site once comes to roughly 15 milligrams.
+
+Three things about that number, because it is easy to overread. It is **an estimate from a model, not a measurement**. About a third of it is *embodied* emissions, the cost of manufacturing the devices and networks in the first place, which no website controls and no website can reduce by being lighter. And the grid intensity is a global average: on a grid that is cleaner or dirtier than that, the figure moves, which is why the model's own documentation tells you to substitute your own.
+
+For scale, the honest comparison is not with other websites but with almost anything else you could do in the same second. A single page view at this weight is not the interesting number. A page that loads four megabytes of video to show you a paragraph is.
+
+## Why publish this
+
+Because it is checkable, and because a site arguing that claims should be checkable does not get to exempt itself.
+
+There is a second reason, and it is the uncomfortable one. The figures above are not spectacular. Zero third-party requests is unusual; 27 kilobytes is unremarkable; and the failures listed further up are real ones, including two accessibility defects and a sitemap pointing at a domain that does not exist. A page that published only the flattering half of this would be marketing, and this site's whole argument is that marketing is what the rest of the web already does.
+
+Every site could publish this page. Every browser has a Network panel; every server has logs; every platform will show you the file sizes. The tools are not scarce. What is scarce is the willingness to publish the numbers when they are not good, which is why almost nobody does.
+
+{{< source-list >}}

@@ -1,0 +1,26 @@
+{{- /*
+  {{< cite "source-id" >}} renders the numbered marker attached to a claim.
+
+  Numbering comes from the source's position in the page's frontmatter `sources` list.
+  Declare sources in first-citation order and the markers run 1, 2, 3 down the page. The
+  `source-list` shortcode numbers the same list the same way, so marker N always resolves
+  to entry N at the foot of the page.
+
+  This is for CLAIMS and the id must be declared in frontmatter. A plain Markdown link is
+  for POINTERS ("here is the project's website") and needs no source entry. Keep the two
+  separate: check-content.py enforces the citation graph in both directions.
+*/ -}}
+{{- $id := .Get 0 -}}
+{{- if not $id -}}
+  {{- errorf "cite shortcode: no source id given in %s" .Page.File.Path -}}
+{{- end -}}
+{{- $declared := .Page.Params.sources | default slice -}}
+{{- $index := 0 -}}
+{{- range $i, $sid := $declared -}}
+  {{- if eq $sid $id -}}{{- $index = add $i 1 -}}{{- end -}}
+{{- end -}}
+{{- if eq $index 0 -}}
+  {{- errorf "cite shortcode: id %q is cited in %s but not declared in its frontmatter `sources` list" $id .Page.File.Path -}}
+{{- else -}}
+  <sup class="cite"><a href="#source-{{ $id }}" title="{{ $id }}">{{ $index }}</a></sup>
+{{- end -}}

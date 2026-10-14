@@ -1,0 +1,33 @@
+{{- /*
+  Head. Zero third-party requests is a load-bearing constraint, not a preference: no Google
+  Fonts, no CDN, no analytics script, no icon library. The system font stack is used until
+  a self-hosted woff2 is worth the bytes.
+
+  The stylesheet goes through Hugo Pipes (resources.Get -> minify -> fingerprint) so it is
+  served from this origin only, with a content hash in the filename for cache busting.
+  Nothing loads from another origin. See SITE_PLAN.md section 6 for the asset rule.
+*/ -}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
+{{- $desc := .Description | default .Site.Params.description }}
+<meta name="description" content="{{ $desc }}">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="{{ .Permalink }}">
+{{- if .IsPage }}
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:type" content="article">
+{{- end }}
+{{- with resources.Get "css/main.css" }}
+  {{- $css := . | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- else }}
+  {{- errorf "head.html: assets/css/main.css not found; the site would render unstyled" }}
+{{- end }}
+{{- with resources.Get "favicon.svg" }}
+<link rel="icon" href="{{ .RelPermalink }}" type="image/svg+xml">
+{{- end }}
+{{- with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
+{{- end }}

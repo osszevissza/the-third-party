@@ -1,0 +1,7 @@
+# Pinned deliberately. Hugo's template lookup rules and Markdown behaviour shift between
+# minor releases, so an unpinned build breaks quietly. There is no go.mod and Go is not
+# installed, so `hugo mod` cannot pin this for us (AGENT.md gotcha 4).
+#
+# When hosting on statichost.eu, pin the same version in statichost.yml via the image tag:
+#   image: hugomods/hugo:exts-0.150.0
+hugo 0.150.0

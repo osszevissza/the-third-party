@@ -1,0 +1,32 @@
+# Build output, never committed. statichost.eu builds from source, and the scripts in
+# scripts/ are the checks, so the generated site is derivable.
+public/
+resources/
+tmp/
+
+# Hugo's own bookkeeping
+.hugo_build.lock
+
+# Scratch directories used by maintenance passes. .wayback-work held the backup and the
+# provenance JSON from the round-10 archiving run; it is working state, not project
+# content. Keep the pattern rather than the folder.
+.wayback-work/
+.scratch/
+
+# Desktop-environment artefact (KDE folder icon). Not project content.
+.directory
+
+# Editor and OS noise
+*.swp
+*~
+.DS_Store
+
+# Python bytecode. The scripts in scripts/ are run as programs, but importing one (to reuse
+# its helpers, or to check them from a shell one-liner) writes a __pycache__ beside it. That
+# is machine state, not source.
+__pycache__/
+*.pyc
+
+# NOTE: data/ must NOT be ignored. data/sources.yaml is the single source of truth for
+# every citation on the site and the citation graph cannot be rebuilt without it. It is
+# the most important non-content file in the repository.
