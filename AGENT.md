@@ -454,23 +454,23 @@ which cost time in round 10:
 
 ### Page inventory
 
-**Done: all twelve pages** (the home page plus `content/`, 32,019 words, measured in round 11
-as body words after frontmatter, whitespace-split, generated text included):
+**Done: all twelve pages** (the home page plus `content/`, 32,622 words, measured on
+2026-10-14 as body words after frontmatter, whitespace-split, generated text included):
 
 | Page | Words | Shape |
 |---|---|---|
-| `sources/` | 10,255 | reference. *Mostly generated from `data/sources.yaml`* |
+| `sources/` | 10,323 | reference. *Mostly generated from `data/sources.yaml`* |
 | `nothing-to-hide/` | 3,030 | B, merged: nine objections, A's opening, A's concession, two harms argued |
 | `consent-theatre/` | 2,996 | A, explanatory, with the static eight-click walkthrough |
+| `swap-shop/` | 2,705 | reference, 8 swaps, with a dated notice on the DNS one |
 | `dark-patterns/` | 2,351 | field guide, 17 patterns |
-| `swap-shop/` | 2,461 | reference, 8 swaps, with a dated notice on the DNS one |
 | `what-leaves-your-browser/` | 1,979 | A |
 | `one-page-load/` | 1,908 | A. *Is itself the interactive's fallback* |
 | `myths/` | 1,671 | B-style units, 7 myths |
 | `analytics/` | 1,608 | A, practical |
+| `receipts/` | 1,338 | this site's own measured numbers, including its failures. Cut from 3,129 the same day |
 | `start-here/` | 1,193 | reference |
-| `receipts/` | 1,835 | this site's own measured numbers, including its failures |
-| `/` (home) | 730 | thesis, three doors, no-banner callout |
+| `/` (home) | 732 | thesis, three doors, no-banner callout |
 
 **On those numbers.** They are larger than the ones this table used to carry for the same
 pages, and the difference is method rather than editing: the old figures also disagreed
@@ -492,12 +492,17 @@ measurement, not as a target.
 `/receipts/` publishes measured numbers only, and says out loud which figures it could not
 take. Read its "Known failures" section before quoting this site anywhere: it names two real
 accessibility defects (WCAG 3.1.2 language of parts, and citation markers below the 2.5.8
-target size), and the fact that the site is configured for its real domain while nothing is
-published at it yet, which replaced the placeholder-domain entry on 2026-10-14. **Its
-numbers are exact and reproducible**: build the site and you get the same bytes. Two values
-are deliberately softer, and the page says why: the site-wide total is rounded because it
-includes that page's own bytes, and the carbon figure is labelled a model estimate rather
-than a measurement.
+target size) and a missing `content-security-policy`, and it is no longer the place to look for
+the state of the deploy, which is now a served fact rather than a defect. **Its numbers are
+exact and reproducible**: build the site and you get the same bytes. Two values are deliberately
+softer, and the page says why: the site-wide total is rounded because it includes that page's
+own bytes, and the carbon figure is labelled a model estimate rather than a measurement. **The
+page was cut from 3,129 words to 1,338 on 2026-10-14** at the maintainer's request, on the
+grounds that it had become the longest prose page on the site while being the one nobody reads
+for pleasure. What went was the argument about why publishing numbers matters and the running
+commentary; what stayed is every number, every failure, the hosting disclosure and the
+arithmetic. If it grows again, cut the prose rather than a row: the server is the part a reader
+cannot get anywhere else.
 
 `/the-rules/` was dropped by the maintainer, for reasons worth not re-litigating: it is the
 one page whose whole value is being current, on a site whose footer now states that it is not
@@ -801,11 +806,12 @@ merely waiting. Nothing in the repository can tell you which commit is live: the
 of truth is the served bytes, and the `last-modified` header is the cheapest hint.
 
 **The host's gzip is looser than the figures on `/receipts/`.** Those are a local `gzip -9`
-measurement and are the reproducible ones; statichost compresses at a lower level and sends
-the icon uncompressed, so the wire is about 3% larger: the heaviest page is 31,253 bytes as
-served against the 30,228 published, and the median about 9,460 against 9,171. The page says
-so in the same section. If a future measurement is taken from the live site instead, say
-which of the two it is, because they are not interchangeable.
+measurement and are the reproducible ones; statichost compresses at a lower level and sends the
+icon uncompressed, so the wire runs about 3% larger. **The page now states that difference
+rather than a second set of served byte counts**, and that was deliberate: served sizes move
+with every deploy, including the deploy of an edit to `/receipts/` itself, so an exact served
+figure would be stale within the hour. If a future measurement is taken from the live site
+instead of the build, say which of the two it is, because they are not interchangeable.
 
 **Known-good state at the end of round 11**, for use as a reference point if something is
 later suspected of having drifted. All four scripts pass, the build renders all twelve pages,
@@ -822,16 +828,26 @@ md5 is now a cross-check rather than the only record of the file's state, and `g
 the better tool when something looks wrong.
 
 **The receipts figures, as published on `/receipts/`** (they are exact, and a rebuild
-reproduces them): median page 9,171 bytes gzipped; heaviest page 30,233 gzipped and 103,482
-raw, both `/sources/`, which is 3.3 times the median; both colour schemes pass 4.5:1 with a
-lowest ratio of 6.66:1; zero third-party subresources across all twelve pages. **These go stale
-the moment anything changes, and round 11 proved it four times.** Three of those were caused by
-ordinary content edits, because `/sources/` is both the heaviest page and the bibliography, so
-adding or rewriting a source moves the numbers. `/receipts/` dates them and rounds the
-site-wide row for exactly that reason, which is the intended behaviour rather than a defect.
-**Re-measure using the referenced-asset method in gotcha 13**, and remember that `/receipts/`
-itself sits well below the median, so editing that page alone does not disturb the figures it
-reports.
+reproduces them): median of the other 11 pages 9,221 bytes gzipped and 25,927 raw; heaviest
+page 30,288 gzipped and 103,681 raw, both `/sources/`, which is 3.3 times that median; both
+colour schemes pass 4.5:1 with a lowest ratio of 6.66:1; zero third-party subresources across
+all twelve pages. **These go stale the moment anything changes, and round 11 proved it four
+times.** Three of those were caused by ordinary content edits, because `/sources/` is both the
+heaviest page and the bibliography, so adding or rewriting a source moves the numbers.
+`/receipts/` dates them and rounds the site-wide row for exactly that reason, which is the
+intended behaviour rather than a defect. **Re-measure using the referenced-asset method in
+gotcha 13.**
+
+**The median deliberately excludes `/receipts/` itself, and that is a fix rather than a
+convention.** Until 2026-10-14 the row was the median of all twelve pages, which meant this page
+was part of the statistic it published. Writing the hosting section pushed it past
+`one-page-load` and into the middle pair, so every later edit changed the published number in a
+way the page could not observe, because the measurement necessarily precedes the sentence
+describing it, and its promise that a rebuild reproduces the figures quietly became false. The
+row now reads "the other 11", which breaks the loop: editing `/receipts/` no longer moves any
+number on `/receipts/`. **Do not "fix" it back to twelve to look tidier.** The site-wide row
+cannot be repaired the same way, since it is defined as all twelve, which is why that one is
+rounded, and why a full rewrite of `/receipts/` still moves it by a kilobyte or two.
 
 ### Gotchas that have already cost time: don't repeat them
 
@@ -1255,8 +1271,8 @@ moment the site itself is hypocritical.
    rewrites every page's `<link rel=canonical>` and `sitemap.xml`, plus the RSS `alternate`
    link on the home page, and it costs 12 bytes per page and 24 on the home page. **The
    figures on `/receipts/` were re-measured after it**, which is the pattern to expect for
-   any later domain or hosting change: the median stayed at 9,171 gzipped while the two
-   heaviest-page rows moved by a few bytes. **Do not read a resolving hostname as proof of a
+   any later domain or hosting change: the heaviest-page rows moved by a few bytes while the
+   median did not, because the median row now covers the other eleven pages (§7). **Do not read a resolving hostname as proof of a
    deploy.** Every `*.statichost.page` name resolves, including names that cannot exist
    (`this-cannot-exist-9f2a.statichost.page` answers identically), and all of them refuse TLS
    with the same alert until a site is provisioned, so the DNS record is a wildcard and
