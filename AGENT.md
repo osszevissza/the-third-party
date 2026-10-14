@@ -6,15 +6,30 @@ Read this first. It assumes no memory of previous sessions.
 authority and several pages carry `status_as_of` fields that need refreshing if a lot
 of time has passed.
 
-**▶ ACTIVE, and the content is finished.** Round 11 wrote `/receipts/` with every number
+**▶ ACTIVE, and the writing is finished.** Round 11 wrote `/receipts/` with every number
 measured rather than estimated, closed `/`, the `edpb-consent-or-pay` record and the two
 unargued harms on `/nothing-to-hide/`, retired the site's last em dash, and **dropped
-`/the-rules/` on the maintainer's instruction**, because it is the one page whose whole
-value is being current and this site now states in its own footer that it is not kept
-current. §5 records the reasoning in full, and `SITE_PLAN.md` §4 keeps the abandoned outline
-so nobody re-adds it out of tidiness. **All twelve pages now exist.** What is left is not
-writing: it is the source worklist in §6, a domain and a host (§9 item 7), and the source
-upgrades that this round's verification work turned up for free.
+`/the-rules/` on the maintainer's instruction**, because it is the one page whose whole value
+is being current and this site now states in its own footer that it is not kept current. §5
+records the reasoning in full, and `SITE_PLAN.md` §4 keeps the abandoned outline so nobody
+re-adds it out of tidiness.
+
+The round also closed both `/sources/` TODOs: the correction route is published (GitHub
+issues, email via `barsimarina.hu` as the fallback), and so is the disclosure of what the site
+is built with and which of its own recommended swaps its author actually runs. **Nothing on
+`/sources/` is unsupported any more.** The menu was a hand-written list of six links that had
+quietly lost five of the twelve pages; it is generated from the page tree now (§5). The
+repository was put under git with a `LICENSE`, and a measurement bug that had been inflating
+every page-weight figure on `/receipts/` was found and fixed (§7 gotcha 13).
+
+**All twelve pages exist and all four checks pass.** What is left is not writing:
+
+1. **The CSS work block**, which the maintainer wants treated as a separate pass now that the
+   text is done and readable raw (§9 item 8). It will change every page's weight, so
+   `/receipts/` must be re-measured at the end of it.
+2. **A domain and a host**, and connecting the GitHub remote (§9 item 7).
+3. **The source worklist in §6**: 20 sources without a `verified_on` date, 12 without an
+   archive, and the cheap upgrades to existing entries that this round's verification found.
 
 ---
 
@@ -73,10 +88,10 @@ inferred, and both are stated in the footer. Do not invent a different author st
 different licence for this project.
 
 **State:** twelve pages, which is every page the site intends to have: the home page plus 11
-content pages. 31,767 words of body text by the count in §5, of which 10,127 is `/sources/`
-and mostly its generated bibliography. 2 archived drafts, 66 sources, four scripts, a
-LICENSE, and a Hugo build that passes all four checks and renders all twelve pages with no
-errors. The repository is under git with one commit. `/the-rules/` was dropped in round 11,
+content pages. 32,019 words of body text by the count in §5, of which 10,255 is `/sources/`
+and mostly its generated bibliography. 2 archived drafts, 70 sources, four scripts, a
+LICENSE, six commits, and a Hugo build that passes all four checks and renders all twelve
+pages with no errors. `/the-rules/` was dropped in round 11,
 so the target is 12 core pages rather than 13.
 
 **Read next, in this order:** `FOR-REVIEW.md` (concept, and the review outcome),
@@ -148,7 +163,7 @@ Run all four before ending any session, and run `scripts/render-bibliography.py`
 `--check` whenever `data/sources.yaml` or any page's `sources` list changes, because that
 is what rewrites the generated block on `/sources/`. Expected output as of 2026-10-14:
 
-- `check-dashes.py` → `no em dashes in 21 file(s), 0 allowlisted`. **The allowlist is empty
+- `check-dashes.py` → `no em dashes in 22 file(s), 0 allowlisted`. **The allowlist is empty
   as of round 11**, and that is a real state rather than an oversight: the single entry it
   held claimed a CNIL document title was "quoted as published", and the archived copy of
   CNIL's own page showed that title contained no em dash at all. The dashes were ours, not
@@ -166,19 +181,21 @@ is what rewrites the generated block on `/sources/`. Expected output as of 2026-
   opened**, and this one was verified by content rather than by status code, because its
   host answers 200 for paths that cannot exist (§7, gotcha 10). In every earlier round this
   count rising was the honest direction: a warning means a human still has to open the link.
-- `check-links.py` → `47 resolving, 7 bot-blocked, 0 dead, 4 inconclusive, 6
-  unverifiable`, and it lists 4 further URLs whose 404 was treated as bot-blocking
-  because the domain root refused the probe too. **`unverifiable` is not a pass.** It
+- `check-links.py` → `53 resolving, 7 bot-blocked, 0 dead, 3 inconclusive, 6
+  unverifiable` on the last run of round 11, and it lists 4 further URLs whose 404 was treated
+  as bot-blocking because the domain root refused the probe too. **`unverifiable` is not a
+  pass.** It
   means the status code proved nothing and a human must open the link (§7, gotcha 2).
-  **These counts drift between runs, and round 11 measured how much**: two runs minutes
-  apart, over an unchanged source file, gave `47/7/0/4/6` and `48/8/0/3/5`. Treat any
-  single run as a snapshot rather than a result, and never quote one as a measurement of
-  the site's health. **Some verdicts in this output are actively misleading and are known
-  bugs, not results**: the four CNIL rows report `503` while that site serves a maintenance
-  page for every path in existence, and `cjeu-planet49` reports `OK 202` while EUR-Lex
-  returns nothing but a JavaScript shell (§7, gotcha 10). `edpb-consent-or-pay` reports
-  `OK 200`, which is true but proves nothing on its own: that host returns 200 for paths
-  that cannot exist, so the evidence was the page's own title, read by hand.
+  **These counts drift between runs, and round 11 measured how much**: three runs in one
+  session, over a source file that was changing only by additions, gave `47/7/0/4/6`,
+  `48/8/0/3/5` and `53/7/0/3/6`. Treat any single run as a snapshot rather than a result, and
+  never quote one as a measurement of the site's health. **Some verdicts in this output are
+  actively misleading and are known bugs, not results**: the four CNIL rows report `503` while
+  that site serves a maintenance page for every path in existence, and `cjeu-planet49` reports
+  `OK 202` while EUR-Lex returns nothing but a JavaScript shell (§7, gotcha 10).
+  `edpb-consent-or-pay` reports `OK 200`, which is true but proves nothing on its own: that host
+  returns 200 for paths that cannot exist, so the evidence was the page's own title, read by
+  hand.
 
 **Every page must show a perfect citation match**: every declared source cited inline,
 every inline citation declared. There is a one-liner in §7, gotcha 7, explaining the
@@ -275,7 +292,7 @@ pages are added.
   **A status code is not a confirmation.** Before setting a date here, control-probe the
   domain: request a path that cannot exist. If it answers with the same code, the code
   proves nothing and the value is `null` (§7, gotcha 2 and gotcha 10).
-- `archive`: Wayback snapshot. **12 of the 66 sources are `null` here; 54 are filled.**
+- `archive`: Wayback snapshot. **12 of the 70 sources are `null` here; 58 are filled.**
   This was 3 of 61 before round 10, so the largest publishing blocker is now most of the
   way closed. The 12 are 11 with no snapshot in the Wayback Machine at all, plus
   `solove-taxonomy`, which has no URL to snapshot. `edpb-consent-or-pay` was the other of
@@ -350,7 +367,7 @@ LICENSE                CC0 1.0 legal code, fetched verbatim, plus a two-line hea
 FOR-REVIEW.md          concept summary, plus the outcome of the review
 SITE_PLAN.md           full IA, page-by-page outline, build constraints (§6b = Hugo)
 AGENT.md               this file
-data/sources.yaml      65 sources. SINGLE SOURCE OF TRUTH
+data/sources.yaml      70 sources. SINGLE SOURCE OF TRUTH
 scripts/build.sh       checks, then builds. Run the site through this, see below
 scripts/check-content.py   frontmatter + citation graph, fails fast on broken data
 scripts/check-links.py     network URL resolver with bot-block detection
@@ -424,16 +441,16 @@ which cost time in round 10:
 
 ### Page inventory
 
-**Done: all twelve pages** (the home page plus `content/`, 31,767 words, measured in round 11
+**Done: all twelve pages** (the home page plus `content/`, 32,019 words, measured in round 11
 as body words after frontmatter, whitespace-split, generated text included):
 
 | Page | Words | Shape |
 |---|---|---|
-| `sources/` | 10,127 | reference. *Mostly generated from `data/sources.yaml`* |
+| `sources/` | 10,255 | reference. *Mostly generated from `data/sources.yaml`* |
 | `nothing-to-hide/` | 3,030 | B, merged: nine objections, A's opening, A's concession, two harms argued |
 | `consent-theatre/` | 2,996 | A, explanatory, with the static eight-click walkthrough |
 | `dark-patterns/` | 2,351 | field guide, 17 patterns |
-| `swap-shop/` | 2,337 | reference, 8 swaps |
+| `swap-shop/` | 2,461 | reference, 8 swaps, with a dated notice on the DNS one |
 | `what-leaves-your-browser/` | 1,979 | A |
 | `one-page-load/` | 1,908 | A. *Is itself the interactive's fallback* |
 | `myths/` | 1,671 | B-style units, 7 myths |
@@ -569,8 +586,8 @@ pages should take a weight that is not already used.
 
 **Blocking publication:**
 
-1. **`archive:` is `null` on 12 of the 66 sources, down from 62.** Round 10 filled 52 and
-   round 11 added two more. The remaining 12 are **not a to-do that another pass will
+1. **`archive:` is `null` on 12 of the 70 sources, down from 62.** Round 10 filled 52 and
+   rounds 11 added six more. The remaining 12 are **not a to-do that another pass will
    fix**: 11 have no Wayback snapshot at all (`netflix-prize`, `eckersley-fingerprinting`,
    `ecc-encrypted-client-hello`, `austrian-dsb-google-analytics`, `ga4-consent-mode`,
    `plausible`, `matomo`, `mailbox-org`, `gmail-scanning-2017`, `ftc-amazon-25b`,
@@ -727,8 +744,8 @@ later suspected of having drifted. All four scripts pass, the build renders all 
 and `data/sources.yaml` is:
 
 ```
-md5  8b8d5820187c1d3d5bbf9e4d516bc5b9
-69 sources: 57 with an `archive:` value, 12 without, 20 `verified_on: null`
+md5  5ab9db839c23cf21bd756ecd51ca9484
+70 sources: 58 with an `archive:` value, 12 without, 20 `verified_on: null`
 ```
 
 The round-10 figure it replaces was `md5 972567407df5404c8f32dd329462bfb5`, 52 archived, 13
@@ -737,13 +754,16 @@ md5 is now a cross-check rather than the only record of the file's state, and `g
 the better tool when something looks wrong.
 
 **The receipts figures, as published on `/receipts/`** (they are exact, and a rebuild
-reproduces them): median page 9,171 bytes gzipped; heaviest page 29,981 gzipped and 102,336
-raw, both `/sources/`, which is 3.0 times the median; both colour schemes pass 4.5:1 with a
-lowest ratio of 6.66:1; zero third-party subresources across all twelve pages. If a later
-round changes the stylesheet, the templates, or adds to a page, these go stale immediately:
-writing two sections into `/sources/` in round 11 moved the heaviest page by 1,321 bytes and
-the published figures had to be re-measured and patched. `/receipts/` says so itself, and
-that is the intended behaviour rather than a defect.
+reproduces them): median page 9,171 bytes gzipped; heaviest page 30,233 gzipped and 103,482
+raw, both `/sources/`, which is 3.3 times the median; both colour schemes pass 4.5:1 with a
+lowest ratio of 6.66:1; zero third-party subresources across all twelve pages. **These go stale
+the moment anything changes, and round 11 proved it four times.** Three of those were caused by
+ordinary content edits, because `/sources/` is both the heaviest page and the bibliography, so
+adding or rewriting a source moves the numbers. `/receipts/` dates them and rounds the
+site-wide row for exactly that reason, which is the intended behaviour rather than a defect.
+**Re-measure using the referenced-asset method in gotcha 13**, and remember that `/receipts/`
+itself sits well below the median, so editing that page alone does not disturb the figures it
+reports.
 
 ### Gotchas that have already cost time: don't repeat them
 
@@ -1030,12 +1050,19 @@ moment the site itself is hypocritical.
    that argue them, so they were left alone. The page is 3,030 words and that was accepted
    (§0 item 3). See §5 for the one caveat to carry forward: the dignity passage is
    explicitly normative and leans on two sources still marked unverified.
-3. **Clear the remaining archiving gaps**: 11 sources with no snapshot at all. Tedious,
-   unglamorous, and the difference between a claim and a checked claim. **Most of this
-   was done in round 10 (52 of 65 now archived), so do not start over**: read §6 item 1
-   first, which lists the 11 and explains the API's spurious-empty trap. The remaining
-   route is manual "Save Page Now" in a browser. A subagent pass finished in round 10;
-   its work was independently verified (only `archive:` lines changed), so do not redo it.
+3. **Clear the remaining archiving gaps**: 11 sources with no snapshot at all, out of 70
+   entries, of which 58 are archived. Tedious, unglamorous, and the difference between a claim
+   and a checked claim. **Do not start over**: read §6 item 1, which lists the 11 and explains
+   the API's spurious-empty trap. Two things changed in round 11, and both make this easier
+   than round 10 assumed:
+
+   - **Save Page Now works over plain HTTP with no account**:
+     `curl -sSL "https://web.archive.org/save/<url>"`, then fetch the returned snapshot and
+     check its title. Four sources were archived that way this round, each on the first
+     attempt, so this is not a browser-only job.
+   - **Use the CDX API to find out whether a snapshot exists at all** (§7 gotcha 10). The
+     availability API returned empty on eight consecutive passes for a URL that has a working
+     snapshot, so a blank from it is not a negative.
 4. ~~**Fill the two `/sources/` TODOs** (contact route, tools disclosure).~~ **Both were
    actioned in round 11, and one sub-item is still open.**
 
@@ -1090,11 +1117,24 @@ moment the site itself is hypocritical.
    of it is fetched by a browser, so the no-third-party-requests claim is unaffected. Set
    the real domain in one edit when hosting is decided, and do not guess it before then.
 
-**Neither of the two paragraphs that used to sit here applies any more.** `/the-rules/` is
-dropped, so there is no remaining page that has to be started carefully, and `/receipts/` is
-written, so the "you would only have to measure twice" argument is spent. The one instruction
-that survives from the original plan is the one about order: content first, wiring second. It
-held for eleven rounds and the content side is now finished.
+8. **The CSS work block, which the maintainer wants treated as a separate pass.** The text is
+   finished and readable raw, so styling is now a self-contained job instead of one that keeps
+   chasing the content. It is one plain CSS file of about 280 lines with no preprocessor (§7
+   gotcha 3) and a small design vocabulary. Three things to know before starting:
+
+   - **Every page's weight changes, so `/receipts/` must be re-measured and patched at the
+     end.** That happened four times in round 11 for content reasons; the page dates its
+     figures and rounds the site-wide row precisely so this stays honest rather than annoying.
+   - **The CSS is where two of `/receipts/`'s known failures can be fixed without JavaScript**:
+     citation markers currently have no styling affordance at all (they render as bare numbers
+     with CSS off), and their click target is below the WCAG 2.5.8 minimum. Both are style
+     problems, not markup ones.
+   - **Accessibility is the constraint, not a later pass**: WCAG 2.2 AA, visible focus, and
+     `prefers-reduced-motion`, which matters because `scroll-behavior: smooth` is already set
+     for the flagship page. No CSS framework, no webfont, no CDN, for the reasons in §8.
+
+   When it is done, `/receipts/` is the only page that needs numbers updated, and its date
+   should move with them.
 
 ---
 
@@ -1114,15 +1154,15 @@ Both are tracked in §6, and both are honest limitations rather than oversights.
 condition that used to sit here, the unsupported disclosure sentence on `/sources/`, closed in
 round 11 (§9 item 4).
 
-**The repository is now a repository.** Round 11 initialised git (`main`, first commit
-`09f1643`, 39 files) and added a `LICENSE` carrying the CC0 1.0 legal code verbatim, which
-is what makes the footer's licence line true rather than aspirational. Nothing has been
+**The repository is now a repository.** Round 11 initialised git (`main`), added a `LICENSE`
+carrying the CC0 1.0 legal code verbatim, which is what makes the footer's licence line true
+rather than aspirational, and finished with six commits and a clean tree. Nothing has been
 pushed: connecting the GitHub remote is the maintainer's call.
 
 **Not blocked, and no longer blocked on content.** Round 11 closed `/`, `/receipts/`, the two
-unargued harms and the `edpb-consent-or-pay` record, removed the site's last em dash after
-discovering that the title it was protecting was not the publisher's wording, and dropped
-`/the-rules/` on the maintainer's instruction. **What remains needs a human rather than an
-agent**: the two `/sources/` TODOs (the maintainer's own tool disclosure), the blanket-blocked
-links that have to be opened by hand, the 11 possible Wayback gaps that need a browser, and
-the decision about a domain and a host.
+unargued harms, the `edpb-consent-or-pay` record and both `/sources/` TODOs, removed the
+site's last em dash after discovering that the title it was protecting was not the publisher's
+wording, and dropped `/the-rules/` on the maintainer's instruction. **What remains needs a
+human rather than an agent**: the blanked links that have to be opened by hand, the 11 possible
+Wayback gaps, the domain and host decision, and the GitHub tracker setting that decides whether
+anonymous issue filing works (see §9 item 4).
