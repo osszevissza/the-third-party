@@ -73,10 +73,11 @@ inferred, and both are stated in the footer. Do not invent a different author st
 different licence for this project.
 
 **State:** twelve pages, which is every page the site intends to have: the home page plus 11
-content pages. 30,636 words of body text by the count in §5, of which 8,514 is `/sources/`
-and mostly its generated bibliography. 2 archived drafts, 66 sources, four scripts, and a
-Hugo build that passes all four checks and renders all twelve pages with no errors.
-`/the-rules/` was dropped in round 11, so the target is 12 core pages rather than 13.
+content pages. 31,462 words of body text by the count in §5, of which 9,259 is `/sources/`
+and mostly its generated bibliography. 2 archived drafts, 66 sources, four scripts, a
+LICENSE, and a Hugo build that passes all four checks and renders all twelve pages with no
+errors. The repository is under git with one commit. `/the-rules/` was dropped in round 11,
+so the target is 12 core pages rather than 13.
 
 **Read next, in this order:** `FOR-REVIEW.md` (concept, and the review outcome),
 `SITE_PLAN.md` (full IA and rationale), `data/sources.yaml` header (citation rules).
@@ -337,7 +338,8 @@ pages are added.
 ```
 hugo.toml              site config. Typographer DISABLED on purpose, see §7 gotcha 11
 .tool-versions         Hugo pinned to 0.150.0 (there is no Go, so `hugo mod` cannot pin it)
-.gitignore             public/, resources/, tmp/, .wayback-work/, .directory
+.gitignore             public/, resources/, tmp/, .wayback-work/, .directory, __pycache__/
+LICENSE                CC0 1.0 legal code, fetched verbatim, plus a two-line header
 FOR-REVIEW.md          concept summary, plus the outcome of the review
 SITE_PLAN.md           full IA, page-by-page outline, build constraints (§6b = Hugo)
 AGENT.md               this file
@@ -407,12 +409,12 @@ which cost time in round 10:
 
 ### Page inventory
 
-**Done: all twelve pages** (the home page plus `content/`, 30,636 words, measured in round 11
+**Done: all twelve pages** (the home page plus `content/`, 31,462 words, measured in round 11
 as body words after frontmatter, whitespace-split, generated text included):
 
 | Page | Words | Shape |
 |---|---|---|
-| `sources/` | 8,514 | reference. *Mostly generated from `data/sources.yaml`* |
+| `sources/` | 9,259 | reference. *Mostly generated from `data/sources.yaml`* |
 | `nothing-to-hide/` | 3,030 | B, merged: nine objections, A's opening, A's concession, two harms argued |
 | `consent-theatre/` | 2,996 | A, explanatory, with the static eight-click walkthrough |
 | `dark-patterns/` | 2,351 | field guide, 17 patterns |
@@ -685,11 +687,25 @@ control-probed before being recorded here, and each is a small edit to `data/sou
 
 ## 7. Environment & gotchas
 
-**Installed:** Hugo `v0.150.0+extended`, Python 3.14 with PyYAML, Node v22.22.2,
-git 2.56.0.
-**Not installed:** Go. The repository is also **not a git repository**, despite git
-being installed. There is no version-control safety net, so `Archívum.tar.gz` and the
-`cp` habit in step one of any sweep are what stand in for it.
+**Installed:** Hugo `v0.150.0+extended`, Python 3.14.8 with PyYAML 6.0.3, Node v22.22.2
+(installed on the machine but **unused by this build**), git 2.56.0, curl 8.18.0,
+`pdftotext` 26.01.0 from poppler. The machine is Fedora Linux 44 (KDE Plasma).
+
+**Not installed:** Go, so `hugo mod` cannot pin the Hugo version and `.tool-versions` does it
+instead. **No headless browser tooling at all**: no Lighthouse, axe, Playwright, Puppeteer,
+geckodriver or pa11y. A flatpak Firefox exists at `~/.local/bin/flatpak/firefox` but cannot
+be launched from an agent shell (`Unable to allocate instance id`), which is why `/receipts/`
+publishes no LCP figure and no audit scores, and says so on the page rather than implying the
+checks passed.
+
+**Git: initialised in round 11, and that changes the working rules.** Branch `main`, first
+commit `09f1643`, 39 files. The repository is no longer unprotected, so a maintenance sweep
+can be diffed instead of copied first, and the `md5` records below are a convenience rather
+than the only evidence of drift. The GitHub remote exists
+(`git@github.com:osszevissza/the-third-party.git`) but **has not been connected or pushed**:
+`git remote add origin ...` and a push are the next step, and they are the maintainer's call.
+`public/`, `resources/`, `tmp/`, `__pycache__/` and the scratch directories are ignored, so
+the repository holds source rather than build output.
 
 **Known-good state at the end of round 11**, for use as a reference point if something is
 later suspected of having drifted. All four scripts pass, the build renders all twelve pages,
@@ -701,15 +717,18 @@ md5  a069bd58b99b4d096acf8aa0a6bcdb59
 ```
 
 The round-10 figure it replaces was `md5 972567407df5404c8f32dd329462bfb5`, 52 archived, 13
-without, 21 null. This matters more than usual because there is no VCS to diff against. If
-git is initialised next round, this becomes the first commit and the note can be deleted.
+without, 21 null. Git was initialised in round 11 (`main`, first commit `09f1643`), so this
+md5 is now a cross-check rather than the only record of the file's state, and `git diff` is
+the better tool when something looks wrong.
 
 **The receipts figures, as published on `/receipts/`** (they are exact, and a rebuild
-reproduces them): median page 9,081 bytes gzipped; heaviest page 25,952 gzipped and 88,303
-raw, both `/sources/`; both colour schemes pass 4.5:1 with a lowest ratio of 6.66:1; zero
-third-party subresources across all twelve pages. If a later round changes the stylesheet or
-the page templates, these are the numbers that go stale first, and `/receipts/` says so
-itself.
+reproduces them): median page 9,081 bytes gzipped; heaviest page 27,273 gzipped and 91,895
+raw, both `/sources/`, which is 3.0 times the median; both colour schemes pass 4.5:1 with a
+lowest ratio of 6.66:1; zero third-party subresources across all twelve pages. If a later
+round changes the stylesheet, the templates, or adds to a page, these go stale immediately:
+writing two sections into `/sources/` in round 11 moved the heaviest page by 1,321 bytes and
+the published figures had to be re-measured and patched. `/receipts/` says so itself, and
+that is the intended behaviour rather than a defect.
 
 ### Gotchas that have already cost time: don't repeat them
 
@@ -984,36 +1003,28 @@ moment the site itself is hypocritical.
    first, which lists the 11 and explains the API's spurious-empty trap. The remaining
    route is manual "Save Page Now" in a browser. A subagent pass finished in round 10;
    its work was independently verified (only `archive:` lines changed), so do not redo it.
-4. **Fill the two `/sources/` TODOs** (contact route, tools disclosure). Both are HTML
-   comments in the page, both are publication blockers, and **both need the maintainer**
-   rather than an agent. The tools disclosure is the one that matters most: the published
-   sentence commits the site to it, and an unsupported disclosure would be worse than
-   saying nothing.
+4. ~~**Fill the two `/sources/` TODOs** (contact route, tools disclosure).~~ **Both were
+   actioned in round 11, and one sub-item is still open.**
 
-   **The contact route was decided in round 10 and deliberately left unactioned.** The
-   maintainer said they will come back to it, so do not re-open the question or write it
-   for them. The decision, for whoever picks it up:
-
-   - **GitHub Issues is the published route**, because the page's own sentence at
-     `content/sources/index.md` line 80 already argues for it: the tracker "keeps the
-     correction visible to everyone rather than only to me."
-   - **Email as a fallback, with the address not printed plainly**, plus one line
-     committing to transcribe emailed reports into the tracker. That closes email's only
-     real weakness and is what makes it defensible to offer both.
-   - **No promised response time.** "I read everything; I fix things when I can" is
-     credible and costs nothing.
-   - **The one real failure mode is a dead tracker.** GitHub only allows anonymous issue
-     filing on public repos if it is enabled, so test it logged out in a private window
-     before publishing. That is the TODO's own warning, "do not publish a channel you
-     will not read", applied to whether the channel accepts input.
-   - **Two edits are waiting in the file**: line 80 needs the actual tracker URL, and the
-     orphaned "I read everything" sentence near the bottom needs moving up against its
-     own paragraph. A `/contact/` page may be a better home for the route than an anchor
-     on `/sources/`; it is not one of the thirteen core pages, so it does not affect the
-     completeness target.
-
-   Needed from the maintainer to finish it: the repo path (`github.com/<user>/<repo>`) and
-   a yes or no on the email fallback.
+   - **Contact route: done and published.** The tracker URL is in the page
+     (`https://github.com/osszevissza/the-third-party/issues`), email is offered as the
+     fallback by pointing at `barsimarina.hu` rather than printing the address, emailed
+     reports are committed to being transcribed into the tracker, and there is deliberately
+     no promised response time. **One check before publishing**: GitHub only allows
+     anonymous issue filing on a public repository if that setting is enabled, so open the
+     tracker logged out in a private window and confirm the form appears. That is the old
+     warning, "do not publish a channel you will not read", applied to whether the channel
+     accepts input.
+   - **Tools disclosure: written in half, and the other half needs the maintainer.** The
+     *build* disclosure now exists as a section headed "How this site is built and checked":
+     Hugo with no theme, Python for the four checks, `curl` and the Wayback Machine and
+     `pdftotext` for verification, GitHub and statichost.eu, and an AI agent named as the
+     writer of the prose and the code. What is **not** answered is the narrower question the
+     page actually committed to: **which of the eight recommended swaps the maintainer
+     personally runs.** The section headings of `/swap-shop/` are the list (email, search, ad
+     blocking, chat, documents, code hosting, video, DNS), and an HTML comment in `/sources/`
+     records it. "None of them yet" is a publishable answer, and a better one than silence.
+     Until it is answered, that sentence is the only unsupported claim on the site.
 5. ~~**Fix the two-line `edpb-consent-or-pay` entry** (§6 item 5).~~ **Done in round 11**,
    and it took more than two lines. See §6 item 5 for what was corrected along the way (the
    PDF path, the corrigendum of October 2024, and a date that had to rest on the page's
@@ -1027,8 +1038,12 @@ moment the site itself is hypocritical.
    upgrades listed there, and hosting.
 7. **Set up the GitHub repo and statichost.eu when the local site is approved.** The
    maintainer has confirmed the repo will be **public**, and deferred the setup until the
-   site runs locally without errors, which it now does. `.gitignore`, `.tool-versions` and
-   the build script are already in place. Hosting notes: statichost.eu builds from the Git
+   site runs locally without errors, which it now does. **Round 11: the repository now
+   exists on GitHub as `osszevissza/the-third-party`, and the local checkout has its first
+   commit.** What remains is to connect the two
+   (`git remote add origin git@github.com:osszevissza/the-third-party.git`, then a push),
+   add `statichost.yml`, and choose the domain. `.gitignore`, `.tool-versions`, `LICENSE`
+   and the build script are already in place. Hosting notes: statichost.eu builds from the Git
    repo via `statichost.yml` (image `hugomods/hugo:exts-0.150.0`, `command: hugo`,
    `public: public`), needs no GitHub Actions, and has password protection on its free
    tier for staging. See §7 gotcha 10 for the source-verification consequences of going
@@ -1060,10 +1075,17 @@ grounded in a verified, dated citation. **All twelve exist** as of round 11: `/`
 was dropped by the maintainer, so the target moved from thirteen pages to twelve. All four
 scripts pass with 0 errors and the build renders every page.
 
-**Two conditions of the original definition of done are still open, and neither is writing
-work.** The source worklist in §6 is not clear: 20 sources still carry `verified_on: null`,
-several of them because no terminal can verify them at all. And 12 sources are not archived.
-Both are tracked in §6, and both are honest limitations rather than oversights.
+**Three conditions of the original definition of done are still open, and none of them is
+writing work.** The source worklist in §6 is not clear: 20 sources still carry
+`verified_on: null`, several of them because no terminal can verify them at all. 12 sources
+are not archived. And one published sentence on `/sources/` still commits the maintainer to
+naming which recommended tools they actually run (§9 item 4). All three are tracked in §6
+and §9, and all three are honest limitations rather than oversights.
+
+**The repository is now a repository.** Round 11 initialised git (`main`, first commit
+`09f1643`, 39 files) and added a `LICENSE` carrying the CC0 1.0 legal code verbatim, which
+is what makes the footer's licence line true rather than aspirational. Nothing has been
+pushed: connecting the GitHub remote is the maintainer's call.
 
 **Not blocked, and no longer blocked on content.** Round 11 closed `/`, `/receipts/`, the two
 unargued harms and the `edpb-consent-or-pay` record, removed the site's last em dash after
