@@ -24,8 +24,6 @@ If you take one thing from this page, take this: **the honest answer to "should 
 
 **If you run a website.** Go straight to [You Don't Need Google Analytics](/analytics/). It's the most immediately useful page here for anyone who publishes, and it's where the argument turns into something you can act on this week.
 
-**If you have an afternoon and want to understand the legal picture**, [the rules](/the-rules/) is the one to read, with the warning that it dates faster than anything else on the site. Every claim on it carries a status date.
-
 ## Ladder one: if you just use the web
 
 Rungs are roughly ordered by effort. Stop wherever you like, but the first one is worth doing even if you do nothing else.
