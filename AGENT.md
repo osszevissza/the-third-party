@@ -610,9 +610,9 @@ from the line above it. The pass added four font files, two diagrams, two script
 shortcode, and edited the stylesheet, the head partial, the build script, the measurement
 script, two pages, and this file.
 
-**Page weights, measured after the styling pass on 2026-10-15:** median 40,512 bytes gzipped
-and 61,768 raw; heaviest `/sources/` at 57,743 gzipped and 125,131 raw, 1.43 times the median;
-the whole site with its shared stylesheet, fonts and icon counted once at 124,972 bytes
+**Page weights, measured after the styling pass on 2026-10-15:** median 40,617 bytes gzipped
+and 62,295 raw; heaviest `/sources/` at 58,081 gzipped and 127,264 raw, 1.43 times the median;
+the whole site with its shared stylesheet, fonts and icon counted once at 125,543 bytes
 gzipped. Before the pass the same rows were 9,126 / 25,216 median and 26,440 / 89,184
 heaviest, so **the type added about 27 KB to every page and the stylesheet grew from 7.3 KB to
 8.8 KB**.
@@ -621,9 +621,9 @@ heaviest, so **the type added about 27 KB to every page and the stylesheet grew 
 WOFF2 is already compressed, so gzip cannot compress it: the four font files are 29,420 bytes
 raw and 29,415 gzipped, a saving of five bytes across the set. Every font byte therefore lands
 in full on the raw row and barely at all on the transferred one. The honest statement is the
-one `measure-pages.py` prints: **a reader downloads 57,743 bytes for the heaviest page, and
-125,131 is the sum of the files involved rather than the number that crosses the wire.** Two
-things follow. `/sources/` is now over the raw line by 22,731 bytes rather than by the 1,326 it
+one `measure-pages.py` prints: **a reader downloads 58,081 bytes for the heaviest page, and
+127,264 is the sum of the files involved rather than the number that crosses the wire.** Two
+things follow. `/sources/` is now over the raw line by 24,864 bytes rather than by the 1,326 it
 was under it before, and that is a decision for the maintainer rather than a bug: §9 item 9
 records it. And the budget's two readings are no longer interchangeable, so **quote the transferred
 one when the claim is about a reader** and say which reading is meant.
@@ -774,7 +774,7 @@ itself is hypocritical.
   4.5:1 contrast, meaningful alt text, and `prefers-reduced-motion` respected, which is
   critical because the flagship page is scroll-animated.
 - **Performance budget:** under 100 KB per page, under 20 requests, LCP under 1.5 s. **As of
-  2026-10-15 the transferred reading passes and the raw one does not** (57,743 against 125,131
+  2026-10-15 the transferred reading passes and the raw one does not** (58,081 against 127,264
   for the heaviest page), because four self-hosted font files cannot be compressed by gzip a
   second time. §7 has the measured comparison and §9 item 9 the three ways to resolve it.
   Requests are unaffected: nine per page, four of them fonts, all from this origin. **LCP has
@@ -934,7 +934,7 @@ Items 1 to 6 are closed and are kept as stubs so the numbering does not shift.
 9. **Two decisions the styling pass hands back, new on 2026-10-15.**
 
    - **The raw reading of the 100 KB page budget is over, and the transferred one is not.**
-     `/sources/` is 125,131 raw bytes against a 102,400 budget, and 57,743 gzipped, which
+     `/sources/` is 127,264 raw bytes against a 102,400 budget, and 58,081 gzipped, which
      passes. The cause is that WOFF2 is already compressed, so 29,420 bytes of font lands in
      full on the raw row and saves five bytes on the transferred one. §7 has the full
      comparison. The three honest options are: **raise the raw budget** to a number that
