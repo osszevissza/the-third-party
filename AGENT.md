@@ -154,7 +154,13 @@ any more, so it is an internal check: use it rather than a `du` of `public/`.
 - `build-fonts.py --check` → `2 families, 4 subsets, 113 code points, all covered`. The
   code point count is derived from the site's own text, so it moves when the prose does.
 - `check-a11y.py` → `a11y: every static invariant holds (headings, landmarks, alt text, ids,
-  focus, target sizes)`. **It is not an audit and says so on every run.** It checks what is
+  focus, target sizes)`, preceded by `smallest text on the site: 12.0px`, `body text:
+  1.125rem = 18px` and `text block: 42rem = 672px at 18px type, 64.2 characters per line: ok`.
+  **The typography section of that check is the answer to "will the type pass an audit"**:
+  no absolute `px` font sizes outside the print stylesheet, because WCAG 1.4.4 requires text to
+  resize and rem is what makes that automatic; a 12px floor on any text a reader reads; a 21px
+  floor on the line box of anything that wraps; and the characters-per-line figure measured
+  from the served font rather than estimated, against the 80 of WCAG 1.4.8. **It is not an audit and says so on every run.** It checks what is
   decidable from markup and the stylesheet: one h1 and no skipped levels, alt text on images,
   an accessible name on every inline SVG, no duplicate id, a skip link that resolves,
   discernible link text, every `outline: none` paired with a replacement, and the 24px
@@ -389,6 +395,12 @@ matters because a page can pass every script and still fail to render.
   `extras.fencedDiv`. Raw HTML blocks work instead, because `unsafe = true` is set, but **a
   `<div>` in Markdown has to balance**: one opener went in without its closer in this round and
   the closing tag sat alone until the rendered output was counted rather than the source.
+- **A check that carries its own copy of the site's numbers will lie.** `check-a11y.py` had
+  `px = 18` hardcoded for the characters-per-line figure while the stylesheet rendered 17px, so
+  it printed a confident 64.2 characters for a line that measured 58. It reads the body size
+  out of the stylesheet now, along with everything else it measures. **The rule generalises**:
+  a value that appears in both a check and the thing it checks is a value that will disagree
+  with itself, and the check is the copy nobody notices going stale.
 - **When checking minified output, accept both attribute forms.** `--minify` strips quotes
   from simple attributes (`<sup class=cite>`), so a quote-only regex reports zero citations on
   a page that has seventeen.
@@ -621,9 +633,9 @@ from the line above it. The pass added four font files, two diagrams, two script
 shortcode, and edited the stylesheet, the head partial, the build script, the measurement
 script, two pages, and this file.
 
-**Page weights, measured after the styling pass on 2026-10-15:** median 40,987 bytes gzipped
-and 63,856 raw; heaviest `/sources/` at 58,793 gzipped and 129,704 raw, 1.43 times the median;
-the whole site with its shared stylesheet, fonts and icon counted once at 126,629 bytes
+**Page weights, measured after the styling pass on 2026-10-15:** median 40,483 bytes gzipped
+and 63,379 raw; heaviest `/sources/` at 58,256 gzipped and 129,177 raw, 1.43 times the median;
+the whole site with its shared stylesheet, fonts and icon counted once at 125,791 bytes
 gzipped. Before the pass the same rows were 9,126 / 25,216 median and 26,440 / 89,184
 heaviest, so **the type added about 27 KB to every page and the stylesheet grew from 7.3 KB to
 8.8 KB**.
@@ -632,9 +644,9 @@ heaviest, so **the type added about 27 KB to every page and the stylesheet grew 
 WOFF2 is already compressed, so gzip cannot compress it: the four font files are 29,420 bytes
 raw and 29,415 gzipped, a saving of five bytes across the set. Every font byte therefore lands
 in full on the raw row and barely at all on the transferred one. The honest statement is the
-one `measure-pages.py` prints: **a reader downloads 58,793 bytes for the heaviest page, and
-129,704 is the sum of the files involved rather than the number that crosses the wire.** Two
-things follow. `/sources/` is now over the raw line by 27,304 bytes rather than by the 1,326 it
+one `measure-pages.py` prints: **a reader downloads 58,256 bytes for the heaviest page, and
+129,177 is the sum of the files involved rather than the number that crosses the wire.** Two
+things follow. `/sources/` is now over the raw line by 26,777 bytes rather than by the 1,326 it
 was under it before, and that is a decision for the maintainer rather than a bug: §9 item 9
 records it. And the budget's two readings are no longer interchangeable, so **quote the transferred
 one when the claim is about a reader** and say which reading is meant.
@@ -783,9 +795,21 @@ itself is hypocritical.
   WCAG requirement at once (`SITE_PLAN.md` §6b has the single-source-of-truth pattern).
 - **Accessibility: WCAG 2.2 AA.** Semantic HTML, keyboard-operable interactives, visible focus,
   4.5:1 contrast, meaningful alt text, and `prefers-reduced-motion` respected, which is
-  critical because the flagship page is scroll-animated.
+  critical because the flagship page is scroll-animated. **Three of these are now checked by
+  script rather than by hand**: contrast from the stylesheet's tokens, the structural
+  invariants and the target sizes from the built HTML, and the typography of both. The
+  remainder, which a headless browser and a person are needed for, is listed at the top of
+  `scripts/check-a11y.py` so nobody mistakes the checks for an audit.
+- **Type: two floors of this site's own, on top of WCAG's two.** WCAG requires text to resize
+  to 200% (1.4.4), which `rem` gives for free, and caps a line at 80 characters (1.4.8, AAA).
+  **This site adds a 12px minimum on any text a reader reads and a 21px minimum line box on
+  anything that wraps**, because the pages run to three thousand words and small type is where
+  a long read actually hurts. Body text is 18px, the prose measure is 42rem, and the check
+  computes 64 characters per line from the served font. All four numbers are enforced by
+  `scripts/check-a11y.py` and labelled as floors wherever they appear, so nobody mistakes this
+  site's judgment for a standard.
 - **Performance budget:** under 100 KB per page, under 20 requests, LCP under 1.5 s. **As of
-  2026-10-15 the transferred reading passes and the raw one does not** (58,793 against 129,704
+  2026-10-15 the transferred reading passes and the raw one does not** (58,256 against 129,177
   for the heaviest page), because four self-hosted font files cannot be compressed by gzip a
   second time. §7 has the measured comparison and §9 item 9 the three ways to resolve it.
   Requests are unaffected: nine per page, four of them fonts, all from this origin. **LCP has
@@ -896,6 +920,17 @@ Items 1 to 6 are closed and are kept as stubs so the numbering does not shift.
      modifier exists for turning the eight-click walkthrough into a numbered sequence, and is
      **not applied**: the marker is never empty because the words "Click 3." are still in the
      markup, so applying it would double the numbering. Apply it only if the words go.
+   - **Typography, measured rather than judged.** Body text is **18px** (`1.125rem`) with a
+     1.65 line box, and the prose measure is **42rem**, which the check computes as **64
+     characters per line** from the real font: inside the 80 of WCAG 1.4.8 and inside the 45
+     to 75 that typography has considered readable for a century. **Two defects were fixed to
+     get there**, both found by the check rather than by looking: the citation marker was
+     11.2px, under the 12px floor, and `figcaption` had a 20px line box on 13.6px type, under
+     the 21px floor. **The diagrams were the worst of it**: their type was in `px`, so it
+     ignored the reader's font size setting entirely, and it is in `rem` now with the summary
+     sentences split across lines rather than the type shrunk to fit. `AGENT.md` §8 carries the
+     floors and where they come from; WCAG requires the 200% resize and the 80 characters,
+     and the 12px and 21px numbers are this site's own.
    - **Links are ruled with `border-bottom`, not `text-decoration`**, at the maintainer's
      request. The trade is real and is recorded where it is made: a border draws once per box,
      so a link that wraps across two lines gets one rule at the end instead of one under each
@@ -959,7 +994,7 @@ Items 1 to 6 are closed and are kept as stubs so the numbering does not shift.
 9. **Two decisions the styling pass hands back, new on 2026-10-15.**
 
    - **The raw reading of the 100 KB page budget is over, and the transferred one is not.**
-     `/sources/` is 129,704 raw bytes against a 102,400 budget, and 58,793 gzipped, which
+     `/sources/` is 129,177 raw bytes against a 102,400 budget, and 58,256 gzipped, which
      passes. The cause is that WOFF2 is already compressed, so 29,420 bytes of font lands in
      full on the raw row and saves five bytes on the transferred one. §7 has the full
      comparison. The three honest options are: **raise the raw budget** to a number that

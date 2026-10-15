@@ -1,4 +1,4 @@
-<svg viewBox="0 0 660 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="d2-title d2-desc" font-family="'General Sans', system-ui, sans-serif">
+<svg viewBox="0 0 660 366" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="d2-title d2-desc" font-family="'General Sans', system-ui, sans-serif">
   <title id="d2-title">Two versions of the same page, and who each one contacts</title>
   <desc id="d2-desc">The left column shows what a page built for extraction contacts: font
     and script CDNs, an analytics service, a consent vendor, an ad server and its bidders, a
@@ -44,7 +44,9 @@
   <text x="416" y="256" class="d-small d-label--on-accent">or the server's own logs</text>
   <text x="416" y="282" class="d-small d-label--on-accent">no cookies, so nothing to ask</text>
 
-  <!-- The outcome line -->
-  <text x="0" y="322" class="d-small d-ink-muted">Nothing above requires a banner on the right, because there is nothing to consent to.</text>
-  <text x="0" y="338" class="d-small d-ink-muted">The list on the left is built from the practices this page documents, not from a count taken on any one site.</text>
+  <!-- The outcome lines, split for the same reason as the other diagram: the growth in type
+       would otherwise run the first of them past the right edge of the canvas. -->
+  <text x="0" y="322" class="d-small d-ink-muted">Nothing on the right needs a banner, because there is nothing to consent to.</text>
+  <text x="0" y="339" class="d-small d-ink-muted">The list on the left comes from the practices this page documents,</text>
+  <text x="0" y="356" class="d-small d-ink-muted">not from a count taken on any one site.</text>
 </svg>

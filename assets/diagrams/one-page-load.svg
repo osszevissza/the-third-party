@@ -1,4 +1,4 @@
-<svg viewBox="0 0 660 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="d1-title d1-desc" font-family="'General Sans', system-ui, sans-serif">
+<svg viewBox="0 0 660 356" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="d1-title d1-desc" font-family="'General Sans', system-ui, sans-serif">
   <title id="d1-title">Who receives a request during one page load</title>
   <desc id="d1-desc">A browser requests one page from the site. The site in turn contacts a
     measurement company and a consent vendor, and loads an ad tag. The ad tag instructs the
@@ -58,7 +58,10 @@
     <text x="552" y="261" class="d-small d-label--on-pop" text-anchor="middle">bidder</text>
   </g>
 
-  <!-- Summary -->
-  <text x="0" y="305" class="d-small d-ink-muted">Every box above receives a request from your browser, carrying your address and whatever identifiers can be attached.</text>
-  <text x="0" y="322" class="d-small d-ink-muted">The bid request goes to all five at once. There is no recipient list, because the mechanism has no concept of one.</text>
+  <!-- Summary. Two lines where there was one, because the type grew: at 0.75rem the first
+       sentence measured 583 of the 660 units available, so scaling it would have run it off
+       the canvas. Splitting the sentence is the honest fix; shrinking the type back is not. -->
+  <text x="0" y="305" class="d-small d-ink-muted">Every box above receives a request from your browser, carrying your address</text>
+  <text x="0" y="322" class="d-small d-ink-muted">and whatever identifiers can be attached to it.</text>
+  <text x="0" y="339" class="d-small d-ink-muted">The bid request goes to all five at once, with no recipient list to agree to.</text>
 </svg>

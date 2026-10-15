@@ -163,11 +163,21 @@
   --ring: #1b4d68;
   --ring-halo: #f8fdff;
 
-  /* Measures and rhythm. 34rem is roughly 66 characters at 17px, which is the top of the
-     comfortable range for prose this long. */
-  --measure: 34rem;
-  --wide: 46rem;          /* tables, diagrams, the interactive block */
-  --shell: 60rem;         /* header and footer */
+  /* Measures and rhythm.
+
+     The prose measure is set as wide as accessibility allows rather than as narrow as looks
+     tidy, because the maintainer asked for the widest text block that does not harm the rules.
+     WCAG 1.4.8 caps a line at 80 characters, counting a character as the advance width of "0";
+     scripts/check-a11y.py computes that figure from the served font on every run instead of
+     estimating it. **42rem at 18px measures 64 characters**, which is inside the limit and
+     still inside the 45 to 75 characters that typography has considered readable for a
+     century, so the width is not bought by making the text harder to follow. The `min()` keeps
+     the sheet's frame on a narrower screen instead of letting the text run to the edge.
+
+     --wide is the measure for what is not prose: tables, diagrams, the walkthrough. */
+  --measure: min(42rem, 100%);
+  --wide: min(48rem, 100%);
+  --shell: 60rem;         /* the sheet, the header and the footer */
 
   --font: "General Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: "Arsenal", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
@@ -245,7 +255,10 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
-  font-size: 1.0625rem;
+  /* 18px rather than 17px: three thousand words is a long read and this is a site about
+     legibility, so the smaller size was the wrong default. It costs nothing in line length,
+     because the measure is fixed. */
+  font-size: 1.125rem;
   line-height: 1.65;
   /* Synthesis is left ON, deliberately, and the reason is a failure mode rather than a
      preference. Both families have a real cut at every weight this file asks for, so
@@ -421,7 +434,7 @@ main { display: block; padding: 0 1.25rem; }
 .sheet {
   max-width: var(--shell);
   margin: 0 auto 3.5rem;
-  padding: 0.5rem 2.5rem 3.5rem;
+  padding: 0.5rem clamp(1.25rem, 4vw, 2.5rem) 3.5rem;
   background: var(--sheet);
   border: 1px solid var(--rule);
   border-radius: var(--radius-lg);
@@ -608,16 +621,21 @@ figure svg { display: block; width: 100%; height: auto; }
 .d-box--pop { fill: var(--pop); stroke: var(--pop); }
 .d-line { stroke: var(--rule-strong); stroke-width: 1.5; fill: none; }
 .d-arrow { fill: var(--rule-strong); }
-text { font-size: 12px; fill: var(--ink); }
-.d-label { font-size: 13px; font-weight: 600; fill: var(--ink-heading); }
+/* Diagram type is sized in rem for the same reason the prose is: it has to grow when a reader
+   asks for larger text. The first version used px, which ignores that setting entirely. These
+   are the smallest sizes in the whole stylesheet, and the diagrams carry their meaning in
+   words rather than in shapes, so they are not the place to be clever. */
+text { font-size: 0.8125rem; fill: var(--ink); }
+.d-label { font-size: 0.875rem; font-weight: 600; fill: var(--ink-heading); }
 .d-label--on-accent { fill: var(--accent-ink); }
 .d-label--on-pop { fill: var(--pop-ink); }
-.d-small { font-size: 11px; }
+.d-small { font-size: 0.75rem; }   /* 12px, the floor: this carries the figure's summary */
 .d-ink-muted { fill: var(--ink-muted); }
 
 figcaption {
   font-size: 0.85rem;
-  line-height: 1.5;
+  line-height: 1.6;   /* 21.8px on 13.6px type: under 1.5 the line box measured 20px, which is
+                         the check's floor and not a comfortable place to sit */
   color: var(--ink-muted);
   margin-top: 0.6rem;
   padding-top: 0.5rem;
@@ -637,8 +655,11 @@ figcaption {
    control, is reachable with a thumb, and is still small enough not to disturb the line.
    --------------------------------------------------------------------------- */
 
+/* 0.75rem, which is 12px: the smallest type anywhere on the site, and the number is deliberate
+   rather than incidental. It was 0.7rem (11.2px) and scripts/check-a11y.py flagged it as under
+   the floor this site sets itself for anything a reader reads. */
 .cite {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   line-height: 1;
   vertical-align: super;
   letter-spacing: 0.02em;

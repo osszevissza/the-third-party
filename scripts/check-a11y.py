@@ -172,6 +172,140 @@ def check_focus(css: str) -> list[str]:
     return failures
 
 
+# --- typography -------------------------------------------------------------
+#
+# WCAG has less to say about type size than people assume, so this section is explicit about
+# what is a requirement and what is a floor this site sets itself.
+#
+#   WCAG 1.4.4 (AA)   text must resize to 200% without loss. The site is all `rem`, so this
+#                     holds by construction, and `root-px` below is the one place that would
+#                     break it: an absolute `px` font-size on a text element.
+#   WCAG 1.4.8 (AAA)  at most 80 characters per line. Not required at AA, and checked here
+#                     because the maintainer asked for the widest text block that does not
+#                     harm accessibility, and this is the line that says where wide stops.
+#   not WCAG          12px as the smallest text on the site, and 21px of line box for any
+#                     text that wraps. These are this site's own floors, chosen because the
+#                     pages run to three thousand words and small type is where a long read
+#                     actually hurts. They are marked as floors so nobody mistakes them for a
+#                     standard.
+ROOT_PX = 16          # the browser default, which the site never overrides
+MIN_TEXT_PX = 12      # hard floor for any text a reader reads
+LINE_RATIO = 1.5      # a wrapped line box has to be at least this much of its font size
+MIN_LINE_PX = 21      # ...or at least this tall, which catches the small sizes
+
+# Text that is not read as prose and is therefore exempt from the line-height floor: the
+# citation marker is a painted control with a number in it, and the visually hidden heading is
+# not rendered at all.
+TYPOGRAPHY_EXEMPT = {".cite a", ".visually-hidden", ".site-title", ".d-label", ".d-small", "text"}
+
+
+def rules_in_order(css: str) -> list[tuple[str, dict[str, str]]]:
+    """Every top-level declaration block, in source order, with its selector.
+
+    Comments and at-rules are removed first, and that is not tidiness: taking the sheet's
+    comments as selectors made this function report a line box for a paragraph of prose about
+    the interactive block, and letting an `@media` body leak through made everything after the
+    print block inherit the print block's font size. A checker that invents selectors invents
+    findings, and invented findings are how a check stops being read.
+    """
+    css = re.sub(r"/\*.*?\*/", " ", css, flags=re.S)
+    # At-rules with a body are dropped whole. The print block is the only one that matters
+    # here, and it is measured on paper rather than on screen, so its sizes are not this
+    # check's business; `prefers-reduced-motion` carries no type at all.
+    css = re.sub(r"@[a-z-]+[^{]*\{(?:[^{}]|\{[^{}]*\})*\}", " ", css, flags=re.S)
+    out: list[tuple[str, dict[str, str]]] = []
+    for match in re.finditer(r"([^{}]+)\{([^}]*)\}", css, re.S):
+        selector = " ".join(match.group(1).split())
+        if not selector or selector.startswith("@"):
+            continue
+        out.append((selector, dict(re.findall(r"([a-z-]+)\s*:\s*([^;]+)", match.group(2)))))
+    return out
+
+
+# Selectors whose text wraps, so their line box has to be tall enough to read. This is a list
+# rather than a guess at what "paragraph-like" means: everything here holds running prose.
+WRAPPING_SELECTORS = (
+    "p", "li", "blockquote", "figcaption", "td", "th", "dd", "dt",
+    ".subtitle", ".source-meta", ".source-status", ".source-links", ".page-sources-note",
+    ".footer-note", ".site-footer", ".callout", ".actions", ".panel", ".interactive",
+    ".status-as-of", ".source-list",
+)
+
+
+def check_typography(css: str) -> list[str]:
+    """Font sizes, line boxes, and the width of the text block.
+
+    The characters-per-line figure is measured from the site's own subsetted font using the
+    real advance width of "0", which is how WCAG 1.4.8 defines a character, rather than
+    estimated from an average. It is the one figure here that comes from a rendered font rather
+    than from a declaration.
+    """
+    failures: list[str] = []
+    smallest = (999.0, "")
+    for selector, declarations in rules_in_order(css):
+        raw = declarations.get("font-size", "").strip()
+        px = None
+        m = re.fullmatch(r"([\d.]+)rem", raw)
+        if m:
+            px = float(m.group(1)) * ROOT_PX
+        if px is not None:
+            if px < smallest[0]:
+                smallest = (px, selector)
+            if px < MIN_TEXT_PX:
+                failures.append(f"{selector}: font-size {raw} is {px:.1f}px, under this site's "
+                                f"own floor of {MIN_TEXT_PX}px")
+        # A line box is only a problem where text wraps. A single-line control with a number in
+        # it, or a heading with a deliberately tight leading, is not what this measures.
+        if any(part in selector for part in WRAPPING_SELECTORS):
+            size = px
+            if size is None:
+                continue
+            lead = declarations.get("line-height", "").strip()
+            ratio = float(lead) if re.fullmatch(r"[\d.]+", lead) else 1.65
+            box = size * ratio
+            if box < MIN_LINE_PX or ratio < LINE_RATIO:
+                failures.append(f"{selector}: {size:.0f}px text with line-height {ratio:g} "
+                                f"gives a {box:.0f}px line box, under this site's floor of "
+                                f"{MIN_LINE_PX}px and {LINE_RATIO} times the font size")
+
+    # WCAG 1.4.4, the requirement that actually decides this question: text has to resize to
+    # 200% without loss. The site is built on rem, so a browser's larger default font size
+    # moves everything, and an absolute px font-size is the one thing that would stop it. It is
+    # checked as a failure rather than as advice because it is invisible in a screenshot.
+    for selector, declarations in rules_in_order(css):
+        value = declarations.get("font-size", "").strip()
+        if value.endswith("px"):
+            failures.append(f"{selector}: font-size {value} is absolute, so it ignores the "
+                            f"reader's font size setting (WCAG 1.4.4); use rem")
+    if "font-size" in css and "vw" in re.search(r"body\s*\{[^}]*\}", css, re.S).group(0):
+        failures.append("body: a viewport-relative font size does not respond to zoom the way "
+                        "a root-relative one does")
+
+    font_path = ROOT / "static" / "fonts" / "general-sans-400.woff2"
+    measure = re.search(r"--measure:\s*min\(([\d.]+)rem", css) or re.search(r"--measure:\s*([\d.]+)rem", css)
+    if not font_path.is_file() or not measure:
+        print("  text block: skipped (font or --measure not found)")
+    else:
+        from PIL import ImageFont
+        print(f"  smallest text on the site: {smallest[0]:.1f}px ({smallest[1]})")
+        # The body size comes out of the stylesheet too. Carrying a copy of it here is how this
+        # printed a figure for 18px type while the site rendered 17px.
+        body_rule = re.search(r"body\s*\{[^}]*font-size:\s*([\d.]+)rem", css, re.S)
+        body_rem = float(body_rule.group(1)) if body_rule else 1.0625
+        px = round(body_rem * ROOT_PX)
+        print(f"  body text: {body_rem:g}rem = {px}px")
+        zero = ImageFont.truetype(str(font_path), px).getlength("0")
+        width = float(measure.group(1)) * ROOT_PX
+        count = width / zero
+        verdict = "ok, under the 80 character limit" if count <= 80 else "OVER the 80 character limit"
+        print(f"  text block: {float(measure.group(1)):g}rem = {width:.0f}px at {px}px type, "
+              f"{count:.1f} characters per line: {verdict} (WCAG 1.4.8)")
+        if count > 80:
+            failures.append(f"--measure gives {count:.1f} characters per line, over the 80 of "
+                            f"WCAG 1.4.8")
+    return failures
+
+
 def check_targets(css: str) -> list[str]:
     """The 24px minimum of WCAG 2.5.8, read from the declarations rather than from a claim.
 
@@ -220,6 +354,8 @@ def main() -> int:
         svg_total += len(re.findall(r"<svg\b", page.read_text("utf-8", "replace"), re.I))
     failures += check_focus(css)
     failures += check_targets(css)
+    print()
+    failures += check_typography(css)
 
     print(f"pages checked                {len(pages)}")
     print(f"inline svg checked           {svg_total}")
