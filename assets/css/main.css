@@ -695,16 +695,108 @@ figcaption {
   text-decoration: none;
 }
 
+/* The sources list at the foot of a page, as a collapsed disclosure.
+
+   The maintainer asked for a dropdown here, and the browser's own <details> does the whole job
+   with no script: keyboard operable, state announced, and honouring the fragment navigation
+   below. The cost of collapsing is that the bibliography is behind a click rather than in the
+   flow, which is why the summary says how many records are in there instead of just saying
+   "Sources": a reader deciding whether to open it should know what it costs them. */
 .page-sources {
   margin-top: 3rem;
-  padding: 1.5rem 1.5rem 0.5rem;
   background: var(--surface);
   border-radius: var(--radius-lg);
   border-top: 4px solid var(--ink-heading);
 }
 
-.page-sources h2 { margin-top: 0; font-size: 1.25rem; }
-.page-sources h2::before { display: none; }
+.page-sources-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.75rem;
+  padding: 1.1rem 1.5rem;
+  cursor: pointer;
+  border-radius: var(--radius-lg);
+  /* A summary is focusable and clickable, so it is a control and takes the focus ring that
+     :focus-visible already draws. Nothing extra is needed here; this comment is here because
+     the temptation is to reset the marker and lose the affordance with it. */
+  list-style-position: outside;
+}
+
+.page-sources-summary::-webkit-details-marker { color: var(--ink-heading); }
+.page-sources-summary::marker { color: var(--ink-heading); }
+
+.page-sources-summary:hover .page-sources-label { color: var(--pop); }
+
+.page-sources-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--ink-heading);
+}
+
+/* The affordance, drawn rather than depended on. The native marker is a small triangle in a
+   browser-dependent colour and some browsers hide it on a flex summary, so the label carries
+   its own chevron in the accent colour. It is a pseudo-element on a decorative span, which
+   means a screen reader never meets it and the disclosure's own state announcement is the only
+   one that matters. */
+.page-sources-label::before {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-right: 0.5em;
+  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: rotate(45deg) translate(-0.1em, -0.1em);
+  transition: transform 0.15s ease;
+}
+details[open] > .page-sources-summary .page-sources-label::before {
+  transform: rotate(-135deg) translate(-0.1em, -0.1em);
+}
+.page-sources-summary:hover .page-sources-label::before { border-color: var(--pop); }
+
+.page-sources-count {
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+}
+
+/* Open state: the summary keeps its shape and the body gets the padding, so the heading does
+   not move when the box opens. */
+[open] > .page-sources-summary {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.page-sources-body {
+  padding: 0.5rem 1.5rem 1.5rem;
+}
+
+/* THE FRAGMENT RULE, and the reason the disclosure is worth having rather than merely tidy.
+   Every `{{< cite >}}` marker in the prose links to `#source-<id>`, which is inside this
+   element. A reader following a citation into a collapsed box needs to be told where they
+   landed, so the box marks itself in the attention colour when it contains the target.
+   `:has()` resolves "this disclosure contains the element the URL pointed at" and needs no
+   script, which is the same constraint every other interaction on this site works under.
+
+   WHAT IS NOT CLAIMED HERE. Revealing a collapsed disclosure when a fragment points inside it
+   is not settled across engines: Chrome and Firefox expand a `<details>` in that situation,
+   there is a Mozilla bug and a Chrome tracking entry for the behaviour rather than a standard,
+   and the WHATWG has an open issue asking for it to be specified (html issue 8509). So the
+   rule above is written as an enhancement, not as a second mechanism: where the browser expands
+   the box, the reader sees a highlighted record; where it does not, the reader sees a box that
+   has coloured itself and can open it. Both are fine, and neither is a script. */
+details:has(> .page-sources-body .source-anchor:target) {
+  border-top-color: var(--pop);
+}
+details:has(> .page-sources-body .source-anchor:target) > .page-sources-summary {
+  background: var(--pop-quiet);
+}
+
+/* The summary carries the name the old h2 carried, so the pink accent dash that h2::before
+   draws is not wanted here: it would sit inside the flex row and push the label off its
+   baseline. The label is sized to do that job instead. */
 
 /* The section rule belongs to headings a reader can see. A visually hidden h2 that names a
    region would otherwise draw a pink dash above whatever happens to be first in the block. */
@@ -726,8 +818,7 @@ figcaption {
    id is everything `:target` needs. */
 .source-anchor { display: inline; }
 
-.source-list li:target,
-.page-sources li:target {
+.page-sources-body li:target {
   background: var(--surface);
   box-shadow: -0.6rem 0 0 var(--surface), 0.6rem 0 0 var(--surface);
   border-radius: var(--radius);
@@ -879,6 +970,10 @@ figcaption {
   /* A citation marker printed as a link target is noise, and the sources are listed at
      the foot of the page anyway. */
   .cite a { border: 0; background: none; padding: 0; min-width: 0; min-height: 0; }
+  /* A collapsed disclosure cannot be opened on paper, and printing a page whose sources are
+     hidden would defeat the point of the page. */
+  .page-sources > .page-sources-body { display: block !important; }
+  .page-sources-summary { padding-bottom: 0.5rem; }
   /* Printing is the one place the colour has to go: a sheet of saturated blocks wastes ink
      and reads worse on paper than plain rules do. Every block keeps its left rule, in black,
      so the structure survives the colour being removed. */

@@ -141,6 +141,22 @@ def check_page(path: pathlib.Path, css: str) -> list[str]:
                 r"aria-label=|title=|new (tab|window)", tag + inner, re.I):
             fail(f"link opens a new tab without saying so: <a {tag[:60]}>")
 
+    # --- disclosures --------------------------------------------------------
+    # The sources list is a <details>, so it is checked for the two things that make a
+    # disclosure usable rather than merely present: it has to have a summary, and the summary
+    # has to say something. A <details> with an empty summary is a control with no name.
+    opens = len(re.findall(r"<details\b", html, re.I))
+    if opens:
+        summaries = re.findall(r"<summary\b[^>]*>(.*?)</summary>", html, re.S | re.I)
+        if len(summaries) != opens:
+            fail(f"{opens} details element(s) but {len(summaries)} summary element(s): a "
+                 f"disclosure without a summary cannot be opened by name")
+        for inner in summaries:
+            if not strip_tags(inner).strip():
+                fail("a summary has no text, so the disclosure has no accessible name")
+    if re.search(r"<details\b[^>]*\bopen\b", html) and "page-sources" in html:
+        fail("the sources disclosure ships open, which defeats the point of collapsing it")
+
     # --- duplicate ids ------------------------------------------------------
     all_ids = [i.strip("\"'") for i in re.findall(r"\bid=(\"[^\"]+\"|[^\s>]+)", html)]
     seen: set[str] = set()

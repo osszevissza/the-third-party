@@ -931,6 +931,19 @@ Items 1 to 6 are closed and are kept as stubs so the numbering does not shift.
      sentences split across lines rather than the type shrunk to fit. `AGENT.md` §8 carries the
      floors and where they come from; WCAG requires the 200% resize and the 80 characters,
      and the 12px and 21px numbers are this site's own.
+   - **The sources list is a collapsed disclosure**, at the maintainer's request, and it is a
+     native `<details>`: no script, keyboard operable, its state announced, and findable by
+     in-page search. **The heading was replaced by a `<summary role="heading" aria-level="2">`**
+     so a screen reader user keeps something to navigate between, which is what the dropped `h2`
+     was for. Three things make collapsing acceptable on a site whose claim is checkability, and
+     all three are load-bearing: every `{{< cite >}}` marker stays in the prose, so a claim
+     still carries its own link; the summary states how many records are behind it, so a reader
+     knows what opening it costs; and the box marks itself in the attention colour when a
+     citation jumps inside it, via `details:has(... :target)`. **The print stylesheet forces the
+     disclosure open**, because a collapsed box cannot be opened on paper and printing a page
+     whose sources are hidden defeats the page. `/sources/` is deliberately **not** collapsed:
+     it is the bibliography itself, so there is nothing to defer to. Reverting the whole thing
+     is one file, `layouts/shortcodes/source-list.html`.
    - **Links are ruled with `border-bottom`, not `text-decoration`**, at the maintainer's
      request. The trade is real and is recorded where it is made: a border draws once per box,
      so a link that wraps across two lines gets one rule at the end instead of one under each

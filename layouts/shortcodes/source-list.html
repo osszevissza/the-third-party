@@ -1,16 +1,32 @@
 {{- /*
-  {{< source-list >}} renders the numbered list a page's `{{< cite >}}` markers point at.
+  {{< source-list >}} renders the numbered list a page's `{{< cite >}}` markers point at, as a
+  collapsed disclosure at the foot of the page.
 
-  Every page must show a perfect citation match in both directions: every declared source
-  cited inline, every inline citation declared. check-content.py checks the Markdown; this
-  shortcode and cite.html are the rendered half of the same contract, so a marker can never
-  point at an entry that does not exist.
+  WHY A NATIVE <details>, AND WHY THAT IS NOT A COMPROMISE. Progressive enhancement is
+  mandatory on this site (AGENT.md section 8), and the interpretation used everywhere else is
+  the narrower one: the content is in the HTML and a script would only add motion. A
+  disclosure is the case where the browser's own element gives more than a script would. With
+  no JavaScript at all, <details> is keyboard operable, announces its own state, is findable by
+  in-page search in Chrome and Firefox, and is honoured by reader modes and translation tools.
+  A scripted accordion would have to reimplement all of that and would be the only script on
+  the site.
+
+  WHAT COLLAPSING COSTS, stated rather than glossed. A reader who never opens this never sees
+  the bibliography, and the site's central claim is that every claim is checkable. Two things
+  make that acceptable: the markers stay in the prose, so every claim still carries a numbered
+  link to its record, and both engines open the disclosure themselves when a fragment points
+  inside it, which is what a `{{< cite >}}` marker does. The citation is the contract; this
+  list is where it resolves.
+
+  The fragment behaviour is also why the disclosure is a <details> with the summary *inside*
+  the targetable element rather than a wrapper that could be skipped. `#source-x` lives in
+  here, and `details:has(> ol :target)` opens the box in CSS when it does.
 
   NOTE ON THE DATA LOOKUP. data/sources.yaml is a LIST of records at the root, so
   .Site.Data.sources is a slice. Indexing it with a string id fails with "cannot index
-  slice/array with type string". The id -> record map has to be built here. That is also
-  why this cannot live in a partial called with the map as an argument: Hugo has no way to
-  return a value from a partial, so each caller builds it. Two callers today.
+  slice/array with type string". The id -> record map has to be built here. That is also why
+  this cannot live in a partial called with the map as an argument: Hugo has no way to return
+  a value from a partial, so each caller builds it. Two callers today.
 */ -}}
 {{- $byID := dict -}}
 {{- range .Site.Data.sources -}}
@@ -18,21 +34,32 @@
 {{- end -}}
 {{- $declared := .Page.Params.sources | default slice -}}
 {{- if $declared -}}
-<section class="page-sources" aria-labelledby="page-sources-heading">
-  <h2 id="page-sources-heading">Sources</h2>
-  <p class="page-sources-note">Every factual claim on this page is attached to one of these. The full bibliography, with each source's known weaknesses, is on <a href="{{ "/sources/" | relURL }}">the sources page</a>.</p>
-  <ol class="source-list">
-    {{- range $declared }}
-    {{- $id := . }}
-    {{- if not (index $byID $id) }}
-      {{- errorf "source-list shortcode: %s declares source id %q, which is not in data/sources.yaml" $.Page.File.Path $id }}
-    {{- end }}
-    <li><span class="source-anchor" id="source-{{ $id }}"></span>
-      {{- partial "source-record.html" (dict "ctx" $ "id" $id "record" (index $byID $id)) }}
-    </li>
-    {{- end }}
-  </ol>
-</section>
+{{- $count := len $declared -}}
+<details class="page-sources">
+  {{- /* role="heading" rather than a nested h2, because a summary may not contain a heading
+         element and losing the outline would cost a screen reader user the one thing a
+         heading is for. A summary keeps its disclosure behaviour with a heading role; it
+         would not with role="button", which overrides it. aria-level=2 because this sits
+         where the page's other h2 sections sit. */ -}}
+  <summary class="page-sources-summary" role="heading" aria-level="2">
+    <span class="page-sources-label">Sources</span>
+    <span class="page-sources-count">every claim on this page attaches to one of {{ $count }} {{ if eq $count 1 }}record{{ else }}records{{ end }}</span>
+  </summary>
+  <div class="page-sources-body">
+    <p class="page-sources-note">The full bibliography, with each source's known weaknesses, is on <a href="{{ "/sources/" | relURL }}">the sources page</a>.</p>
+    <ol class="source-list">
+      {{- range $declared }}
+      {{- $id := . }}
+      {{- if not (index $byID $id) }}
+        {{- errorf "source-list shortcode: %s declares source id %q, which is not in data/sources.yaml" $.Page.File.Path $id }}
+      {{- end }}
+      <li><span class="source-anchor" id="source-{{ $id }}"></span>
+        {{- partial "source-record.html" (dict "ctx" $ "id" $id "record" (index $byID $id)) }}
+      </li>
+      {{- end }}
+    </ol>
+  </div>
+</details>
 {{- else -}}
 <p class="source-status"><strong>This page declares no sources.</strong></p>
 {{- end -}}
