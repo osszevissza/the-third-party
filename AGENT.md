@@ -153,6 +153,9 @@ any more, so it is an internal check: use it rather than a `du` of `public/`.
   so that the next person does not helpfully restore them.
 - `build-fonts.py --check` → `2 families, 4 subsets, 113 code points, all covered`. The
   code point count is derived from the site's own text, so it moves when the prose does.
+- `check-a11y.py` also checks every `<details>` for a summary and for shipping closed. **A
+  disclosure with no summary is a control with no name**, and that check is why the sources box
+  could become a dropdown without the heading it replaced being missed.
 - `check-a11y.py` → `a11y: every static invariant holds (headings, landmarks, alt text, ids,
   focus, target sizes)`, preceded by `smallest text on the site: 12.0px`, `body text:
   1.125rem = 18px` and `text block: 42rem = 672px at 18px type, 64.2 characters per line: ok`.
