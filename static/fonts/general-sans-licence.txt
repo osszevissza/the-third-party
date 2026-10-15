@@ -1,0 +1,57 @@
+General Sans, by the Indian Type Foundry (ITF), distributed free through Fontshare.
+Used on this site for body text at weights 400 and 600.
+
+    Family:     General Sans
+    Designer:   Frode Helland
+    Copyright:  Copyright 2017-2021 Indian Type Foundry. All rights reserved.
+    Trademark:  "General" is a trademark of the Indian Type Foundry.
+    Publisher:  https://www.fontshare.com/fonts/general-sans
+    Version:    2.000 (the files used are dated 2022-07-27)
+    Licence:    ITF Fontshare Free Font Licence, "Closed Source"
+                https://www.fontshare.com/licenses/itf-ffl
+
+-------------------------------------------------------------------------------
+WHAT HAS TO BE PASTED HERE, AND BY WHOM
+-------------------------------------------------------------------------------
+
+The full licence text is rendered by Fontshare's own site from a script, so it cannot be
+fetched by curl: https://www.fontshare.com/licenses/itf-ffl returns a 691 byte shell that
+says "Enable javascript to use this application". Three endpoints were probed
+(www.fontshare.com/licenses/itf-ffl, api.fontshare.com/v2/license/itf-ffl,
+api.fontshare.com/licenses/itf-ffl) and only the first answers at all, as a shell.
+
+Open that URL in a browser, copy the licence text, and replace this paragraph with it. The
+licence is not a formality here: AGENT.md section 9 item 8 makes it the condition on which a
+family may be used at all, on a site whose entire argument is that it does not take anything
+on trust. A subset is a distribution of the font, so whatever terms apply have to travel
+with the file, which is why this text sits next to the .woff2 files rather than in a note.
+
+Until that is done, the family is in use on a licence whose text is not in the repository.
+The maintainer supplied these files and prefers this family, which is why it is here; the
+prose does not yet say on the site which licence General Sans is served under, and it must
+not say so until this file can back the claim up.
+
+-------------------------------------------------------------------------------
+WHAT THE ITF OFFERS, AS THE PUBLISHER DESCRIBES IT
+-------------------------------------------------------------------------------
+
+Fontshare is ITF's free font service. It divides its catalogue into "Open Source" families
+under the SIL Open Font License and "Closed Source" families under its own free licence, and
+General Sans is in the second group. The practical difference is that the ITF font software
+itself stays ITF's: it may be used, including in commercial work, but it may not be
+redistributed as a font or resold, and it may not be modified and passed off under the same
+name. Those are second-hand summaries of the publisher's terms and are recorded here only so
+the next reader knows what to check; they are not the licence.
+
+For comparison, Proza Libre, the display family on this site, is under the SIL Open Font
+License 1.1, whose full text is in proza-libre-OFL.txt beside it.
+
+-------------------------------------------------------------------------------
+WHAT WAS DONE TO THE FILES, FOR THE LICENCE'S SAKE
+-------------------------------------------------------------------------------
+
+Subsetted, not modified: glyphs outside the site's character set were removed and the result
+was converted to WOFF2 by scripts/build-fonts.py. Nothing was redrawn, renamed, or
+re-encoded beyond that format conversion, and the family and style names inside the files are
+the originals. The script records the exact command, and `python3 scripts/build-fonts.py`
+rebuilds the same bytes from the library in fontok/.
