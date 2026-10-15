@@ -18,6 +18,10 @@
 #    /nothing-to-hide/ was caught), so both halves matter. But a broken citation graph
 #    should stop the build before Hugo spends time on it.
 #
+# 3. The contrast check runs here rather than in a browser, because there is no browser
+#    (AGENT.md section 7) and because a colour edit that breaks AA should fail the build
+#    rather than wait for a reader to notice. It reads the tokens out of assets/css/main.css.
+#
 # In CI or on statichost.eu, chain the same commands in statichost.yml.
 
 set -e
@@ -30,7 +34,18 @@ mkdir -p "$HUGO_CACHEDIR"
 echo "==> checks"
 python3 scripts/check-content.py
 python3 scripts/check-dashes.py
+python3 scripts/check-contrast.py
 python3 scripts/render-bibliography.py --check
+
+# The accessibility check reads public/, so it runs after the build rather than before it.
+# That is the one ordering exception in this script, and it is deliberate: everything above
+# checks the source, and this checks what the source produced.
+
+# The font subsets are checked rather than rebuilt: rebuilding writes to the working tree,
+# and a build that silently rewrites its own inputs is not reproducible. A missing subset
+# is quiet rather than loud in a browser (the reader gets the fallback stack and never knows
+# the page was meant to look different), which is exactly why it is a check.
+python3 scripts/build-fonts.py --check --allow-missing
 
 echo "==> hugo"
 if [ "$1" = "serve" ]; then
@@ -51,3 +66,6 @@ fi
 rm -rf public
 hugo --gc --minify
 echo "==> built into public/"
+
+echo "==> accessibility, on the built output"
+python3 scripts/check-a11y.py

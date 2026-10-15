@@ -52,14 +52,64 @@ def gz(data: bytes) -> int:
     return len(gzip.compress(data, 9, mtime=0))
 
 
-def assets_of(html: str) -> list[str]:
-    """The stylesheet and icon paths the page itself declares, as root-relative strings."""
-    refs = []
+# Rel values whose <link> the browser actually fetches. This used to name stylesheet and
+# icon only, which was every linked asset the site had until 2026-10-15. The styling pass
+# added preloaded fonts, and a preload is a request like any other: leaving it out would
+# under-report every page by the body face, which is the exact class of error rule 1 above
+# exists to prevent.
+FETCHED_RELS = ("stylesheet", "icon", "preload")
+
+# Extensions a stylesheet can pull in through url(). The self-hosted fonts are referenced
+# from assets/css/main.css, so a page's request list is not complete without following the
+# stylesheet one level. One level is enough and is all that is done: the site has no
+# @import and no second stylesheet.
+CSS_ASSET_RE = re.compile(r"url\(\s*['\"]?([^'\")]+)['\"]?\s*\)")
+
+
+def resolve(ref: str, base: str = "") -> str | None:
+    """Turn a reference into a path relative to public/, or None if it is not ours.
+
+    Absolute URLs are skipped rather than counted: the site makes no third-party requests,
+    so a hit here would itself be the finding.
+    """
+    ref = ref.strip()
+    if not ref or ref.startswith(("http://", "https://", "//", "data:")):
+        return None
+    if ref.startswith("/"):
+        return ref.lstrip("/")
+    return f"{base}{ref}" if base else ref
+
+
+def assets_of(html: str, root: pathlib.Path | None = None) -> list[str]:
+    """Every file the page fetches from this origin, as paths relative to public/.
+
+    The document itself is not included. With `root`, the stylesheet is followed one level
+    so its own url() references are counted, because they are part of what a reader
+    downloads to see the page.
+    """
+    refs: list[str] = []
     for tag in re.findall(r"<link\b[^>]*>", html):
-        if re.search(r'rel=(?:"(?:stylesheet|icon)"|(?:stylesheet|icon)\b)', tag):
-            href = re.search(r'href=("([^"]*)"|([^\s>]+))', tag)
-            if href:
-                refs.append((href.group(2) or href.group(3)).lstrip("/"))
+        rel = re.search(r'rel=("([^"]*)"|([^\s>]+))', tag)
+        rel_value = (rel.group(2) or rel.group(3)) if rel else ""
+        if not any(name in rel_value for name in FETCHED_RELS):
+            continue
+        href = re.search(r'href=("([^"]*)"|([^\s>]+))', tag)
+        if href:
+            path = resolve(href.group(2) or href.group(3) or "")
+            if path:
+                refs.append(path)
+    if root is not None:
+        for ref in list(refs):
+            if not ref.endswith(".css"):
+                continue
+            css_path = root / ref
+            if not css_path.is_file():
+                continue
+            base = ref.rsplit("/", 1)[0] + "/" if "/" in ref else ""
+            for url in CSS_ASSET_RE.findall(css_path.read_text("utf-8", "replace")):
+                path = resolve(url, base)
+                if path:
+                    refs.append(path)
     return refs
 
 
@@ -73,7 +123,7 @@ def main() -> int:
         raw_html = page.read_bytes()
         gz_total = gz(raw_html)
         raw_total = len(raw_html)
-        for ref in assets_of(raw_html.decode("utf-8", "replace")):
+        for ref in assets_of(raw_html.decode("utf-8", "replace"), ROOT):
             data = (ROOT / ref).read_bytes()
             raw_total += len(data)
             gz_total += gz(data)
@@ -89,10 +139,10 @@ def main() -> int:
     heaviest = max(rows, key=lambda r: r[2])
     heaviest_raw = max(rows, key=lambda r: r[1])
 
-    # The site-wide row is the documents plus the shared stylesheet and icon, counted once
-    # each, which is the only reading under which the shared files are not double-counted.
+    # The site-wide row is the documents plus the shared files (stylesheet, fonts, icon),
+    # counted once each, which is the only reading under which they are not double-counted.
     shared = {}
-    for ref in assets_of((ROOT / "index.html").read_text()):
+    for ref in assets_of((ROOT / "index.html").read_text(), ROOT):
         shared[ref] = gz((ROOT / ref).read_bytes())
     site_gz = sum(gz((ROOT / r[0]).read_bytes()) for r in rows) + sum(shared.values())
 
