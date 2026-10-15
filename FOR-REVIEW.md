@@ -11,7 +11,7 @@ You agreed with the both-by-purpose recommendation, so the voice question is clo
 
 - **Objection pages take Draft B's shape.** `/nothing-to-hide/` and `/myths/`.
 - **Explanatory pages keep Draft A's register.** `/what-leaves-your-browser/`,
-  `/one-page-load/`, `/consent-theatre/` when it is written.
+  `/one-page-load/`, `/consent-theatre/`.
 
 `/nothing-to-hide/` was then rebuilt as the B shape with the strongest parts of A folded
 in, rather than one draft simply replacing the other:
@@ -23,8 +23,15 @@ in, rather than one draft simply replacing the other:
 - It keeps a short "where this page is wrong" section, because conceding ground in a
   named section is what earns the right to argue.
 
-The full record, including the per-page register for everything still unwritten, is in
-`drafts/README.md`.
+The full record, including the per-page register, is in `drafts/README.md`.
+
+### Two pages dropped, 2026-10-15
+
+`/swap-shop/` and `/receipts/` are no longer part of the site. The maintainer decided it on
+2026-10-15, after discussing the site with you (the friend who originated the project). The
+home page, Start Here, Analytics and Sources all lost their references to those pages, and
+the twelve sources that only those two cited are out of the bibliography. The site no longer
+publishes its own measured numbers anywhere.
 
 ---
 
@@ -65,8 +72,7 @@ cost.
 
 The aim is advocacy people actually finish reading. That means no lectures, no purity
 tests, and every claim checkable. The site is being built to *pass its own test*: no
-trackers, no third-party requests, no cookie banner, and a page publishing its own
-measured numbers.
+trackers, no third-party requests, no cookie banner.
 
 **Working title:** *The Third Party*. It carries both meanings at once: third-party
 scripts, and the uninvited third party in the room.
@@ -75,8 +81,8 @@ scripts, and the uninvited third party in the room.
 
 ## Where it's got to
 
-**Nine pages written and sourced**, about 23,000 words, plus the two drafts kept as the
-record of the voice decision.
+**Ten pages written and sourced** (the home page plus nine content pages), about 27,000
+words, plus the two drafts kept as the record of the voice decision.
 
 | Page | What it does |
 |---|---|
@@ -85,12 +91,12 @@ record of the voice decision.
 | **One Page Load** | One page view, followed from the browser into the ad auction |
 | **Seven Things That Aren't True** | Myths about HTTPS, incognito, "we anonymise your data", each with a way to check it yourself |
 | **The Dark Patterns Field Guide** | 17 deceptive patterns, with the legal hook for each |
-| **The Swap Shop** | Eight substitutions, each with the honest price of switching |
+| **Consent Theatre** | Why the banner manufactures your consent instead of protecting you |
 | **You Don't Need Google Analytics** | The practical page for anyone who runs a site |
 | **Start Here** | Two action ladders, and a list of what the site *won't* ask you to do |
 | **Sources** | The methodology, the annotated bibliography, and the gaps stated as gaps |
 
-Behind them: **61 sources**, each with full bibliographic detail, a note on what it is
+Behind them: **58 sources**, each with full bibliographic detail, a note on what it is
 weak at, and a link. A script checks every URL over the network, so "the sources are
 real" is a checked claim rather than an assertion, and another script writes the
 bibliography page from the same data, so the two cannot disagree.
@@ -119,35 +125,35 @@ this?" is *no, not all of it*. Pick one thing.
 ## What's honest about the gaps
 
 - **Archiving has started but is not done.** Ideally every source is snapshotted to the
-  Wayback Machine before publishing. Three of the 61 now carry archive links, because
-  those are the ones added this round. The other 58 are still `null`, and it remains the
-  largest gap between what the site claims and what it has done.
-- **Two sources still need locating.** Solove's 2006 taxonomy and an EU data protection
-  opinion. Both are cited correctly; the official URLs haven't been found, so they are
-  flagged rather than guessed at. A third, the FTC's 2014 data broker report, sits on a
-  domain that reserves judgement: its link cannot be verified automatically, so the
-  entry says so and points at the archived copy that was actually read.
-- **Nothing is built yet.** These are content files. The Hugo site, the design, and the
-  interactive pieces come after the writing is settled.
-- **Legal pages date fastest.** "The Rules" will need a status date on every claim, and a
-  maintenance plan.
+  Wayback Machine before publishing. 48 of the 58 now carry archive links. The other 10 are
+  still `null`, and it remains the largest gap between what the site claims and what it has
+  done.
+- **One source still needs locating.** Solove's 2006 taxonomy. It is cited correctly; the
+  official URL hasn't been found, so it is flagged rather than guessed at. The EU data
+  protection opinion that was the other one has since been located and archived. The FTC's
+  2014 data broker report also sits on a domain that reserves judgement: its link cannot be
+  verified automatically, so the entry says so and points at the archived copy that was
+  actually read.
+- **The site is built and live** at https://third-party.statichost.page/. It renders every
+  page and passes the four checks the repository runs. The styling pass is what is left.
+- **Legal claims date fastest.** They live on `/consent-theatre/`, which carries a status
+  date for the page rather than for each claim.
 
 ---
 
 ## What's next
 
-Four of the thirteen core pages remain: the home page, **Consent Theatre**, **The
-Rules**, and **Receipts**.
+Every page is written, and the site is live at https://third-party.statichost.page/.
 
-**`/sources/` is written**, and it is the page the project has been promising since the
-first round: how sources are chosen, what "verified" does and does not mean, the archive
-gap stated as a failure, a conflict-of-interest statement, how to report an error, and
-then the whole annotated bibliography generated from the citation file, with the reverse
-index of which page rests on what. It is long, because a bibliography is, and the prose
-part at the top is the part worth reading.
+**`/sources/` is the page the project promised from the first round**: how sources are
+chosen, what "verified" does and does not mean, the archive gap stated as a failure, a
+conflict-of-interest statement, how to report an error, and then the whole annotated
+bibliography generated from the citation file, with the reverse index of which page rests
+on what. It is long, because a bibliography is, and the prose part at the top is the part
+worth reading.
 
-Next up is **Consent Theatre**, which needs the EDPB's cookie banner taskforce report
-located and verified before a word of it is written.
+What is left is the styling pass, and the source worklist AGENT.md section 6 tracks: the
+sources still waiting on an archive, a located URL, or a verified date.
 
 ---
 

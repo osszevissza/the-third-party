@@ -2,7 +2,7 @@
 title = "Sources"
 subtitle = "Everything on this site is checkable, including the parts that are not checked yet"
 description = "How the sources behind this site were chosen, what verification does and does not mean, the ones that could not be confirmed, and how to tell me I am wrong."
-status_as_of = 2026-10-14
+status_as_of = 2026-10-15
 weight = 12
 nav = "Sources"
 sources = [
@@ -62,20 +62,19 @@ exists it is linked and named as the copy that was actually read.
 
 ## The gaps, stated as gaps
 
-**Most of these sources are not archived yet.** This site argues that a claim should
-survive its source being taken down, and a site whose own sources are unarchived is
-making a claim rather than a demonstration. The count is in the table below, and it is
-the largest honest gap in this project. Snapshots are being filled in as sources are
-verified, which is why the newest entries have them and the older ones do not.
+**Some of these sources are not archived yet.** This site argues that a claim should
+survive its source being taken down, so a blank archive field is a gap rather than a
+neutral fact. Most of the file now has a snapshot and the count is in the table below,
+and the entries still without one are the ones the Wayback Machine has no copy of.
 
 **Some documents carry no date of their own.** Where a project page, a browser
 documentation page or a vendor's pricing page is undated, the entry says "no date on the
 document" rather than inventing one.
 
-**Two sources have no stable URL at all.** Solove's 2006 taxonomy and the European Data
-Protection Board's opinion on consent-or-pay are both cited correctly and both flagged
-rather than guessed at: only secondary mirrors were found, and a mirror is not a source.
-Those claims are marked as not publishable until the primary documents are located.
+**One source has no stable URL at all.** Solove's 2006 taxonomy is cited correctly and
+flagged rather than guessed at: only secondary mirrors of it were found, and a mirror is
+not a source. The claims resting on it are marked as not publishable until the primary
+document is located.
 
 **Legal claims rot fastest.** Where a page rests on an enforcement decision, the page
 carries a status date in its header, and the entry carries the date of the document. If
@@ -116,23 +115,23 @@ Nobody has paid for a mention on this site, there are no affiliate links, there 
 sponsorship, and nothing recommended here has been given to me. The site carries no
 advertising, sells nothing, and has no newsletter to grow.
 
-Two things worth admitting anyway. I have preferences, and they show: the alternatives
-pages reflect what I think is worth the trouble, not a neutral survey. And where I
-recommend something I use myself, I have said so, with the honest cost of switching on
-the same page. A recommendation without its cost is an advert.
+Two things worth admitting anyway. I have preferences, and they show: the pages that
+suggest a change reflect what I think is worth the trouble, not a neutral survey. And
+where I recommend something I use myself, I have said so.
 
-**Which of these swaps I have actually made.** That sentence commits me to naming them, so here they are, including the ones I have not made and the one I have made badly.
+**What I actually run.** The list below is that disclosure, including the things I have not
+changed and the one I have changed badly.
 
-- **Search: Ecosia.** This is now the first recommendation on that page, and the reason is the criterion the search section applies rather than a preference of mine: Ecosia has been building its own index with Qwant, and says that results for its users in France now come from it directly {{< cite "ecosia-eusp-index" >}}. The caveat travels with the recommendation: that is the company's own account, it speaks to France, and it says nothing about result quality. So I have not compared Ecosia against Brave, Mojeek or SearXNG, and the page's ordering rests on whose index answers your query rather than on which engine is best.
-- **Email: Posteo.** The option this site calls the purist's choice, and the one I run.
-- **Ad blocking: uBlock Origin**, on Firefox, which is the only browser where the page says the unrestricted version still runs. That pairing is the swap rather than a detail of it.
-- **Chat: Signal**, with the caveat that page carries. The caveat is about who your contacts are, not about the tool.
-- **DNS: Mullvad, and changing to Quad9.** A different company holds the lookups than held them before, which is the whole of what that swap does and all the page claims for it. That company is about to change again: Mullvad is shutting its public encrypted DNS servers down on 2 November 2026 and sponsoring Quad9 rather than running a resolver itself {{< cite "mullvad-public-dns" >}} {{< cite "mullvad-dns-shutdown" >}}, and this line is switching with it. The resolver built into the Mullvad VPN is a separate service and that shutdown does not touch it.
-- **Code hosting: not properly.** I have a Codeberg account, and this project lives on GitHub, because that is where its readers and its corrections are. The recommendation stands and my practice is partial.
-- **Video: not made.** I watch YouTube. PeerTube is recommended here and not adopted, for the reason that page gives: my attention is the thing that would have to move, and it has not.
-- **Documents: not made.** The swap is on the list and I have not done it.
+- **Search: Ecosia.** Ecosia has been building its own index with Qwant, and says that results for its users in France now come from it directly {{< cite "ecosia-eusp-index" >}}. That is the company's own account, published in French: it says nothing about coverage anywhere else, and nothing about result quality. I have not compared Ecosia against Brave, Mojeek or SearXNG.
+- **Email: Posteo.** The mailbox I use.
+- **Ad blocking: uBlock Origin, on Firefox.**
+- **Chat: Signal.**
+- **DNS: Mullvad, changing to Quad9.** Moving the lookups from one company to another is the whole of what that does, and it is not anonymity. The company changes again on 2 November 2026: Mullvad is shutting its public encrypted DNS servers down and sponsoring Quad9 rather than running a resolver itself {{< cite "mullvad-public-dns" >}} {{< cite "mullvad-dns-shutdown" >}}, and this line moves with it. The resolver built into the Mullvad VPN is a separate service and that shutdown does not touch it.
+- **Code hosting: GitHub, with a Codeberg account I use badly.** This project lives on GitHub, because that is where its readers and its corrections are.
+- **Video: YouTube.** Not changed.
+- **Documents: not moved.** The office suite is the swap I have not made.
 
-Listing the ones I have not done costs me something, which is the point. A disclosure that named only the swaps I had finished would be an advert with extra steps.
+Naming the ones I have not changed costs me something, which is the point. A disclosure that listed only the finished items would be an advert with extra steps.
 
 ## How this site is built and checked
 
@@ -142,11 +141,11 @@ The site's own choices are part of what a reader is entitled to know, so here th
 
 **Checked by four scripts before every build.** Python 3.14 runs them: the citation graph and the frontmatter, the house punctuation rule, the freshness of the bibliography, and a network check of every source URL. They live in `scripts/` and anybody can run them.
 
-**Verified with ordinary tools rather than a service.** Corroborating the sources meant `curl` for control-probing hosts, the Wayback Machine for archived copies of pages that block automated requests or have vanished, `pdftotext` for reading the decisions published as PDFs, and `gzip` for the transfer sizes on [Receipts](/receipts/). Nothing here is a paid service and nothing is a black box.
+**Verified with ordinary tools rather than a service.** Corroborating the sources meant `curl` for control-probing hosts, the Wayback Machine for archived copies of pages that block automated requests or have vanished, `pdftotext` for reading the decisions published as PDFs. Nothing here is a paid service and nothing is a black box.
 
 **The repository is public, and hosting is a static host.** The source is on GitHub, which is also the correction route above. Hosting is statichost.eu, which builds from the repository: there is no server of mine holding logs of your visit and no CDN in front of it.
 
-**Written with an AI agent, which is worth saying plainly.** The prose, the code and much of the source verification were produced by an AI agent, DeepSeek V4 Flash, running in a local harness under my direction. I set the rules and made the editorial decisions, including cutting a planned page on the law because it could not be kept current; the agent wrote, measured and checked, and its mistakes are recorded in the project's own working notes rather than quietly fixed. The caveats throughout [Receipts](/receipts/) and the "not verified" lines in the bibliography are a direct result of that arrangement: verification is done by something that documents its failures.
+**Written with an AI agent, which is worth saying plainly.** The prose, the code and much of the source verification were produced by an AI agent, DeepSeek V4 Flash, running in a local harness under my direction. I set the rules and made the editorial decisions, including cutting a planned page on the law because it could not be kept current; the agent wrote, measured and checked, and its mistakes are recorded in the project's own working notes rather than quietly fixed. The "not verified" lines in the bibliography are a direct result of that arrangement: verification is done by something that documents its failures.
 
 **Edited in Helix, Sublime Text and Neovim**, roughly in that order of use. None of them is recommended anywhere on this site, and they are listed because the question this section answers is what I actually run rather than what I would like to be seen running.
 
@@ -159,7 +158,13 @@ The site's own choices are part of what a reader is entitled to know, so here th
      on the live site; and the AI paragraph still describes how the text was actually produced.
      That last one is a judgement call about voice and belongs to the maintainer; if it should
      be shorter, shorter is fine, but deleting it while keeping "no vendor worship" would not
-     be. Re-read all three again if the site is ever rebuilt on another machine. -->
+     be. Re-read all three again if the site is ever rebuilt on another machine.
+
+     Re-read once more on 2026-10-15, when the disclosure above changed from "which of
+     these swaps I have made" to "what I actually run", because the swap-shop page it
+     pointed at was dropped that day. Hugo 0.150.0 extended and Python 3.14.8 were both
+     confirmed by running them again, and statichost.eu from the `server` header on the
+     live site. The three claims themselves are unchanged. -->
 
 ## What this page is not
 
@@ -178,12 +183,12 @@ Generated from `data/sources.yaml` by `scripts/render-bibliography.py`. Do not e
 
 | What this counts | Number |
 |---|---|
-| Sources in the file | 70 |
-| Cited by at least one page | 70 |
-| Link opened and confirmed, with a date | 50 |
-| Snapshotted to the Wayback Machine | 58 |
+| Sources in the file | 58 |
+| Cited by at least one page | 58 |
+| Link opened and confirmed, with a date | 39 |
+| Snapshotted to the Wayback Machine | 48 |
 | No stable URL found yet | 1 |
-| The document itself carries no date | 26 |
+| The document itself carries no date | 18 |
 
 Every number above is computed from the citation file when this page is built. If the site claims a source is verified and this table disagrees, the table is right.
 
@@ -386,21 +391,6 @@ Norbert Pohlmann et al. · ACM Internet Measurement Conference (IMC) · 2022 · 
 - Third-party tracking is routinely served from first-party subdomains.
 - Blocklists based on third-party domain matching can be evaded.
 
-### <a id="source-mullvad-audit-cure53"></a>mullvad-audit-cure53
-
-**Mullvad VPN: Pentest Report (2024)**
-
-Cure53 · Cure53 · 2024 · [the source itself](https://cure53.de/pentest-report_mullvad_2024_v1.pdf) · [archived copy](http://web.archive.org/web/20260823120243/https://cure53.de/pentest-report_mullvad_2024_v1.pdf)
-
-**Status: verified 2026-10-13, archived.**
-
-**Weak at:** An audit commissioned by the vendor, covering a defined scope at a point in time. It is evidence about the audited components, not a continuing guarantee, and it does not validate the parts of the system outside its scope.
-
-**Carries:**
-
-- Mullvad commissions and publishes independent third-party security audits.
-- A published audit is a materially stronger claim than a self-description.
-
 ### <a id="source-web-almanac"></a>web-almanac
 
 **Web Almanac**
@@ -475,23 +465,6 @@ Behavioural Public Policy (Cambridge University Press) · no date on the documen
 
 - Sludge is distinct from dark patterns: friction against a legitimate action.
 - The two are argued to require joint auditing.
-
-### <a id="source-swd-emissions-model"></a>swd-emissions-model
-
-**Estimating Digital Emissions**
-
-Sustainable Web Design · Sustainable Web Design · no date on the document · [the source itself](https://sustainablewebdesign.org/estimating-digital-emissions/) · [archived copy](http://web.archive.org/web/20261014182609/https://sustainablewebdesign.org/estimating-digital-emissions/)
-
-**Status: verified 2026-10-14, archived.**
-
-**Weak at:** A model rather than a measurement, and its inputs are global averages. The energy intensities come from industry-wide totals, and its default grid intensity of 494 gCO2e/kWh is a world average that the page itself tells you to replace with your own. Any figure derived from it is an estimate. This site derives one on /receipts/ and labels it as an estimate for exactly that reason.
-
-**Carries:**
-
-- Website emissions can be estimated from bytes transferred, energy intensity per gigabyte and grid carbon intensity.
-- The model's default grid intensity is 494 gCO2e per kWh, the global average for electricity.
-- Its energy intensities total 0.300 kWh per gigabyte across data centres, networks and user devices, operational and embodied combined.
-- Roughly a third of the modelled total is embodied emissions, from manufacturing devices and networks rather than from running them.
 
 ## Law, regulation and regulators
 
@@ -760,21 +733,6 @@ CNIL · Commission nationale de l'informatique et des libertés (France) · no d
 - Some audience-measurement configurations can be exempt from consent.
 - Exemption depends on configuration and conditions, not on the product brand.
 
-### <a id="source-search-index-concentration"></a>search-index-concentration
-
-**Filing in United States v. Google LLC, No. 1:20-cv-03010 (D.D.C.)**
-
-US District Court for the District of Columbia (via CourtListener RECAP) · no date on the document · [the source itself](https://storage.courtlistener.com/recap/gov.uscourts.dcd.223205/gov.uscourts.dcd.223205.1304.1.pdf) · [archived copy](http://web.archive.org/web/20260613193128/https://storage.courtlistener.com/recap/gov.uscourts.dcd.223205/gov.uscourts.dcd.223205.1304.1.pdf)
-
-**Status: verified 2026-10-13, archived.**
-
-**Weak at:** IMPORTANT: this is a filing within litigation, so the statement is a party's or court's characterisation rather than a neutral measurement, and the document type and date are unconfirmed. It also speaks to the US market specifically, so it does not account for non-US engines such as Mojeek. Use it to establish that independent indices are scarce, not to claim an exact count.
-
-**Carries:**
-
-- Only a small number of general search engines run independent proprietary indices.
-- DuckDuckGo's dependence on a licensed index is a structural limitation.
-
 ### <a id="source-website-wiretap-litigation"></a>website-wiretap-litigation
 
 **Veradigm Ruling Highlights Website Tracker and Wiretap Litigation Risk**
@@ -806,36 +764,6 @@ Michael Barbaro, Tom Zeller Jr. · The New York Times · 2006-08-09 · [the sour
 
 - Aggregation harms require no breach or malice.
 - Pseudonymised data is re-identifiable from content alone.
-
-### <a id="source-gmail-scanning-2017"></a>gmail-scanning-2017
-
-**Google will stop scanning content of personal emails**
-
-The Guardian · The Guardian · 2017-06-26 · [the source itself](https://www.theguardian.com/technology/2017/jun/26/google-will-stop-scanning-content-of-personal-emails)
-
-**Status: verified 2026-10-13, not archived yet.**
-
-**Weak at:** News coverage; the primary source is Google's own 2017 announcement, which should be located and linked. Note the scope carefully: this applies to FREE CONSUMER Gmail, and ending ad-personalisation scanning is not the same as collecting nothing. Do not let the site imply the practice continues, or that its absence means Gmail is private; the page's structural criticisms stand either way.
-
-**Carries:**
-
-- Google ended ad-personalisation scanning of consumer Gmail in 2017.
-- The widely repeated claim that Google reads Gmail to target ads is out of date.
-
-### <a id="source-signal-usernames"></a>signal-usernames
-
-**Signal Finally Rolls Out Usernames, So You Can Keep Your Phone Number Private**
-
-Wired · Wired · 2024-02 · [the source itself](https://www.wired.com/story/signal-launches-usersnames-phone-number-privacy/) · [archived copy](http://web.archive.org/web/20260927221952/https://www.wired.com/story/signal-launches-usersnames-phone-number-privacy/)
-
-**Status: verified 2026-10-13, archived.**
-
-**Weak at:** News coverage of a feature launch. The phone-number requirement was a long-standing criticism and usernames mitigate rather than remove it; registration still requires a number. Do not present this as the concern being fully resolved.
-
-**Carries:**
-
-- Signal now supports usernames, reducing phone-number exposure to contacts.
-- The phone-number-based criticism is well enough established to be the premise.
 
 ### <a id="source-google-incognito-settlement"></a>google-incognito-settlement
 
@@ -947,22 +875,6 @@ Mullvad · Mullvad VPN · 2026-09-03 · [the source itself](https://mullvad.net/
 - Mullvad states that the public encrypted DNS service will be discontinued on 2 November 2026.
 - The DNS resolver built into the Mullvad VPN is a separate service from the public one.
 
-### <a id="source-ublock-origin-chrome"></a>ublock-origin-chrome
-
-**uBlock Origin on Chrome**
-
-uBlock Origin project · ublockorigin.com · 2026-09-22 · [the source itself](https://ublockorigin.com/chrome/) · [archived copy](http://web.archive.org/web/20261011125809/https://ublockorigin.com/chrome/)
-
-**Status: verified 2026-10-13, archived.**
-
-**Weak at:** A project page describing its own situation, and the situation is moving: browser extension platform rules continue to change. Treat the specifics as a snapshot with the stated update date, not as settled.
-
-**Carries:**
-
-- Full uBlock Origin no longer runs in current Chrome.
-- uBlock Origin Lite is a separate Manifest V3 extension by the same developer.
-- The Lite version is not equivalent for sites that resist blocking.
-
 ### <a id="source-awesome-privacy-analytics"></a>awesome-privacy-analytics
 
 **Awesome Privacy-Friendly Web Analytics**
@@ -992,21 +904,6 @@ CNIL (LINC) · Commission nationale de l'informatique et des libertés (France) 
 
 - A regulator-built interactive exercise in recognising deceptive design.
 - Useful as a reader action at the end of the page.
-
-### <a id="source-codeberg"></a>codeberg
-
-**Codeberg: a non-profit home for free and open source projects**
-
-Codeberg e.V. · Codeberg e.V. · no date on the document · [the source itself](https://codeberg.org/) · [archived copy](http://web.archive.org/web/20261013122315/https://codeberg.org/)
-
-**Status: not verified.** The link has not been opened and confirmed, so the claim it carries is unproven.
-
-**Weak at:** A platform describing itself. Resource limits and acceptable-use policy are set by the association and have changed before, so the governance claim is the durable part and the operational specifics are not.
-
-**Carries:**
-
-- Non-profit, donation-funded hosting running Forgejo.
-- An alternative to a single company owning open-source infrastructure.
 
 ### <a id="source-eff-cover-your-tracks"></a>eff-cover-your-tracks
 
@@ -1099,21 +996,6 @@ Google · Google for Developers (Authorized Buyers RTB) · no date on the docume
 - Bid requests contain BidRequest, Device, User and Geo objects.
 - Geo information is coarse device location approximated from the IP address.
 
-### <a id="source-mailbox-org"></a>mailbox-org
-
-**mailbox.org: pricing and features**
-
-mailbox.org · Heinlein Support GmbH · no date on the document · [the source itself](https://mailbox.org/en/)
-
-**Status: verified 2026-10-13, not archived yet.**
-
-**Weak at:** Prices and storage tiers change without notice and the page carries no status date, so the figures quoted must be presented as "at the time of writing" and re-checked before publishing. Commercial provider describing its own product.
-
-**Carries:**
-
-- Custom domain names are supported, including on the entry paid tier.
-- Entry tier includes mail, calendar, address book and drive storage.
-
 ### <a id="source-matomo"></a>matomo
 
 **Matomo**
@@ -1128,36 +1010,6 @@ Matomo · Matomo · no date on the document · [the source itself](https://matom
 
 - Open source analytics available self-hosted or as a service.
 - Closest feature-comparable replacement for a full analytics platform.
-
-### <a id="source-mullvad"></a>mullvad
-
-**Mullvad VPN**
-
-Mullvad VPN AB · Mullvad VPN AB · no date on the document · [the source itself](https://mullvad.net/) · [archived copy](http://web.archive.org/web/20171206015215/https://www.mullvad.net/)
-
-**Status: verified 2026-10-13, archived.**
-
-**Weak at:** A commercial provider describing its own product, so the account model is verifiable but the no-logs claim is a statement of policy. The audit report below is the better evidence; this entry is for the account and payment model only.
-
-**Carries:**
-
-- Accounts are numbered rather than tied to an email address.
-- Cash payment is accepted, reducing the identity attached to an account.
-
-### <a id="source-peertube"></a>peertube
-
-**PeerTube: federated video hosting**
-
-Framasoft · Framasoft · no date on the document · [the source itself](https://joinpeertube.org/) · [archived copy](http://web.archive.org/web/20261011023510/https://joinpeertube.org/)
-
-**Status: verified 2026-10-13, archived.**
-
-**Weak at:** Describes the software and its federation model, not adoption. It says nothing about audience size, which is the actual obstacle to using it as a YouTube replacement, and the page is promotional in tone.
-
-**Carries:**
-
-- Federated video hosting across independent instances.
-- No single platform decides recommendation or removal.
 
 ### <a id="source-plausible"></a>plausible
 
@@ -1174,22 +1026,6 @@ Plausible Analytics · Plausible Analytics · no date on the document · [the so
 - Hosted cookieless analytics with a pay-for-service rather than ad-funded model.
 - EU-based operation, relevant to transfer concerns.
 
-### <a id="source-posteo"></a>posteo
-
-**Posteo FAQ**
-
-Posteo e.K. · Posteo · no date on the document · [the source itself](https://posteo.de/en/site/faq) · [archived copy](http://web.archive.org/web/20260920123326/https://posteo.de/en/site/faq)
-
-**Status: verified 2026-10-13, archived.**
-
-**Weak at:** The provider describing itself. Vendor claims about business model and policy are checkable against their published terms, but claims about security are not independently verified here. Pricing has no status date on the page.
-
-**Carries:**
-
-- Posteo does not support custom domains, and states the reason as policy.
-- Supporting custom domains would require storing customer identity data.
-- Ad-free, paid model with no free tier.
-
 ### <a id="source-prebid-bidder-count"></a>prebid-bidder-count
 
 **How many bidders should I work with for header bidding?**
@@ -1204,21 +1040,6 @@ Prebid.org · Prebid.org · no date on the document · [the source itself](https
 
 - Around ten bidders per auction is a common industry practice.
 - Publishers weigh bidder count against page latency.
-
-### <a id="source-signal-donate"></a>signal-donate
-
-**Donate to Signal**
-
-Signal Technology Foundation · Signal Technology Foundation · no date on the document · [the source itself](https://signal.org/donate/) · [archived copy](http://web.archive.org/web/20261014191124/https://signal.org/donate/)
-
-**Status: verified 2026-10-14, archived.**
-
-**Weak at:** A donation page, which is the one page where an organisation has an interest in how its legal status reads. It establishes what the Signal Technology Foundation is, and it says nothing about how the organisation behaves, what it retains, or what it can be compelled to hand over. Nonprofit status is a statement about ownership and profit, not a privacy guarantee, and it should never be presented as one.
-
-**Carries:**
-
-- Signal Technology Foundation is a nonprofit under section 501c3 of the US Internal Revenue Code.
-- Signal describes itself as an independent nonprofit, supported by grants and donations.
 
 ### <a id="source-themarkup-blacklight"></a>themarkup-blacklight
 
@@ -1279,11 +1100,7 @@ Umami · Umami · no date on the document · [the source itself](https://umami.i
 
 **One Page Load** (9): [`google-openrtb-guide`](#source-google-openrtb-guide), [`google-cookie-matching`](#source-google-cookie-matching), [`google-build-profiles`](#source-google-build-profiles), [`prebid-bidder-count`](#source-prebid-bidder-count), [`website-wiretap-litigation`](#source-website-wiretap-litigation), [`web-almanac`](#source-web-almanac), [`eff-cover-your-tracks`](#source-eff-cover-your-tracks), [`pohlmann-first-party-cookies`](#source-pohlmann-first-party-cookies), [`ftc-surveillance-pricing`](#source-ftc-surveillance-pricing)
 
-**Receipts** (2): [`web-almanac`](#source-web-almanac), [`swd-emissions-model`](#source-swd-emissions-model)
-
 **Start Here** (3): [`eff-cover-your-tracks`](#source-eff-cover-your-tracks), [`ublock-origin`](#source-ublock-origin), [`themarkup-blacklight`](#source-themarkup-blacklight)
-
-**The Swap Shop** (15): [`posteo`](#source-posteo), [`mailbox-org`](#source-mailbox-org), [`gmail-scanning-2017`](#source-gmail-scanning-2017), [`mullvad`](#source-mullvad), [`mullvad-audit-cure53`](#source-mullvad-audit-cure53), [`ublock-origin`](#source-ublock-origin), [`ublock-origin-chrome`](#source-ublock-origin-chrome), [`signal-usernames`](#source-signal-usernames), [`search-index-concentration`](#source-search-index-concentration), [`codeberg`](#source-codeberg), [`peertube`](#source-peertube), [`mullvad-public-dns`](#source-mullvad-public-dns), [`mullvad-dns-shutdown`](#source-mullvad-dns-shutdown), [`signal-donate`](#source-signal-donate), [`ecosia-eusp-index`](#source-ecosia-eusp-index)
 
 **What Leaves Your Browser** (6): [`eckersley-fingerprinting`](#source-eckersley-fingerprinting), [`eff-cover-your-tracks`](#source-eff-cover-your-tracks), [`web-almanac`](#source-web-almanac), [`pohlmann-first-party-cookies`](#source-pohlmann-first-party-cookies), [`ftc-surveillance-pricing`](#source-ftc-surveillance-pricing), [`sweeney-demographics`](#source-sweeney-demographics)
 

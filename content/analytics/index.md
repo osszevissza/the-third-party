@@ -102,6 +102,6 @@ None of that means don't switch. It means the decision belongs to whoever owns t
 
 **If you're staying on GA4 for good reasons** (you have ad spend, you have a team, the integration is genuinely load-bearing), then at minimum configure it to collect less. Turn off what you don't use, shorten retention, and check what Consent Mode is actually sending when someone declines. A smaller GA4 is a real improvement even if it isn't a fix.
 
-**And whatever you choose, publish it.** Write one sentence on your site saying what you measure and what you don't. It costs you nothing, it takes a minute, and it's the thing [this site does on its own receipt page](/receipts/). Almost nobody does it. That's the cheapest credibility available on the web.
+**And whatever you choose, publish it.** Write one sentence on your site saying what you measure and what you don't. It costs you nothing, it takes a minute, and almost nobody does it. That's the cheapest credibility available on the web.
 
 {{< source-list >}}

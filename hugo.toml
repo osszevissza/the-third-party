@@ -5,8 +5,9 @@
 # citation. See SITE_PLAN.md section 6b and AGENT.md.
 
 # The real domain, decided by the maintainer on 2026-10-14. It is a statichost.eu site, so
-# the host and the domain come from the same decision. Until the first deploy these URLs do
-# not resolve yet; see the hosting note in content/receipts/index.md.
+# the host and the domain come from the same decision. The deploy is triggered by hand from
+# statichost's dashboard rather than by a push, so the live site can sit a commit or two
+# behind this repository (AGENT.md section 7).
 baseURL = "https://third-party.statichost.page/"
 languageCode = "en"
 title = "The Third Party"

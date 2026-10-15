@@ -105,7 +105,7 @@ You're right. This objection is correct, and this is the point where most privac
 
 Opting out has genuine costs. Services stop working properly. You lose conveniences your friends have. You become the person who won't join the group chat, which is a real social tax and not a moral failing to acknowledge. A site that demands total abstinence is a site nobody follows.
 
-So this site doesn't demand it. [The swap shop](/swap-shop/) lists what to replace *and what each replacement costs you*, including the parts that are worse. Most of the wins are available for less than you'd expect, and none of them require you to become an enthusiast.
+So this site doesn't demand it. Most of the wins available to you are cheap, and none of them require you to become an enthusiast.
 
 The claim being made here is not "leave the internet." It's narrower and harder to dismiss: the defaults were chosen for somebody's benefit, and they can be changed.
 

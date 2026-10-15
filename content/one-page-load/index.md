@@ -155,6 +155,6 @@ And the fingerprint is still there underneath all of it. If you cleared your coo
 
 **Then look at the clock in the timeline.** Everything in the ledger above completes while you are still deciding whether to read the article.
 
-**And if you run a site:** this ledger is a specification for what not to do. Start with the fonts: one change, fifteen minutes, and it removes a third party from every page load you will ever serve. [The swap shop](/swap-shop/) covers the rest, and [the analytics page](/analytics/) covers the measurement question specifically.
+**And if you run a site:** this ledger is a specification for what not to do. Start with the fonts: one change, fifteen minutes, and it removes a third party from every page load you will ever serve. [Start Here](/start-here/) has a shorter ladder aimed at people who run a site, with the effort priced on every rung, and [the analytics page](/analytics/) covers the measurement question specifically.
 
 {{< source-list >}}

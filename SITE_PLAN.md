@@ -4,7 +4,7 @@
 
 **Language:** English
 **Scope:** the ethical web specifically, the browser, the page, the business model behind it. Not "ethical tech" in general.
-**Format:** static site, 13 core pages, 2 interactive pieces, 0 third-party requests.
+**Format:** static site, 10 core pages, 2 interactive pieces, 0 third-party requests.
 
 ---
 
@@ -17,7 +17,7 @@ Every page follows the same four-beat argument:
 - **Problem:** here is what actually happens, concretely, with a number or a named script.
 - **Pattern:** here is the design/business model that makes it happen, and who profits.
 - **Alternative:** here is what a less extractive version looks like, and what it costs.
-- **Receipt:** here is where I got this, dated, and here is this site's own number for the same metric.
+- **Receipt:** here is where I got this, dated.
 
 Repeating the beats is what makes the site feel *designed* rather than a pile of articles, and it scales: when you run out of time, you can drop whole pages without breaking the structure.
 
@@ -53,7 +53,7 @@ Every content page uses this skeleton, in order. Non-negotiable, because consist
 
 Tiered honestly, because 30 pages is not a course project; it's a way to finish nothing.
 
-### CORE: build these (12 pages + 2 interactives)
+### CORE: build these (10 pages + 2 interactives)
 
 ```
 /
@@ -65,9 +65,9 @@ Tiered honestly, because 30 pages is not a course project; it's a way to finish 
 ├── dark-patterns/                   ★ INTERACTIVE #2, the field guide
 ├── consent-theatre/                 cookie banners as a genre
 ├── the-rules/                       DROPPED in round 11. Law in plain language, see section 4
-├── swap-shop/                       alternatives hub
+├── swap-shop/                       DROPPED on 2026-10-15 by the maintainer. See section 4
 ├── analytics/                       "you don't need GA4" (site-owner angle)
-├── receipts/                        this site's own measured numbers
+├── receipts/                        DROPPED on 2026-10-15 by the maintainer. See section 4
 └── sources/                         methodology + annotated bibliography
 ```
 
@@ -102,7 +102,7 @@ Net neutrality & zero-rating · encryption & certificate authority trust · DNS/
 
 ### `/` Home
 **Argument:** The web you use is not the web you think you're using, and the difference is measurable.
-**Blocks:** one-sentence thesis · three audience doors (*I just use the web* / *I run a website* / *I'm here for the research*) · teaser for the flagship interactive · the action ladder preview · a small badge linking to `/receipts/` · a one-line callout: *"This site has no cookie banner because it has no cookies or trackers. That should not be remarkable."*
+**Blocks:** one-sentence thesis · three audience doors (*I just use the web* / *I run a website* / *I'm here for the research*) · teaser for the flagship interactive · the action ladder preview · a one-line callout: *"This site has no cookie banner because it has no cookies or trackers. That should not be remarkable."*
 **Avoid:** a hero carousel, a newsletter signup, a "trusted by" strip. Every one of those is a dark pattern in miniature and would be self-refuting.
 
 ### `/start-here/`
@@ -179,7 +179,16 @@ section 3 (the FTC location actions, and legality as a floor) and in `/analytics
 **Closing section:** enforcement reality: fines issued vs. fines collected vs. revenue; who actually gets caught and who doesn't; why "there's a law" is not a defence strategy.
 **If it is ever revived**, read AGENT.md section 7 gotcha 10 first: it records which of these sources can actually be read, and the one route that works (the Wayback CDX API, filtered to status code 200, for archived copies from before EUR-Lex broke).
 
-### `/swap-shop/`
+### `/swap-shop/`: DROPPED on 2026-10-15
+
+**Written, published, and then dropped, deliberately.** The outline below is kept as the record of
+what was planned, so that nobody re-adds it out of tidiness.
+
+**Why it was dropped:** the maintainer dropped it on 2026-10-15, after discussing it with the friend
+who originated the project. Nothing on the site carries its argument now, which leaves a real gap
+rather than a page that moved somewhere else. Section 1's rule, organise around problems and never
+around tools, points the same way, though that is the plan's reasoning rather than the maintainer's.
+
 **Argument:** Switching is possible, and it costs something specific. Here's the price.
 **Format:** one row per swap, in a table that works on mobile.
 
@@ -196,7 +205,19 @@ section 3 (the FTC location actions, and legality as a floor) and in `/analytics
 **⚠ Verify** the jurisdictional consent claims and any current regulator exemption guidance before publishing.
 **Sources:** each project's own docs · the analytics-transfer decisions · CNIL guidance on consent exemptions.
 
-### `/receipts/`
+### `/receipts/`: DROPPED on 2026-10-15
+
+**Written, published, and then dropped, deliberately.** The outline below is the plan it was built
+from, kept as the record, so that nobody re-adds it out of tidiness.
+
+**Why it was dropped:** the maintainer dropped it on 2026-10-15, after discussing it with the friend
+who originated the project. No page publishes the site's own measured numbers any more. The home
+page badge went with it, the hosting disclosure moved to `/sources/`, and nothing discloses the
+sitemap.
+
+**If it is ever revived**, read AGENT.md section 9 item 8 first: it records the styling pass and the
+two defects this page used to publish.
+
 **Argument:** I can prove this site does what it says. Can the sites you use?
 **Blocks: all real, measured, dated:**
 - total requests on a page load, split first-party / third-party (target: 0 third-party)
@@ -237,12 +258,12 @@ section 3 (the FTC location actions, and legality as a floor) and in `/analytics
 These are not nice-to-haves. The project's central claim is credibility, and it dies the moment the site itself is hypocritical.
 
 **Stack: Hugo, chosen deliberately**
-- Static site generator: **Hugo extended.** You have v0.150.0+extended installed, which is current. Write **plain CSS, not SCSS**: the extended edition's Sass support is libsass 3.6.6, which is deprecated upstream and frozen at an old CSS level, so it cannot parse native nesting, `@container`, or modern colour functions. A 13-page design system does not need a preprocessor. (You still want the extended build, for its image and WebP processing.) Pin the version in the README. Hugo's template lookup rules shift between minor releases and unpinned builds break quietly.
-- **No theme.** Nearly every popular Hugo theme ships Google Fonts, Font Awesome, jQuery, or a CDN. Writing your own `layouts/` for 13 pages is less work than stripping a theme, and it is the only way to hold the zero-third-party rule.
+- Static site generator: **Hugo extended.** You have v0.150.0+extended installed, which is current. Write **plain CSS, not SCSS**: the extended edition's Sass support is libsass 3.6.6, which is deprecated upstream and frozen at an old CSS level, so it cannot parse native nesting, `@container`, or modern colour functions. A 10-page design system does not need a preprocessor. (You still want the extended build, for its image and WebP processing.) Pin the version in the README. Hugo's template lookup rules shift between minor releases and unpinned builds break quietly.
+- **No theme.** Nearly every popular Hugo theme ships Google Fonts, Font Awesome, jQuery, or a CDN. Writing your own `layouts/` for 10 pages is less work than stripping a theme, and it is the only way to hold the zero-third-party rule.
 - Content in Markdown, one file per page. Everything repeating lives in `data/`: see §6b.
 - Assets through Hugo Pipes only: `resources.Get` → `minify` → `fingerprint` for CSS and JS. Nothing loads from another origin.
 - **No `node_modules`.** Hugo is a single binary whose JS pipeline is built-in esbuild, so the project has no npm dependency tree at all.
-- Hosting: Codeberg Pages / GitHub Pages / Netlify. Note in `/receipts/` who hosts it and what logging they do.
+- Hosting: Codeberg Pages / GitHub Pages / Netlify. The hosting disclosure lives on `/sources/`, under "How this site is built and checked": who hosts it and what logging they do.
 - Public repository with a license. Being inspectable is part of the argument.
 
 **Why this is a good fit, not merely an acceptable one.** This project has two unusual properties: it is almost entirely prose, and it is full of small repeating records (patterns, swaps, myths, laws, sources). Hugo is strong at both, and its data-file model suits the structured pages better than a component framework would. There is a thematic argument too: a site about supply-chain ethics that ships 1,200 transitive npm packages is making an unintentional joke. Hugo's dependency surface is one binary.
@@ -275,7 +296,6 @@ These are not nice-to-haves. The project's central claim is credibility, and it 
 ├── data/                      ← the content model for everything repeating
 │   ├── sources.yaml           every citation, keyed by id
 │   ├── patterns.yaml          the dark-pattern library
-│   ├── swaps.yaml             the swap-shop rows
 │   ├── myths.yaml
 │   ├── laws.yaml
 │   └── actions.yaml           the action ladder
@@ -287,8 +307,7 @@ These are not nice-to-haves. The project's central claim is credibility, and it 
 │       ├── head.html  nav.html  footer.html
 │       ├── source-list.html   renders a page's citations
 │       ├── status-as-of.html
-│       ├── pattern-card.html
-│       └── swap-row.html
+│       └── pattern-card.html
 ├── shortcodes/
 │   ├── cite.html              {{< cite "planet49" >}} → numbered link
 │   ├── demo.html              a live dark-pattern demo
@@ -303,7 +322,7 @@ These are not nice-to-haves. The project's central claim is credibility, and it 
 
 ### Data files, not duplicated markup
 
-Every page with repeating units should render from `data/`, never from hand-written HTML. `/dark-patterns/` is 15 cards, `/swap-shop/` is 10 categories, `/myths/` is 7 units, `/the-rules/` is 8 instruments: all lists of records with identical fields. One partial renders the card; one page template loops the data.
+Every page with repeating units should render from `data/`, never from hand-written HTML. `/dark-patterns/` is 15 cards, `/myths/` is 7 units, `/the-rules/` is 8 instruments: all lists of records with identical fields. One partial renders the card; one page template loops the data.
 
 ```yaml
 # data/patterns.yaml
@@ -349,7 +368,7 @@ A shortcode renders inline numbered references from the same ids, and `/sources/
 
 - `disableKinds = ["taxonomy", "term"]` unless you actually use them, otherwise Hugo emits empty pages.
 - `[markup.goldmark.renderer] unsafe = true` if you inline SVG or HTML in Markdown. Safe here (single author, no user-submitted content), but leave a comment in the config saying why.
-- `enableRobotsTXT = true`, and disclose the sitemap on `/receipts/`.
+- `enableRobotsTXT = true`.
 - Pin the Hugo version in the README. `hugo mod` needs Go installed and you do not have it, so record the version in a `.tool-versions` file or a README note instead, or pin it in your CI workflow, which matters if a CI runner or your grader builds the site.
 - Production build: `hugo --minify --gc`.
 
@@ -411,11 +430,11 @@ own sources being taken down.
 | 3 | `/what-leaves-your-browser/`, `/nothing-to-hide/`, `/myths/` |
 | 4 | `/dark-patterns/` field guide and mock "evil shop" |
 | 5 | `/consent-theatre/`, `/the-rules/` |
-| 6 | `/swap-shop/`, `/analytics/` |
-| 7 | `/receipts/`, `/sources/`, plus 2–3 SHOULD pages if the schedule holds |
-| 8 | Accessibility audit, performance budget, content edit pass, **freeze the receipts numbers** |
+| 6 | `/analytics/` |
+| 7 | `/sources/`, plus 2–3 SHOULD pages if the schedule holds |
+| 8 | Accessibility audit, performance budget, content edit pass |
 
-**Sequencing logic:** the two interactives land early, while you still have energy for them, and the meta pages land last because they describe a finished site. If you slip, cut SHOULD pages, never the receipt or sources pages, which is where the marks are.
+**Sequencing logic:** the two interactives land early, while you still have energy for them, and the meta pages land last because they describe a finished site. If you slip, cut SHOULD pages, never the sources page, which is where the marks are.
 
 ---
 
@@ -424,14 +443,14 @@ own sources being taken down.
 1. **Course constraints:** is there a required page count, a required CMS, or a presentation component? Any of these could reshape the IA.
 2. **Assessment stance:** is advocacy acceptable, or does the rubric require neutrality? If neutrality is required, shift the framing from "here's what's wrong" to "here are the trade-offs, here is the evidence, you decide". The four-beat spine survives that change intact.
 3. **Timeline:** how many weeks, and how many hours per week?
-4. **Hosting and domain:** do you have them, and do you want the domain's DNS provider discussed openly on `/receipts/`?
-5. **Analytics:** will you actually run GoatCounter, or only document it? Actually running it makes `/receipts/` far stronger.
+4. **Hosting and domain:** do you have them, and do you want the domain's DNS provider discussed openly on `/sources/`, under "How this site is built and checked"?
+5. **Analytics:** will you actually run GoatCounter, or only document it? The answer belongs on `/sources/`, under "How this site is built and checked".
 6. **Working title:** *The Third Party* is the strongest of the options; it carries both meanings at once (third-party scripts, and the uninvited third party in the room).
 
 ---
 
 ## 10. Why there is more than enough material
 
-Rough count of the core pages against the source base: ~13 pages, each needing 4–8 sources, against a field with academic literature (Mathur et al., Solove, Zuboff, Doctorow), primary legal texts and rulings from three jurisdictions, annual quantitative datasets (Web Almanac, WebAIM Million, ICC's RTB report), regulator decisions, and a dozen open-source projects with public documentation. That is comfortably 60–100 citable sources without stretching.
+Rough count of the core pages against the source base: ~10 pages, each needing 4–8 sources, against a field with academic literature (Mathur et al., Solove, Zuboff, Doctorow), primary legal texts and rulings from three jurisdictions, annual quantitative datasets (Web Almanac, WebAIM Million, ICC's RTB report), regulator decisions, and a dozen open-source projects with public documentation. That is comfortably 60–100 citable sources without stretching.
 
 **The risk was never scarcity. It is scope, and rot.** Bound the scope with the core/SHOULD/COULD split, and fight rot with dated claims, archived sources, and one living enforcement tracker page.

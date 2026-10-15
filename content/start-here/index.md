@@ -56,7 +56,7 @@ This ladder is shorter and, honestly, has more effect per hour spent, because a 
 
 **5. Say what you collect.** *Ten minutes.* One sentence, on the page or in the footer. "This site counts visits without identifying anyone" is sufficient, provided it's true.
 
-**6. Publish your numbers.** *An afternoon.* Request count, page weight, tracker count, carbon estimate. [This site does it](/receipts/) and it's the highest-credibility, lowest-cost thing a website can publish, precisely because nobody else does.
+**6. Publish your numbers.** *An afternoon.* Request count, page weight, tracker count, carbon estimate. It's the highest-credibility, lowest-cost thing a website can publish, precisely because nobody else does.
 
 **If you only do one rung:** the third. It's a quarter of an hour, it removes a third party from every page load permanently, and it's the change most likely to make you notice the others.
 

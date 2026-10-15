@@ -31,9 +31,15 @@ each page is assigned the one it needs.
 | `what-leaves-your-browser/` | **A** | Kept as written |
 | `one-page-load/` | **A** | Kept as written, and the ledger is its own fallback |
 | `analytics/` | **A**, practical | A question, answered in order |
-| `start-here/`, `swap-shop/`, `dark-patterns/` | reference | Lists of records, not arguments |
+| `start-here/`, `dark-patterns/` | reference | Lists of records, not arguments |
 | `the-rules/` | reference, per instrument | One card per law, status-dated |
-| `sources/`, `receipts/` | reference | Generated or measured, not argued |
+| `sources/` | reference | Generated, not argued |
+
+**Three of the pages in this register are history, not a to-do.** `the-rules/` was dropped in
+round 11, and `swap-shop/` and `receipts/` were dropped by the maintainer on 2026-10-15,
+after discussing the site with the friend who originated the project. The two dropped on
+2026-10-15 have been taken off the table above; the `the-rules/` row stays as the record of
+what was planned.
 
 Nothing already written has to change shape. The decision settles what shape the
 *unwritten* pages take, which is why it mattered enough to wait for.

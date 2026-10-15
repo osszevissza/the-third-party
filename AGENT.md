@@ -20,7 +20,8 @@ What that session did, in the order it happened:
    become public. §7.
 3. **The site is live**, deployed by hand from statichost's dashboard, and verified by reading
    each page's own title rather than by trusting a status code. §7 has the serving facts, and
-   `/receipts/` publishes them under "What the host sends". **A push does not deploy** (§7).
+   `/receipts/` published them under "What the host sends" until that page was dropped on
+   2026-10-15. **A push does not deploy** (§7).
 4. **`/receipts/` was cut from 3,129 words to 1,338** at the maintainer's request, and its
    median row now covers the other eleven pages rather than all twelve, because a page cannot
    report a statistic it is part of. §5 and §7.
@@ -29,7 +30,37 @@ What that session did, in the order it happened:
 6. **Two wrong causes were written down and corrected** (§7 gotcha 15), which is why that gotcha
    exists at all: it caught itself twice in one afternoon.
 
-**All twelve pages exist, all four checks pass, and the site is published.** What is left is
+**A third session, on 2026-10-15, dropped two pages at the maintainer's request.** The friend
+who originated the project was part of that conversation, so treat the decision as settled
+rather than as an experiment to be revisited. What changed, and what it costs:
+
+1. **`/swap-shop/` and `/receipts/` are gone**, directories and all. The site is now **ten
+   pages: the home page plus nine content pages.** §5 records what each page carried, what
+   replaced it and why nothing did. `SITE_PLAN.md` keeps both outlines with the reasoning, the
+   way it keeps the dropped `/the-rules/` outline, so a later session does not re-add them out
+   of tidiness.
+2. **Nothing on the site publishes its own measured numbers any more.** `/receipts/` was the
+   only page that did. The three defects it published (no `content-security-policy`, citation
+   markers below the WCAG 2.5.8 target size, unmarked foreign-language text) are now tracked in
+   §6 and §9 instead of on a page, and `scripts/measure-pages.py` stays as an internal check of
+   the 100 KB budget rather than as the source of a page.
+3. **12 source records cited only by those two pages were deleted** from `data/sources.yaml`,
+   which is now 58 entries, 48 archived. The new md5 and the counts are in §7. The disclosure on
+   `/sources/` was kept and rewritten as "what I actually run", so the three sources it cites
+   (Ecosia, and Mullvad's DNS notice) are still cited.
+4. **Five published pages were edited so that nothing on the site claims what is no longer
+   true**: the home page lost its "receipts" section, `/start-here/` and `/analytics/` lost
+   their self-references to it, `/one-page-load/` and `/nothing-to-hide/` lost their swap-shop
+   links, and `/sources/` lost a `gzip` clause and a `Receipts` pointer along with the two
+   stale counts in its "gaps" section. One unrelated false sentence on the home page was fixed
+   at the same time: it still said the harms page had two harms it had not finished arguing,
+   which stopped being true in round 11.
+5. **The deploy is the maintainer's, as always** (§7), so until one is triggered the live site
+   is still the twelve-page version and still serves both dropped pages. That is expected
+   rather than a fault, and the check afterwards is the same as ever: fetch a page and read a
+   phrase that exists only in the new commit.
+
+**All ten pages exist, all four checks pass, and the site is published.** What is left is
 not writing:
 
 1. **The styling pass, and it is next.** The maintainer is setting the direction themselves;
@@ -40,8 +71,8 @@ not writing:
    dashboard and is not version-controlled; no `content-security-policy` header on a site
    whose central claim one would enforce; and a `robots.txt` that does not point at the
    sitemap. §9 item 7 has the detail.
-3. **The source worklist in §6**: 20 sources without a `verified_on` date, 12 without an
-   archive, and the cheap upgrades to existing entries that this round's verification found.
+3. **The source worklist in §6**: 19 sources without a `verified_on` date, 10 without an
+   archive, and the cheap upgrades to existing entries that round 11's verification found.
 
 ---
 
@@ -79,7 +110,7 @@ Three consequences that shape everything below:
    **Do not cut good content to hit a number.** The nine-objection ceiling was shown to
    the maintainer and approved, so do not trim `/nothing-to-hide/` for its own sake. The
    one page genuinely exempt from length pressure is `/sources/`, which is a bibliography
-   rather than an argument: it is 8,209 words, most
+   rather than an argument: it is 8,870 words, most
    of it generated, and §5 explains why that is the right shape for it.
 
 A related piece of context: the project was **someone else's idea**, a friend of the
@@ -88,15 +119,19 @@ maintainer, and that friend has a say in the voice. That decision has now landed
 ### What the project is
 
 A static Hugo site arguing that the web is more extractive than it looks, built to
-**pass its own test**: no third-party requests, no cookies, no consent banner, WCAG AA,
-and a page publishing its own measured numbers.
+**pass its own test**: no third-party requests, no cookies, no consent banner, WCAG AA.
+Until 2026-10-15 that list ended with "and a page publishing its own measured numbers".
+`/receipts/` was that page and it was dropped, so the self-measurement half of the test is
+internal now rather than published (§5, §9 item 8).
 
 **Working title:** *The Third Party*.
 
 **Live at [third-party.statichost.page](https://third-party.statichost.page/)** since
 2026-10-14, served by statichost.eu from the public GitHub repository. The deploy is real and
-verified: all twelve pages answer `200` with their own correct titles and canonicals. See §7
-for what the host sends and §9 item 7 for what the deploy left open.
+verified: the twelve pages that existed then each answered `200` with their own correct title
+and canonical. The site is ten pages as of 2026-10-15 and no deploy has been triggered since,
+so the live site is still the twelve-page version until the maintainer runs one. See §7 for
+what the host sends and §9 item 7 for what the deploy left open.
 
 **Author and licence:** Underdog Guild ([barsimarina.hu](https://barsimarina.hu)), and the
 site's own text is released under **CC0 1.0**, apart from quotations, which stay with the
@@ -104,14 +139,14 @@ sources they came from. Both facts were supplied by the maintainer in round 11 r
 inferred, and both are stated in the footer. Do not invent a different author string or a
 different licence for this project.
 
-**State:** twelve pages, which is every page the site intends to have: the home page plus 11
-content pages. 32,019 words of body text by the count in §5, of which 10,255 is `/sources/`
-and mostly its generated bibliography. 2 archived drafts, 70 sources, four scripts, a
-LICENSE, ten commits, and a Hugo build that passes all four checks and renders all twelve
-pages with no errors. `/the-rules/` was dropped in round 11,
-so the target is 12 core pages rather than 13. **It is live, and that is new**: the writing
-being finished and the site being published are two different states, and only the first was
-true before 2026-10-14.
+**State:** ten pages, which is every page the site intends to have: the home page plus 9
+content pages. 26,895 words of body text by the count in §5, of which 8,870 is `/sources/`
+and mostly its generated bibliography. 2 archived drafts, 58 sources, four scripts, a
+LICENSE, and a Hugo build that passes all four checks and renders all ten pages with no
+errors. `/the-rules/` was dropped in round 11, and `/swap-shop/` and `/receipts/` were
+dropped on 2026-10-15, so the target has moved from 13 core pages to 10. **It is live, and
+that is new**: the writing being finished and the site being published are two different
+states, and only the first was true before 2026-10-14.
 
 **Read next, in this order:** `FOR-REVIEW.md` (concept, and the review outcome),
 `SITE_PLAN.md` (full IA and rationale), `data/sources.yaml` header (citation rules).
@@ -135,8 +170,8 @@ both-by-purpose recommendation. The rule, which is now the house style:
 | `myths/` | **B**, standalone units, each checkable in a browser |
 | `consent-theatre/` | **A**, explanatory. Written in round 10 |
 | `what-leaves-your-browser/`, `one-page-load/`, `analytics/` | **A**, as written |
-| `start-here/`, `swap-shop/`, `dark-patterns/` | reference: lists of records. `the-rules/` sat in this row until it was dropped in round 11, see §5 |
-| `sources/`, `receipts/` | reference: generated or measured, never argued |
+| `start-here/`, `dark-patterns/` | reference: lists of records. `the-rules/` sat in this row until it was dropped in round 11, and `swap-shop/` until it was dropped on 2026-10-15, see §5 |
+| `sources/` | reference: generated, never argued. `receipts/` sat beside it until it was dropped on 2026-10-15 |
 
 `drafts/README.md` records the decision in full, with the per-page reasoning. Do not
 re-open the fork. If a new objection page is ever added, it takes B's shape.
@@ -179,19 +214,20 @@ python3 scripts/render-bibliography.py --check   # exit 1 if /sources/ is out of
 ```
 
 There is a fifth script that is deliberately not a check and does not run in the build:
-`python3 scripts/measure-pages.py` re-measures the figures published on `/receipts/` by the
-referenced-asset method in §7 gotcha 13, and prints the median of the other eleven pages, the
-heaviest page, the ratio, the site-wide total and the carbon estimates. **Run it after any edit
-to a page or the stylesheet, and always after the styling pass.** It found its own reason to
-exist: the hand-rolled version of this measurement is where the self-referential median came
-from, and it also prints the carbon figures in both decimal GB and GiB, because the page
-divides by 2^30 while writing "GB" (an open question, §7).
+`python3 scripts/measure-pages.py` measures what each built page actually weighs, by the
+referenced-asset method in §7 gotcha 13, and prints every page, the median, the heaviest page,
+the ratio, the site-wide total, both readings of the 100 KB budget and the carbon estimates.
+**Run it after any edit to a page or the stylesheet, and always after the styling pass.** Until
+2026-10-15 it existed to keep the figures published on `/receipts/` honest and reproducible;
+that page is gone, so it is an internal check now and nothing on the site publishes its numbers.
+It still prints the carbon figures in both decimal GB and GiB, because which one to quote was
+the maintainer's open question and nothing on the site depends on it any more (§10).
 
 Run all four before ending any session, and run `scripts/render-bibliography.py` without
 `--check` whenever `data/sources.yaml` or any page's `sources` list changes, because that
-is what rewrites the generated block on `/sources/`. Expected output as of 2026-10-14:
+is what rewrites the generated block on `/sources/`. Expected output as of 2026-10-15:
 
-- `check-dashes.py` → `no em dashes in 22 file(s), 0 allowlisted`. **The allowlist is empty
+- `check-dashes.py` → `no em dashes in 21 file(s), 0 allowlisted`. **The allowlist is empty
   as of round 11**, and that is a real state rather than an oversight: the single entry it
   held claimed a CNIL document title was "quoted as published", and the archived copy of
   CNIL's own page showed that title contained no em dash at all. The dashes were ours, not
@@ -202,15 +238,17 @@ is what rewrites the generated block on `/sources/`. Expected output as of 2026-
   data/sources.yaml is edited above the line it points at: that is what broke the check in
   round 11, and the fix is to re-verify the text, not to bump the number.
 
-- `check-content.py` → `20 warning(s), 0 error(s)` as of round 11, down from 21. Warnings
+- `check-content.py` → `19 warning(s), 0 error(s)` as of 2026-10-15, down from 20. Warnings
   are the source worklist: blanket-blocked or unverified URLs awaiting a human, plus 1 with
-  no URL at all (§6). The count fell by one in round 11 because `edpb-consent-or-pay` gained
-  a URL and a date (§6 item 5). **A fall is only good news when the link was genuinely
-  opened**, and this one was verified by content rather than by status code, because its
-  host answers 200 for paths that cannot exist (§7, gotcha 10). In every earlier round this
-  count rising was the honest direction: a warning means a human still has to open the link.
-- `check-links.py` → `53 resolving, 7 bot-blocked, 0 dead, 3 inconclusive, 6
-  unverifiable` on the last run of round 11, and it lists 4 further URLs whose 404 was treated
+  no URL at all (§6). **This fall is not progress**: the count dropped because `codeberg`,
+  which was one of the 20, left the file along with the two dropped pages (§5). Nothing was
+  verified. The count fell by one in round 11 for a different reason, and that one did count:
+  `edpb-consent-or-pay` gained a URL and a date (§6 item 5), verified by content rather than
+  by status code, because its host answers 200 for paths that cannot exist (§7, gotcha 10).
+  In every earlier round this count rising was the honest direction: a warning means a human
+  still has to open the link.
+- `check-links.py` → `45 resolving, 6 bot-blocked, 0 dead, 0 inconclusive, 6
+  unverifiable` on the 2026-10-15 run, and it lists 4 further URLs whose 404 was treated
   as bot-blocking because the domain root refused the probe too. **`unverifiable` is not a
   pass.** It
   means the status code proved nothing and a human must open the link (§7, gotcha 2).
@@ -218,12 +256,14 @@ is what rewrites the generated block on `/sources/`. Expected output as of 2026-
   session, over a source file that was changing only by additions, gave `47/7/0/4/6`,
   `48/8/0/3/5` and `53/7/0/3/6`. Treat any single run as a snapshot rather than a result, and
   never quote one as a measurement of the site's health. **Some verdicts in this output are
-  actively misleading and are known bugs, not results**: the four CNIL rows report `503` while
-  that site serves a maintenance page for every path in existence, and `cjeu-planet49` reports
-  `OK 202` while EUR-Lex returns nothing but a JavaScript shell (§7, gotcha 10).
-  `edpb-consent-or-pay` reports `OK 200`, which is true but proves nothing on its own: that host
-  returns 200 for paths that cannot exist, so the evidence was the page's own title, read by
-  hand.
+  actively misleading and are known bugs, not results**: `cjeu-planet49` reports `OK 202` while
+  EUR-Lex returns nothing but a JavaScript shell (§7, gotcha 10), and `edpb-consent-or-pay`
+  reports `OK 200`, which is true but proves nothing on its own, because that host returns 200
+  for paths that cannot exist: the evidence was the page's own title, read by hand.
+  **The four CNIL rows are no longer among the misleading ones**, which is a change of state
+  rather than a change of tool: on 2026-10-15 they report `OK 200`, the maintenance block is
+  over and the domain control-probes cleanly again. See §7 gotcha 10 for the measurement, and
+  §6 item 2 for what that reopens.
 
 **Every page must show a perfect citation match**: every declared source cited inline,
 every inline citation declared. There is a one-liner in §7, gotcha 7, explaining the
@@ -322,14 +362,16 @@ pages are added.
   **A status code is not a confirmation.** Before setting a date here, control-probe the
   domain: request a path that cannot exist. If it answers with the same code, the code
   proves nothing and the value is `null` (§7, gotcha 2 and gotcha 10).
-- `archive`: Wayback snapshot. **12 of the 70 sources are `null` here; 58 are filled.**
+- `archive`: Wayback snapshot. **10 of the 58 sources are `null` here; 48 are filled.**
   This was 3 of 61 before round 10, so the largest publishing blocker is now most of the
-  way closed. The 12 are 11 with no snapshot in the Wayback Machine at all, plus
-  `solove-taxonomy`, which has no URL to snapshot. `edpb-consent-or-pay` was the other of
-  those two until round 11 gave it a URL and snapshotted the page in the same session, so
-  the count moved by work rather than by luck. Do not re-run the archiving pass over the
-  whole file; it is done, and the 11 blanks were confirmed against six or more separate
-  well-formed API responses each.
+  way closed. The 10 are 9 with no snapshot in the Wayback Machine at all, plus
+  `solove-taxonomy`, which has no URL to snapshot. Two of the 11 that used to be in that
+  list, `mailbox-org` and `gmail-scanning-2017`, left the file with the two dropped pages on
+  2026-10-15, so that fall is bookkeeping rather than archiving and should not be reported as
+  progress. `edpb-consent-or-pay` was the other of the pre-round-11 pair until round 11 gave
+  it a URL and snapshotted the page in the same session, so that count moved by work rather
+  than by luck. Do not re-run the archiving pass over the whole file; it is done, and the 9
+  blanks were confirmed against six or more separate well-formed API responses each.
 - `weakness`: what the source is bad at. Every source has one. Recording it is the
   difference between a bibliography and a decoration.
 - `supports`: the specific claims this source can carry.
@@ -354,7 +396,8 @@ pages are added.
   for `ftc.gov`, `nytimes.com`, `dl.acm.org`, `reuters.com` and the other domains in
   §7 gotcha 2.
 - **Watch for unsourced background knowledge, which is the failure mode an AI-written page
-  is most prone to.** Round 11 produced a clean example: a sentence on `/swap-shop/` said
+  is most prone to.** Round 11 produced a clean example, on a page that was itself dropped on
+  2026-10-15: a sentence on `/swap-shop/` said
   Quad9 is "a non-profit rather than a company", which is probably true and was not sourced
   to anything. Checking it found the phrase only in a *sponsor's quote* on Quad9's homepage,
   not in Quad9's own description of itself, so the clause was cut. The rule that catches this
@@ -397,13 +440,13 @@ LICENSE                CC0 1.0 legal code, fetched verbatim, plus a two-line hea
 FOR-REVIEW.md          concept summary, plus the outcome of the review
 SITE_PLAN.md           full IA, page-by-page outline, build constraints (§6b = Hugo)
 AGENT.md               this file
-data/sources.yaml      70 sources. SINGLE SOURCE OF TRUTH
+data/sources.yaml      58 sources. SINGLE SOURCE OF TRUTH
 scripts/build.sh       checks, then builds. Run the site through this, see below
 scripts/check-content.py   frontmatter + citation graph, fails fast on broken data
 scripts/check-links.py     network URL resolver with bot-block detection
 scripts/check-dashes.py    the house punctuation rule, with a reasoned allowlist
 scripts/render-bibliography.py   regenerates the generated block on /sources/ (writes)
-scripts/measure-pages.py   re-measures the figures on /receipts/ (reads public/, never writes)
+scripts/measure-pages.py   page weights against the 100 KB budget (reads public/, never writes)
 content/_index.md      the home page. Written in round 11
 content/<slug>/index.md    one directory per page
 layouts/               baseof.html, index.html (home, renders the page), _default/single.html
@@ -458,13 +501,16 @@ which cost time in round 10:
   `reflect.IsTime` errors on an `interface{}`. `printf "%v"` renders every case correctly.
   This was probed, not assumed; the comment in `source-record.html` says so.
 - **The menu is generated now, because a hand-written one lied.** Until round 11 `nav.html`
-  listed six pages by hand, and five of the twelve were simply absent from it (`/swap-shop/`,
-  `/analytics/`, `/myths/`, `/what-leaves-your-browser/`, `/receipts/`). Nobody noticed until
-  the maintainer went looking for the swap shop and could not find it. It now ranges over
+  listed six pages by hand, and five of the twelve pages that then existed were simply absent
+  from it: `/swap-shop/`, `/analytics/`, `/myths/`, `/what-leaves-your-browser/` and
+  `/receipts/`. Nobody noticed until the maintainer went looking for a page and could not find
+  it. It now ranges over
   `.Site.RegularPages.ByWeight`, so a page cannot be left out, and the label comes from an
   optional `nav` frontmatter field, so a page can be headed "Nine Things People Say" and still
-  appear in the menu as "Nothing to hide". All eleven content pages carry a label; a page
+  appear in the menu as "Nothing to hide". Every content page carries a label; a page
   without one falls back to its title. The current page is marked with `aria-current="page"`.
+  Two of the five pages named above were dropped on 2026-10-15 and the generated menu followed
+  without an edit, which is the point of generating it: nine links, in weight order, no gap.
 - **Watch out when checking minified output.** `--minify` strips quotes from simple
   attributes (`<sup class=cite>`), so any verification regex must accept both `class=cite`
   and `class="cite"`. A quote-only regex reports zero citations on a page that has
@@ -472,30 +518,24 @@ which cost time in round 10:
 
 ### Page inventory
 
-**Done: all twelve pages** (the home page plus `content/`, 32,622 words, measured on
-2026-10-14 as body words after frontmatter, whitespace-split, generated text included):
+**Done: all ten pages** (the home page plus `content/`, 26,895 words, measured on
+2026-10-15 as body words after frontmatter, whitespace-split, generated text included):
 
 | Page | Words | Shape |
 |---|---|---|
-| `sources/` | 10,323 | reference. *Mostly generated from `data/sources.yaml`* |
-| `nothing-to-hide/` | 3,030 | B, merged: nine objections, A's opening, A's concession, two harms argued |
+| `sources/` | 8,870 | reference. *Mostly generated from `data/sources.yaml`* |
+| `nothing-to-hide/` | 3,009 | B, merged: nine objections, A's opening, A's concession, two harms argued |
 | `consent-theatre/` | 2,996 | A, explanatory, with the static eight-click walkthrough |
-| `swap-shop/` | 2,705 | reference, 8 swaps, with a dated notice on the DNS one. **The search swap now leads with Ecosia**, see the note below |
 | `dark-patterns/` | 2,351 | field guide, 17 patterns |
 | `what-leaves-your-browser/` | 1,979 | A |
-| `one-page-load/` | 1,908 | A. *Is itself the interactive's fallback* |
+| `one-page-load/` | 1,922 | A. *Is itself the interactive's fallback* |
 | `myths/` | 1,671 | B-style units, 7 myths |
-| `analytics/` | 1,608 | A, practical |
-| `receipts/` | 1,338 | this site's own measured numbers, including its failures. Cut from 3,129 the same day |
-| `start-here/` | 1,193 | reference |
-| `/` (home) | 732 | thesis, three doors, no-banner callout |
+| `analytics/` | 1,597 | A, practical |
+| `start-here/` | 1,148 | reference |
+| `/` (home) | 704 | thesis, three doors, no-banner callout |
 
-**On those numbers.** They are larger than the ones this table used to carry for the same
-pages, and the difference is method rather than editing: the old figures also disagreed
-with each other (`/consent-theatre/` appeared here as 2,115 and in §0 as 2,795;
-`/sources/` as 7,267 here and 8,209 in §0). The count above comes from one command run over
-the whole tree, so it is reproducible and the two halves of this file can no longer
-disagree:
+**On those numbers.** The count comes from one command run over the whole tree, so it is
+reproducible and the two halves of this file cannot disagree:
 
 ```bash
 awk 'BEGIN{fm=0} /^\+\+\+$/{fm++; next} fm>=2' content/_index.md content/*/index.md | wc -w
@@ -504,36 +544,44 @@ awk 'BEGIN{fm=0} /^\+\+\+$/{fm++; next} fm>=2' content/_index.md content/*/index
 for the total, and the same expression with a single file for one page. Treat it as one
 measurement, not as a target.
 
-**No core pages remain.** The last two resolved in round 11: `/receipts/` was written, and
-`/the-rules/` was dropped.
+**No core pages remain, and the target shrank twice:** `/the-rules/` went in round 11, and
+`/swap-shop/` and `/receipts/` went on 2026-10-15, so the site is ten pages.
 
-`/receipts/` publishes measured numbers only, and says out loud which figures it could not
-take. Read its "Known failures" section before quoting this site anywhere: it names two real
-accessibility defects (WCAG 3.1.2 language of parts, and citation markers below the 2.5.8
-target size) and a missing `content-security-policy`, and it is no longer the place to look for
-the state of the deploy, which is now a served fact rather than a defect. **Its numbers are
-exact and reproducible**: build the site and you get the same bytes. Two values are deliberately
-softer, and the page says why: the site-wide total is rounded because it includes that page's
-own bytes, and the carbon figure is labelled a model estimate rather than a measurement. **The
-page was cut from 3,129 words to 1,338 on 2026-10-14** at the maintainer's request, on the
-grounds that it had become the longest prose page on the site while being the one nobody reads
-for pleasure. What went was the argument about why publishing numbers matters and the running
-commentary; what stayed is every number, every failure, the hosting disclosure and the
-arithmetic. If it grows again, cut the prose rather than a row: the server is the part a reader
-cannot get anywhere else.
+**The two pages dropped on 2026-10-15, and what went with them.** Both were written, sourced
+and published before the maintainer asked for them to go, after discussing the site with the
+friend who originated the project. Neither was replaced by anything, and that is a decision
+rather than an oversight:
+
+- **`/swap-shop/`** was 2,705 words over eight substitutions, each carrying what the switch
+  costs. Its sources were the fifteen in the `swap-shop` block of `data/sources.yaml`, twelve
+  of which no other page cited and all twelve of which were deleted the same day. **The search
+  material survives in a reduced form**: the Ecosia claim and its caveat are now in the
+  disclosure on `/sources/`, together with the Mullvad DNS notice. Nothing else on the site
+  carries the swap argument, so treat "which tools do I use instead" as a deliberate gap
+  rather than as a page somebody forgot to write.
+- **`/receipts/`** was 1,338 words of the site's own measured numbers, already cut from 3,129
+  on 2026-10-14. Its content is gone rather than moved, so no page publishes the site's
+  figures any more, and the three defects it published (WCAG 3.1.2 language of parts, citation
+  markers below the 2.5.8 target size, and a missing `content-security-policy`) are tracked in
+  §6 and §9 instead. `scripts/measure-pages.py` survives as an internal check, and **both of
+  its budget rows now pass**: the heaviest page is `/sources/` at 26,440 bytes gzipped and
+  89,184 raw, where the raw row was over 100 KB before the drop. See §7 for the figures.
 
 `/the-rules/` was dropped by the maintainer, for reasons worth not re-litigating: it is the
 one page whose whole value is being current, on a site whose footer now states that it is not
 maintained on a schedule; its primary sources are the least readable on the web (§7, gotcha
 10); and the argument it would have made is already carried by `/consent-theatre/`,
-`/nothing-to-hide/` section 3 and `/analytics/`. Its outline survives in `SITE_PLAN.md` §4
-with the reasoning attached, so a future session does not re-add it out of tidiness.
+`/nothing-to-hide/` section 3 and `/analytics/`.
 
-`/` was written in round 11 too: thesis, three audience doors, the flagship teaser, the
-action-ladder preview, and the "nothing to ask your permission for" callout, plus the
-`/receipts/` badge that `SITE_PLAN.md` §4 asks for and that had to wait until that page
-existed. No carousel, no newsletter box, no "trusted by" strip, each of which is a dark
-pattern in miniature.
+**All three dropped outlines survive in `SITE_PLAN.md` §4 with the reasoning attached**, so a
+future session does not re-add them out of tidiness.
+
+**`/` had a receipts section, and no longer does.** It was written in round 11 with a badge
+pointing at `/receipts/`, which `SITE_PLAN.md` §4 asked for, and the section came out on
+2026-10-15 with the page. The rest is unchanged: thesis, three audience doors, the flagship
+teaser, the action-ladder preview, and the "nothing to ask your permission for" callout. No
+carousel, no newsletter box, no "trusted by" strip, each of which is a dark pattern in
+miniature.
 
 **Note on the interactives, written in round 10.** Two were planned. `SITE_PLAN.md` §5
 calls them *Cookie Banner Hell* on `/consent-theatre/` and *would-this-bother-you* on
@@ -590,33 +638,34 @@ without the content changing.
 documented defects, and add the counter as enhancement on top. Do not replace the sourced
 content with the counter.
 
-**Note on `/swap-shop/` and Ecosia, changed on 2026-10-14.** The search section used to
-recommend Brave, Mojeek and SearXNG and never mention Ecosia, while `/sources/` disclosed that
-Ecosia is the search swap the maintainer actually runs. The maintainer asked for Ecosia first,
-and it is: the section leads with it on the criterion the section already applied, which is
-whose index answers your query, since Ecosia has been building one with Qwant. `ecosia-eusp-index`
-had been recorded, verified and archived for exactly this claim and was cited by no page until
-then; it is now cited by `/swap-shop/` and by the disclosure on `/sources/`, whose reverse index
-lists the Swap Shop with fifteen sources. **The caveat is load-bearing and must not be
-trimmed**: that source is the company's own account, published in French, and it establishes
-only that the joint index exists and that French users are served from it directly. It says
-nothing about coverage elsewhere, about result quality, or about how much of a query is still
-answered by a licensed index. `/sources/` used to say the swap-shop recommendation was unchanged
-and that this was not an endorsement; that wording had to change in the same edit, because
-leaving it would have made a published sentence false.
+**Note on Ecosia, changed on 2026-10-14 and moved on 2026-10-15.** The search-index claim was
+the one section of the swap shop that rested on a source nothing else carried, and it is why
+`ecosia-eusp-index` is still in `data/sources.yaml` after the page that used it was dropped.
+The maintainer asked on 2026-10-14 for Ecosia to lead the search section, on the criterion that
+section already applied, which is whose index answers your query, since Ecosia has been
+building one with Qwant. The page it led is gone; the claim and its caveat are now in the
+disclosure on `/sources/` headed "What I actually run". **The caveat is load-bearing and must
+not be trimmed**: that source is the company's own account, published in French, and it
+establishes only that the joint index exists and that French users are served from it directly.
+It says nothing about coverage elsewhere, about result quality, or about how much of a query is
+still answered by a licensed index. `/sources/` used to say that the swap-shop recommendation
+was unchanged and that this was not an endorsement; that wording had to change on 2026-10-15,
+because the recommendation it described no longer exists anywhere on the site.
 
-**Note on `/sources/`, written in round 9 and re-measured in round 11.** It is the one page
+**Note on `/sources/`, written in round 9 and re-measured on 2026-10-15.** It is the one page
 exempt from the length rule in §0, because it is a bibliography rather than an argument:
-8,338 words in total, of which the great majority is the generated entries, in four groups,
+8,870 words in total, of which the great majority is the generated entries, in four groups,
 with a reverse index at the end. The generated block sits between two HTML markers and is
 written by `scripts/render-bibliography.py`; **never edit inside the markers by hand**,
-because the next run overwrites it. The markers also make the page splittable: if 8,338
+because the next run overwrites it. The markers also make the page splittable: if 8,870
 words turns out to be too much for one page at build time, moving the block to
 `/sources/bibliography/` is a change to one path constant in the script, not a rewrite.
 
-Two things on `/sources/` are deliberately unfinished and marked with HTML comment TODOs
-in the page: the contact route for reporting an error, and the disclosure of which
-recommended tools the maintainer actually runs. Both are publication blockers (§6).
+**Both `/sources/` TODOs are now closed as page text**, the contact route and the tools
+disclosure, and one check on the first is still outstanding: §9 item 4 has it. The disclosure
+became "What I actually run" on 2026-10-15, when the swap shop it pointed at was dropped, and
+it cites three sources (`ecosia-eusp-index`, `mullvad-public-dns`, `mullvad-dns-shutdown`),
+which is why those three stayed in the file when the other twelve swap-shop sources went.
 
 **Note on `/one-page-load/`:** the page's timed request ledger *is* the progressive
 enhancement fallback the interactive needs. When the Hugo build happens, the `<ol>` of
@@ -630,7 +679,9 @@ ai-crawl, browser-power, subscriptions, decision-guide, glossary, tracker.
 **One known duplicate to leave alone:** `weight = 3` is set on both `one-page-load` and
 `what-leaves-your-browser`, and has been since before round 10. `check-content.py` does
 not flag it and nothing depends on the order, so changing it now would be churn. New
-pages should take a weight that is not already used.
+pages should take a weight that is not already used. **The dropped pages left two weights
+unused, 8 and 11**, which is harmless: the menu orders by weight and never shows it. Do not
+renumber nine pages to close the gap.
 
 ---
 
@@ -638,20 +689,22 @@ pages should take a weight that is not already used.
 
 **Blocking publication:**
 
-1. **`archive:` is `null` on 12 of the 70 sources, down from 62.** Round 10 filled 52 and
-   rounds 11 added six more. The remaining 12 are **not a to-do that another pass will
-   fix**: 11 have no Wayback snapshot at all (`netflix-prize`, `eckersley-fingerprinting`,
-   `ecc-encrypted-client-hello`, `austrian-dsb-google-analytics`, `ga4-consent-mode`,
-   `plausible`, `matomo`, `mailbox-org`, `gmail-scanning-2017`, `ftc-amazon-25b`,
-   `ftc-click-to-cancel-rosca`) and `solove-taxonomy` has no URL to snapshot.
-   `edpb-consent-or-pay` left this list in round 11 when it gained a URL, and its snapshot
-   was taken the same session over plain HTTP, with no account:
+1. **`archive:` is `null` on 10 of the 58 sources, down from 62.** Round 10 filled 52 and
+   round 11 added six more; two further entries left the file with the dropped pages on
+   2026-10-15 (`mailbox-org`, `gmail-scanning-2017`), and that is bookkeeping rather than
+   archiving, so do not read the smaller number as progress. The remaining 10 are **not a
+   to-do that another pass will fix**: 9 have no Wayback snapshot at all (`netflix-prize`,
+   `eckersley-fingerprinting`, `ecc-encrypted-client-hello`,
+   `austrian-dsb-google-analytics`, `ga4-consent-mode`, `plausible`, `matomo`,
+   `ftc-amazon-25b`, `ftc-click-to-cancel-rosca`) and `solove-taxonomy` has no URL to
+   snapshot. `edpb-consent-or-pay` left this list in round 11 when it gained a URL, and its
+   snapshot was taken the same session over plain HTTP, with no account:
 
    ```bash
    curl -sSL "https://web.archive.org/save/<the-url>"
    ```
 
-   **That is worth trying before calling the 11 a human-only job.** Save Page Now worked on
+   **That is worth trying before calling the 9 a human-only job.** Save Page Now worked on
    the first attempt for a page the availability API had reported as unarchived on four
    consecutive passes, and the archived copy still contained the PDF link that made the
    page worth citing. Verify it afterwards by fetching the returned snapshot URL and
@@ -666,7 +719,7 @@ pages should take a weight that is not already used.
 
    **Round 11 made that trap worse, and it matters here.** The API returned empty on
    **eight consecutive passes** for a URL whose snapshot replays perfectly, and on four
-   for another, so "several clean passes" is not enough either. **The list of 11 blanks
+   for another, so "several clean passes" is not enough either. **The list of 9 blanks
    above should therefore be read as "no snapshot found by that method", not "no snapshot
    exists".** The reliable check is the CDX API with a status filter, which is recorded in
    §7 gotcha 10, and the practical fallback is Save Page Now, which worked here on the
@@ -674,13 +727,14 @@ pages should take a weight that is not already used.
 2. **Sources that cannot be verified automatically and need a human to open them.**
    Their domains answer any path, including impossible ones, with the same 401/403/404,
    so the status code proves nothing (§7, gotcha 2). As of round 8 the unverifiable six
-   are `ali-ad-delivery`, `eckersley-fingerprinting`, `penney-chilling`, `codeberg`,
-   `ftc-amazon-25b`, `ftc-click-to-cancel-rosca`, and four more are treated as
+   were `ali-ad-delivery`, `eckersley-fingerprinting`, `penney-chilling`, `codeberg`,
+   `ftc-amazon-25b` and `ftc-click-to-cancel-rosca`, and `codeberg` has since left the file
+   with the dropped pages, so the list is **five**. Four more are treated as
    bot-blocked after a 404 (`ftc-mobilewalla`, `ftc-gravy-venntel`,
-   `ftc-surveillance-pricing`, `ftc-data-brokers-2014`). **Round 10 added four more**,
-   the CNIL sources, after that domain was found to serve a maintenance page for every
-   path (§7, gotcha 10). Three CNIL URLs therefore remain marked inconclusive in
-   `check-links.py` output and four sources carry `verified_on: null`. **Do not set
+   `ftc-surveillance-pricing`, `ftc-data-brokers-2014`). **The four CNIL sources left this
+   category on 2026-10-15**, when the maintenance block that put them here was measured to be
+   over (§7, gotcha 10), so they can be opened and dated by hand now; nobody has done that, so
+   they still carry `verified_on: null`. **Do not set
    `verified_on` on any of these without actually opening the link.**
 3. **`cjeu-iab-europe-tcf` is a press release, not the judgment.** It carries the
    official holdings and the court's own disclaimer, so it is usable, but the reasoning
@@ -710,16 +764,17 @@ pages should take a weight that is not already used.
      Find the publisher's or SSRN's own page. **This is now the only item in §6 that an
      agent could finish without a human.**
 6. ~~**No Hugo build exists.**~~ **Closed in round 10, and this entry was left behind by
-   mistake.** The build exists: all four checks pass and `hugo` renders all twelve pages
+   mistake.** The build exists: all four checks pass and `hugo` renders all ten pages
    with no errors through `scripts/build.sh` (§5). It is kept as a stub only so the numbering of
    this list does not shift, because other sections refer to these items by number. If you
    are reading this looking for a missing piece, it is not missing.
-7. **Two deliberate gaps on `/sources/`, both marked with an HTML comment TODO in the
-   page.** The contact route for reporting an error, and the disclosure of which
-   recommended tools the maintainer actually runs. The second one matters more than it
-   looks: the published sentence commits the site to that disclosure, and an unsupported
-   disclosure would be worse than saying nothing. Neither can be filled in by an agent
-   that does not know the answers.
+7. ~~**Two deliberate gaps on `/sources/`, both marked with an HTML comment TODO in the
+   page.**~~ **Closed in round 11, and re-checked on 2026-10-15.** Both are published: the
+   contact route for reporting an error, and the tools disclosure, which is now headed "What I
+   actually run" because the swap shop it used to point at was dropped. One sub-item is still
+   open and lives in §9 item 4: whether GitHub accepts anonymous issue filing on the
+   repository, which decides whether the published contact route can receive anything. Kept as
+   a stub so the numbering does not shift.
 
 **Nice to have:**
 
@@ -732,12 +787,18 @@ pages should take a weight that is not already used.
   case DSB-2021-0.586.257.
 - `ccpa-sale-definition` links a third-party mirror. `leginfo.legislature.ca.gov` is
   official; the subsection number has moved and needs confirming.
-- The CNIL sources returned 503 in round 8 rather than resolving, and this is not a
-  temporary state to retry: round 11 measured it again on a fresh probe, and
-  `www.cnil.fr/sites/.../outil_d_auto-evaluation_mesure_d_audience.pdf` and an impossible
-  sibling path both answer **503 with 15184 bytes**. Two identical signatures means the
-  domain is still blanket-blocked and the code still proves nothing. The archived copies are
-  the way to read these (§7, gotcha 10), and they are readable.
+- **The CNIL block is over, found on 2026-10-15, and this reopens four sources.** Round 8 saw
+   the CNIL sources return 503, and round 11 re-measured the domain as still blanket-blocked.
+  Neither is true any more: on 2026-10-15 `www.cnil.fr` answered **301** for its root, **404
+  with 71176 bytes** for a path that cannot exist, and **200 with 636667 bytes** for a real
+  decision PDF, while an impossible sibling PDF returned **404 with 71173 bytes**. `linc.cnil.fr`
+  discriminates too (200 for its quiz page against 404 for an impossible path, 93914 and 39766
+  bytes). **So the four CNIL sources can be verified by hand now**, which is the cheap work this
+  finding reopens: `cnil-analytics-exemption`, `cnil-analytics-self-assessment`,
+  `cnil-dark-patterns-quiz` and `cnil-google-san-2025-004` all carry `verified_on: null`
+  because the pages could not be read when they were recorded. Reading them is a verification
+  step rather than a status code, and the archived copies read in rounds 10 and 11 remain the
+  fallback if the domain blocks again.
 
 **Found in round 11: cheap upgrades to sources the site already cites.** Each was read and
 control-probed before being recorded here, and each is a small edit to `data/sources.yaml`.
@@ -778,9 +839,10 @@ control-probed before being recorded here, and each is a small edit to `data/sou
 **Not installed:** Go, so `hugo mod` cannot pin the Hugo version and `.tool-versions` does it
 instead. **No headless browser tooling at all**: no Lighthouse, axe, Playwright, Puppeteer,
 geckodriver or pa11y. A flatpak Firefox exists at `~/.local/bin/flatpak/firefox` but cannot
-be launched from an agent shell (`Unable to allocate instance id`), which is why `/receipts/`
-publishes no LCP figure and no audit scores, and says so on the page rather than implying the
-checks passed.
+be launched from an agent shell (`Unable to allocate instance id`), which is why the site
+published no LCP figure and no audit scores while `/receipts/` existed, and why it publishes
+none now: there is nothing to run, rather than checks that passed. The styling pass in §9 item
+8 is the next thing this limitation bites: the maintainer has to look at the result.
 
 **Git: initialised in round 11 and connected to GitHub on 2026-10-14.** Branch `main`, first
 commit `09f1643`, 39 files. The repository is no longer unprotected, so a maintenance sweep
@@ -815,7 +877,9 @@ with `preload`, `x-content-type-options: nosniff`, `cache-control: public, max-a
 must-revalidate`, `etag`, `last-modified`, `vary: Accept-Encoding`, **gzip but no brotli**,
 and **no `content-security-policy`**. It discriminates correctly, which is what makes its
 codes worth reading: a path that cannot exist returns `404` with a 13-byte body while a real
-page returns `200`. All of that is published on `/receipts/` under "What the host sends".
+page returns `200`. All of that was published on `/receipts/` under "What the host sends"
+until that page was dropped on 2026-10-15; the measurements above are the record now, and the
+missing header is still a defect (§8).
 **A push to `main` does not deploy: the deploy is triggered by hand on statichost's own
 dashboard.** The maintainer confirmed this on 2026-10-14, adding that it has always worked
 that way and that they do it every time. **So the manual step is routine, not a fault**: do not
@@ -829,8 +893,9 @@ stayed at 19:31:35 and the new text never appeared, checked over several minutes
 a coincidence, and the coincidence was the entire evidence. **Pushing is not publishing.** After
 a push the deploy is the maintainer's step, and the check afterwards is ours: fetch the page and
 read its own title, or grep the served HTML for a phrase that exists only in the new commit.
-`curl -sS https://third-party.statichost.page/receipts/ | grep -c "a phrase from the commit"` is
-the whole check.
+`curl -sS https://third-party.statichost.page/sources/ | grep -c "a phrase from the commit"` is
+the whole check, and `/sources/` is the page to point it at when the change is this one, since
+the drop is invisible there until a deploy happens.
 
 **Until somebody triggers one, the live site is a past version of itself, and it can be a
 confidently wrong one.** Before the second deploy of 2026-10-14, the live `/receipts/` was
@@ -842,51 +907,52 @@ while the home page still reported 19:31:35, because the home page had not been 
 **The check that works is a phrase**, picked from the commit and grepped out of the served
 HTML, which is how both deploys here were confirmed. Deploy as soon as a published claim
 changes rather than batching commits, because the cost of waiting is a live page that
-contradicts itself.
+contradicts itself. **The 2026-10-15 drop is the largest version of this the site has had**:
+until the maintainer deploys, the live site serves ten pages plus the two that the repository
+no longer contains, and the five edited pages still carry their old wording.
 
-**The host's gzip is looser than the figures on `/receipts/`.** Those are a local `gzip -9`
-measurement and are the reproducible ones; statichost compresses at a lower level and sends the
-icon uncompressed, so the wire runs about 3% larger. **The page now states that difference
-rather than a second set of served byte counts**, and that was deliberate: served sizes move
-with every deploy, including the deploy of an edit to `/receipts/` itself, so an exact served
-figure would be stale within the hour. If a future measurement is taken from the live site
-instead of the build, say which of the two it is, because they are not interchangeable.
+**The host's gzip is looser than local measurements.** The figures `scripts/measure-pages.py`
+prints are a local `gzip -9` measurement and are the reproducible ones; statichost compresses at
+a lower level and sends the icon uncompressed, so the wire runs about 3% larger. **Nothing on
+the site publishes either number any more** (the page that did was dropped on 2026-10-15), so
+this is a note for reading the script's output rather than for keeping a page true. If a future
+measurement is taken from the live site instead of the build, say which of the two it is,
+because they are not interchangeable.
 
-**Known-good state at the end of round 11**, for use as a reference point if something is
-later suspected of having drifted. All four scripts pass, the build renders all twelve pages,
-and `data/sources.yaml` is:
+**Known-good state on 2026-10-15**, for use as a reference point if something is later
+suspected of having drifted. All four scripts pass with 19 warnings and 0 errors, the build
+renders all ten pages, and `data/sources.yaml` is:
 
 ```
-md5  5ab9db839c23cf21bd756ecd51ca9484
-70 sources: 58 with an `archive:` value, 12 without, 20 `verified_on: null`
+md5  fda82cb39476a96c1ea458fc69b3859a
+58 sources: 48 with an `archive:` value, 10 without, 19 `verified_on: null`
 ```
 
-The round-10 figure it replaces was `md5 972567407df5404c8f32dd329462bfb5`, 52 archived, 13
-without, 21 null. Git was initialised in round 11 (`main`, first commit `09f1643`), so this
-md5 is now a cross-check rather than the only record of the file's state, and `git diff` is
-the better tool when something looks wrong.
+The round-11 figure it replaces was `md5 5ab9db839c23cf21bd756ecd51ca9484`, 70 sources, 58
+archived, 12 without, 20 null; the difference is the 12 deleted records plus this file's own
+edits. Git was initialised in round 11 (`main`, first commit `09f1643`), so the md5 is a
+cross-check rather than the only record of the file's state, and `git diff` is the better tool
+when something looks wrong.
 
-**The receipts figures, as published on `/receipts/`** (they are exact, and a rebuild
-reproduces them): median of the other 11 pages 9,221 bytes gzipped and 25,927 raw; heaviest
-page 30,288 gzipped and 103,681 raw, both `/sources/`, which is 3.3 times that median; both
-colour schemes pass 4.5:1 with a lowest ratio of 6.66:1; zero third-party subresources across
-all twelve pages. **These go stale the moment anything changes, and round 11 proved it four
-times.** Three of those were caused by ordinary content edits, because `/sources/` is both the
-heaviest page and the bibliography, so adding or rewriting a source moves the numbers.
-`/receipts/` dates them and rounds the site-wide row for exactly that reason, which is the
-intended behaviour rather than a defect. **Re-measure using the referenced-asset method in
-gotcha 13.**
+**The page weights, measured on 2026-10-15 after the drop** (a rebuild reproduces them, and
+`scripts/measure-pages.py` prints them): ten pages, median 9,126 bytes gzipped and 25,216 raw,
+heaviest `/sources/` at 26,440 gzipped and 89,184 raw, which is 2.90 times the median, and the
+whole site with its shared stylesheet and icon counted once at 91,789 bytes gzipped. **Both
+readings of the 100 KB budget pass for the first time**, because `/sources/` lost 1,453 words
+of generated bibliography with the 12 deleted records: the raw row used to be over the line at
+103,681 bytes. **These go stale the moment anything changes, and round 11 proved it four
+times.** Every one of those was caused by an ordinary content edit, because `/sources/` is both
+the heaviest page and the bibliography, so adding or rewriting a source moves the numbers.
+**Re-measure using the referenced-asset method in gotcha 13.**
 
-**The median deliberately excludes `/receipts/` itself, and that is a fix rather than a
-convention.** Until 2026-10-14 the row was the median of all twelve pages, which meant this page
-was part of the statistic it published. Writing the hosting section pushed it past
-`one-page-load` and into the middle pair, so every later edit changed the published number in a
-way the page could not observe, because the measurement necessarily precedes the sentence
-describing it, and its promise that a rebuild reproduces the figures quietly became false. The
-row now reads "the other 11", which breaks the loop: editing `/receipts/` no longer moves any
-number on `/receipts/`. **Do not "fix" it back to twelve to look tidier.** The site-wide row
-cannot be repaired the same way, since it is defined as all twelve, which is why that one is
-rounded, and why a full rewrite of `/receipts/` still moves it by a kilobyte or two.
+**The exclusion rule for the median is retired, and it should not come back.** Until
+2026-10-15 `/receipts/` was left out of the median, because a page that is part of a statistic
+it publishes can never report that statistic exactly: editing it moves the number in a way the
+page cannot observe, since the measurement necessarily precedes the sentence describing it. The
+row read "the other 11" for that reason. Nothing publishes the figures now, so the whole set of
+ten is the honest median and the script no longer excludes anything. **Do not reintroduce an
+exclusion to match an old sentence**: the rule existed to protect a published claim, and there
+is no claim to protect.
 
 ### Gotchas that have already cost time: don't repeat them
 
@@ -933,7 +999,8 @@ rounded, and why a full rewrite of `/receipts/` still moves it by a kilobyte or 
    sources it never *cites* while *citing* sources it never *declares*. This happened on
    the first draft of `/swap-shop/` (11 broken citations) and produced 18 errors at
    once. If a page produces a sudden cluster of "unknown source id" errors, check the
-   shortcode syntax before hunting for typos in the ids.
+   shortcode syntax before hunting for typos in the ids. The page it happened on has since
+   been dropped, which changes nothing about the trap.
 
 8. **Two citation conventions, used deliberately.** `{{< cite >}}` is for *claims* and
    must be declared in frontmatter. A plain markdown link is for *pointers* ("here is
@@ -951,29 +1018,41 @@ rounded, and why a full rewrite of `/receipts/` still moves it by a kilobyte or 
 10. **Found in round 10: two source verdicts that are actively false, on domains nobody
     had control-probed.** Both were being read as healthy by `check-links.py`.
 
-    **CNIL is a blanket-blocked domain and its site is in maintenance.** As of round 10,
-    every URL on `www.cnil.fr`, including its own domain root and paths that cannot
-    exist, returns **503** with a 15 KB page reading `Le site de la CNIL est actuellement
-    en maintenance`. This is the loudest possible version of gotcha 2: a 503 from cnil.fr
-    is not a signal about the URL, it is a signal about cnil.fr. **Four sources had
-    `verified_on` set on the strength of that code and were corrected to `null` in round
-    10** (`cnil-analytics-exemption`, `cnil-analytics-self-assessment`,
-    `cnil-dark-patterns-quiz`, `cnil-google-san-2025-004`).
+    **CNIL was a blanket-blocked domain and its site was in maintenance, and that is over as of
+    2026-10-15.** From round 8 to round 11, every URL on `www.cnil.fr`, including its own domain
+    root and paths that cannot exist, returned **503** with a 15 KB page reading `Le site de la
+    CNIL est actuellement en maintenance`. That was the loudest possible version of gotcha 2: a
+    503 from cnil.fr was not a signal about the URL, it was a signal about cnil.fr. **Four
+    sources had `verified_on` set on the strength of that code and were corrected to `null` in
+    round 10** (`cnil-analytics-exemption`, `cnil-analytics-self-assessment`,
+    `cnil-dark-patterns-quiz`, `cnil-google-san-2025-004`), and they still carry `null`, because
+    nobody has read the pages since the block lifted.
 
-    **Use response size as a second control probe, not just the status code.** The two
-    CNIL hosts block differently and the body length is what gives it away. Measured in
-    round 10: `www.cnil.fr` answers **503 with 15184 bytes** for its root, a real page and
-    an impossible path alike, while `linc.cnil.fr` answers **503 with 19336 bytes** for
-    both its quiz page and an impossible path. Two hosts, two uniform signatures, and in
-    both cases identical size across good and bad URLs. Size is cheap to compare, costs
-    no extra request, and catches blocks that a status code alone would hide.
+    **Re-measured on 2026-10-15, and the domain discriminates again.** `www.cnil.fr` returns
+    **301** for its root, **404 with 71176 bytes** for a path that cannot exist, and **200 with
+    636667 bytes** for the SAN-2025-004 PDF, against **404 with 71173 bytes** for an impossible
+    sibling. `linc.cnil.fr` returns **200 with 93914 bytes** for its quiz page and **404 with
+    39766 bytes** for an impossible path. **So the four entries can be verified by hand now**,
+    which is the work §6 item 2 hands to the next session. Do not set `verified_on` from the
+    status code either way: read the page. If the block returns, the archived copies read in
+    rounds 10 and 11 are the fallback, and they are readable.
 
-    The practical route in: **the CNIL file server still works while the website does
-    not.** `www.cnil.fr/sites/...` serves real files (a bogus path there returns 503,
-    a real one returns 200 with the PDF), so primary CNIL decisions remain readable
-    even mid-maintenance. That is how `cnil-google-san-2025-004` was obtained this
-    round, as 636667 bytes against 15184 for a nonexistent sibling. Expect the file
-    server to answer intermittently, and retry.
+    **Use response size as a second control probe, not just the status code.** That is how the
+    CNIL block was originally caught: the two hosts blocked differently and the body length gave
+    it away. Measured in round 10, `www.cnil.fr` answered **503 with 15184 bytes** for its root,
+    a real page and an impossible path alike, while `linc.cnil.fr` answered **503 with 19336
+    bytes** for both its quiz page and an impossible path: two hosts, two uniform signatures,
+    identical size across good and bad URLs. Size is cheap to compare, costs no extra request,
+    and catches blocks that a status code alone would hide. **The 404 pages above are the same
+    test in its healthy form**: 71176 against 71173 bytes for two different impossible paths is
+    a template, while 636667 bytes of `application/pdf` for the real one is not.
+
+    **Interlude, kept because it was the practical route in:** while the website was in
+    maintenance, **the CNIL file server still worked.** `www.cnil.fr/sites/...` served real
+    files (a bogus path there returned 503, a real one returned 200 with the PDF), so primary
+    CNIL decisions remained readable mid-maintenance. That is how `cnil-google-san-2025-004` was
+    obtained in round 10, as 636667 bytes against 15184 for a nonexistent sibling, and the same
+    PDF answers 200 with the same size today.
 
     **EUR-Lex serves a JavaScript challenge instead of documents.** `check-links.py`
     reports `cjeu-planet49` as `OK 202`, which reads as healthy. It is not. A real CELEX
@@ -1101,10 +1180,11 @@ rounded, and why a full rewrite of `/receipts/` still moves it by a kilobyte or 
     **A second reason to scaffold Hugo sooner rather than later:** this was found by
     building the site, not by reading it. Expect more of the same. Anything asserted
     about the rendered output (page weight, request count, accessibility) is unverified
-    until a build exists to measure it, which is the whole point of `/receipts/`.
+    until a build exists to measure it, which is what `/receipts/` used to publish and what
+    `scripts/measure-pages.py` measures internally now.
 
 13. **A fingerprinted asset leaves a stale twin behind, and it will lie to you about page
-    weight.** Found in round 11, and it produced wrong numbers on `/receipts/` twice before it
+    weight.** Found in round 11, and it produced wrong numbers twice before it
     was caught. Editing `assets/css/main.css` gives the stylesheet a new filename, and the old
     fingerprint **stays in `public/` forever**, unreferenced but present. `--cleanDestinationDir`
     does not remove it: that flag cleans files not found in the static directories, and Hugo
@@ -1117,7 +1197,9 @@ rounded, and why a full rewrite of `/receipts/` still moves it by a kilobyte or 
        pure function of the input. Do not do that while `hugo server` runs (gotcha 12).
     2. **Measure what the page fetches, not what the directory contains.** Parse each page's own
        `<link>` tags for the stylesheet and the icon, and sum those. It is the only definition
-       that matches the sentence on the page, and it is immune to this whole class of error.
+       that matches what a reader actually downloads, and it is immune to this whole class of
+       error. `scripts/measure-pages.py` does exactly this; use it rather than a `du` of
+       `public/`.
 
     The general lesson is the project's own: a number produced by a convenient method is not a
     measurement until the method has been checked against the definition it claims to serve.
@@ -1150,7 +1232,8 @@ rounded, and why a full rewrite of `/receipts/` still moves it by a kilobyte or 
 15. **An error you can observe is not a cause you can name, and this project published the
     wrong cause once.** Before the first deploy, `https://third-party.statichost.page/` failed
     TLS with `tlsv1 alert internal error`, and a hostname that cannot exist failed the same
-    way. The observation was sound and went into `/receipts/`; an explanation went in with it,
+    way. The observation was sound and was published on the page that then carried these
+    figures, with an explanation attached to it,
     that the two behaved alike "because neither has a certificate, since no site has been
     provisioned". **The certificate contradicts that**: the one now serving this site was
     issued at 18:34:14, before the probe was taken, so what was missing was the name answering
@@ -1194,17 +1277,22 @@ moment the site itself is hypocritical.
 - **Accessibility:** WCAG 2.2 AA. Semantic HTML, keyboard-operable interactives,
   visible focus, 4.5:1 contrast, meaningful alt text, and `prefers-reduced-motion`
   respected, **critical**, since the flagship page is scroll-animated.
-- **Performance budget:** < 100 KB/page, < 20 requests, LCP < 1.5 s.
-- **`/receipts/` must publish real measured numbers**, not aspirations. **Published in round
-  11**: request counts, page weights, the carbon estimate with its model named, the static
-  accessibility checks that pass, and the failures that do not. It deliberately does **not**
-  claim a verified WCAG AA result, because no audit tool has been run, and it says so.
+- **Performance budget:** < 100 KB/page, < 20 requests, LCP < 1.5 s. Both readings of the
+  page-weight line pass as of 2026-10-15, measured by `scripts/measure-pages.py` (§7).
+- **The site used to have to publish real measured numbers, and no longer does.** `/receipts/`
+  existed to satisfy that requirement and was dropped on 2026-10-15 at the maintainer's request.
+  **Nothing on the site now publishes its own figures**, and a future session should not treat
+  that as a defect to repair quietly: re-adding a page of them is a decision the maintainer has
+  already taken once. What remains of the requirement is the internal one, which is that any
+  figure the site ever does publish must be measured rather than asserted, with its method
+  named. `scripts/measure-pages.py` is how the weights and the model estimate are taken.
 - **Response headers are part of passing the site's own test, and one is missing.** The host
   sends HSTS, `nosniff` and a revalidating cache policy, and it does not send a
   `content-security-policy`. A site whose central claim is "no third-party requests" should
   have a browser check that claim rather than a reader take it on trust, so the missing header
-  is tracked as a defect on `/receipts/` instead of being waved away as a detail of somebody
-  else's server. `robots.txt` also does not point at the sitemap.
+  is tracked as a defect here rather than waved away as a detail of somebody else's server.
+  It used to be tracked on `/receipts/` as well. `robots.txt` also does not point at the
+  sitemap.
 - **Honesty about maintenance, and it belongs on the page, not only in this file.** The
   footer states on every page that the site was written in October 2026, that it is not
   maintained on a schedule, that there is no capacity to keep every page current, and that
@@ -1232,22 +1320,30 @@ moment the site itself is hypocritical.
    use` and `dignity` are written out in a section headed "Two harms that needed arguing",
    the line admitting they had no section of their own is gone, and both list entries now
    point at an argument that exists. The other five one-liners already pointed at sections
-   that argue them, so they were left alone. The page is 3,030 words and that was accepted
+   that argue them, so they were left alone. The page is 3,009 words and that was accepted
    (§0 item 3). See §5 for the one caveat to carry forward: the dignity passage is
    explicitly normative and leans on two sources still marked unverified.
-3. **Clear the remaining archiving gaps**: 11 sources with no snapshot at all, out of 70
-   entries, of which 58 are archived. Tedious, unglamorous, and the difference between a claim
-   and a checked claim. **Do not start over**: read §6 item 1, which lists the 11 and explains
+3. **Clear the remaining archiving gaps**: 9 sources with no snapshot at all, out of 58
+   entries, of which 48 are archived. Tedious, unglamorous, and the difference between a claim
+   and a checked claim. **Do not start over**: read §6 item 1, which lists the 9 and explains
    the API's spurious-empty trap. Two things changed in round 11, and both make this easier
    than round 10 assumed:
 
    - **Save Page Now works over plain HTTP with no account**:
      `curl -sSL "https://web.archive.org/save/<url>"`, then fetch the returned snapshot and
-     check its title. Four sources were archived that way this round, each on the first
+     check its title. Four sources were archived that way in round 11, each on the first
      attempt, so this is not a browser-only job.
    - **Use the CDX API to find out whether a snapshot exists at all** (§7 gotcha 10). The
      availability API returned empty on eight consecutive passes for a URL that has a working
      snapshot, so a blank from it is not a negative.
+   - **New on 2026-10-15, and it is the cheapest item on this list: the CNIL sources can be
+     opened again.** The block lifted (§7 gotcha 10, §6 item 2), and four entries
+     (`cnil-analytics-exemption`, `cnil-analytics-self-assessment`, `cnil-dark-patterns-quiz`,
+     `cnil-google-san-2025-004`) carry `verified_on: null` only because they could not be read
+     when they were recorded. Reading them is a real verification step, not a status code: the
+     archived copies already read in rounds 10 and 11 are the fallback if the domain blocks
+     again. That would move the warning count for the right reason, which the drop on the same
+     day did not.
 4. ~~**Fill the two `/sources/` TODOs** (contact route, tools disclosure).~~ **Both were
    actioned in round 11, and one sub-item is still open.**
 
@@ -1260,24 +1356,26 @@ moment the site itself is hypocritical.
      tracker logged out in a private window and confirm the form appears. That is the old
      warning, "do not publish a channel you will not read", applied to whether the channel
      accepts input.
-   - **Tools disclosure: closed in round 11.** Both halves are published on `/sources/`: the
-     build disclosure in "How this site is built and checked" (Hugo with no theme, Python for
-     the four checks, `curl` and the Wayback Machine and `pdftotext` for verification, GitHub
-     and statichost.eu, an AI agent named as the writer of the prose and the code, and Helix,
-     Sublime Text and Neovim as the editors), and the narrower disclosure the page actually
-     committed to, "Which of these swaps I have actually made". Five swaps are run (Ecosia for
-     search, Posteo for email, uBlock Origin on Firefox, Signal, Mullvad for DNS), one is
-     partial (a Codeberg account, with this project on GitHub anyway) and two are not made
-     (PeerTube, and documents). **Nothing on `/sources/` is unsupported any more.**
+   - **Tools disclosure: closed in round 11, and rewritten on 2026-10-15.** Both halves are
+     published on `/sources/`: the build disclosure in "How this site is built and checked"
+     (Hugo with no theme, Python for the four checks, `curl` and the Wayback Machine and
+     `pdftotext` for verification, GitHub and statichost.eu, an AI agent named as the writer of
+     the prose and the code, and Helix, Sublime Text and Neovim as the editors), and the
+     narrower disclosure the page committed to, which used to be headed "Which of these swaps I
+     have actually made" and is now "What I actually run". Five things are run (Ecosia for
+     search, Posteo for email, uBlock Origin on Firefox, Signal, Mullvad for DNS and moving to
+     Quad9), one is partial (a Codeberg account, with this project on GitHub anyway) and two are
+     not changed (YouTube, and documents). **Nothing on `/sources/` is unsupported any more.**
 5. ~~**Fix the two-line `edpb-consent-or-pay` entry** (§6 item 5).~~ **Done in round 11**,
    and it took more than two lines. See §6 item 5 for what was corrected along the way (the
    PDF path, the corrigendum of October 2024, and a date that had to rest on the page's
    title rather than on its status code). `solove-taxonomy` is the item that remains, and it
    is now the only one on this list an agent could finish without a human.
 6. ~~**Then `/` (home), then `/the-rules/`, then `/receipts/`, then wire up hosting.**~~
-   **All of it closed in round 11.** `/` and `/receipts/` are written, and `/the-rules/` was
-   dropped deliberately rather than left undone: §5 has the reasoning and `SITE_PLAN.md` §4
-   keeps the abandoned outline. **The content target is met, at twelve pages.** What follows
+   **All of it closed in round 11.** `/` and `/receipts/` were written, `/the-rules/` was
+   dropped deliberately rather than left undone, and `/swap-shop/` and `/receipts/` were
+   dropped on 2026-10-15: §5 has the reasoning and `SITE_PLAN.md` §4 keeps all three abandoned
+   outlines. **The content target is met, at ten pages.** What follows
    from here is the work that is not writing: the source worklist in §6, the cheap source
    upgrades listed there, and hosting.
 7. **~~Set up the GitHub repo and statichost.eu.~~ Done, and the site is live as of
@@ -1299,9 +1397,9 @@ moment the site itself is hypocritical.
      PyYAML. **Assume the checks ran locally and nowhere else**: a push that fails one and is
      not caught locally would deploy anyway.
    - **No `content-security-policy`, and `robots.txt` does not point at the sitemap.** Both
-     are published as gaps on `/receipts/` and in §8, and both are one-line fixes on a host
-     that already sends HSTS and `nosniff`.
-   - See §7 gotcha 10 for the source-verification consequences of being public while 20
+     are gaps tracked in §8, and both are one-line fixes on a host
+     that already sends HSTS and `nosniff`. They used to be published on `/receipts/` as well.
+   - See §7 gotcha 10 for the source-verification consequences of being public while 19
      sources still carry `verified_on: null`.
 
    **The domain is decided as of 2026-10-14: `https://third-party.statichost.page/`.** It is
@@ -1309,9 +1407,9 @@ moment the site itself is hypocritical.
    that round 11 deliberately left in place, and the maintainer chose it. That one edit
    rewrites every page's `<link rel=canonical>` and `sitemap.xml`, plus the RSS `alternate`
    link on the home page, and it costs 12 bytes per page and 24 on the home page. **The
-   figures on `/receipts/` were re-measured after it**, which is the pattern to expect for
+   page weights were re-measured after it**, which is the pattern to expect for
    any later domain or hosting change: the heaviest-page rows moved by a few bytes while the
-   median did not, because the median row now covers the other eleven pages (§7). **Do not read a resolving hostname as proof of a
+   median did not. **Do not read a resolving hostname as proof of a
    deploy.** Every `*.statichost.page` name resolves, including names that cannot exist
    (`this-cannot-exist-9f2a.statichost.page` answers identically), and all of them refuse TLS
    with the same alert until a site is provisioned, so the DNS record is a wildcard and
@@ -1335,7 +1433,8 @@ moment the site itself is hypocritical.
    asks for. It goes through Hugo Pipes (minify, fingerprint), so CSS edits need no build
    changes and no new tooling.
 
-   **Two concrete defects the pass should close, both published on `/receipts/`:**
+   **Two concrete defects the pass should close, and both were published on the dropped
+   `/receipts/` page, which is why they are written out here instead:**
 
    - **`section.interactive` has no styling at all.** `layouts/shortcodes/interactive.html`
      emits `<section class="interactive" data-interactive>` and no rule anywhere matches it, so
@@ -1345,12 +1444,13 @@ moment the site itself is hypocritical.
    - **Citation markers.** `.cite` is `font-size: 0.75em; line-height: 0`, which is the
      WCAG 2.5.8 target-size failure: the clickable area is a few pixels high. With CSS off they
      are bare numbers with no affordance. Both are style problems rather than markup ones, so
-     both are fixable here, and fixing them retires two published defects.
+     both are fixable here, and fixing them retires two defects that used to be published.
 
-   **Before touching colour, build the contrast check.** `/receipts/` publishes that contrast is
-   computed from the values in this file rather than trusted, with a lowest ratio of 6.66:1 and
-   every pair passing 4.5:1 in both schemes. That claim is currently maintained by hand, which
-   means a colour edit can silently falsify a published number. **Write
+   **Before touching colour, build the contrast check.** The dropped page published that the
+   site's contrast is computed from the values in this file rather than trusted, with a lowest
+   ratio of 6.66:1 and every pair passing 4.5:1 in both schemes. Nothing publishes that claim
+   now, and it is worth keeping true anyway, because it was measured by hand and a colour edit
+   can break AA with nothing to say so. **Write
    `scripts/check-contrast.py` first**, parse the `:root` tokens plus the dark block, compute
    WCAG 2.1 relative luminance for each pair the site actually renders (`--ink` on `--bg`,
    `--ink-muted` on `--bg`, `--accent` on `--bg`, `--ink` and `--ink-muted` on `--surface`,
@@ -1375,27 +1475,29 @@ moment the site itself is hypocritical.
    contrast, page weight, the static accessibility list, and zero third-party requests.
 
    **When it is done, re-measure, because the stylesheet is shared by every page.** Run
-   `python3 scripts/measure-pages.py` (below) and patch `/receipts/`: the median row moves too,
-   since the CSS is in every page's weight and the eleven-page exclusion protects only against
-   edits to `/receipts/` itself. The site-wide row, the carbon figure and the "about 3%" served
-   difference all need re-checking, and the page's date moves with them. Then commit, push, and
-   the maintainer deploys (§7, hand-triggered).
+   `python3 scripts/measure-pages.py` (§2): the median moves as well as
+   the heaviest page, since the CSS is in every page's weight. There is no page to patch any
+   more, so the check is the budget itself: both readings must stay inside 100 KB. Then commit,
+   push, and the maintainer deploys (§7, hand-triggered).
 
 ---
 
 ## 10. What "done" means for the current goal
 
-Twelve core pages of portfolio-quality, fully sourced Markdown, with every factual claim
-grounded in a verified, dated citation. **All twelve exist** as of round 11: `/`, `sources`,
+Ten core pages of portfolio-quality, fully sourced Markdown, with every factual claim
+grounded in a verified, dated citation. **All ten exist** as of 2026-10-15: `/`, `sources`,
 `nothing-to-hide`, `consent-theatre`, `what-leaves-your-browser`, `one-page-load`,
-`dark-patterns`, `myths`, `analytics`, `swap-shop`, `start-here`, `receipts`. `/the-rules/`
-was dropped by the maintainer, so the target moved from thirteen pages to twelve. All four
+`dark-patterns`, `myths`, `analytics`, `start-here`. `/the-rules/` was dropped by the
+maintainer in round 11 and `/swap-shop/` and `/receipts/` on 2026-10-15, so the target moved
+from thirteen pages to twelve to ten. All four
 scripts pass with 0 errors and the build renders every page.
 
 **Two conditions of the original definition of done are still open, and neither is writing
-work.** The source worklist in §6 is not clear: 20 sources still carry `verified_on: null`,
-several of them because no terminal can verify them at all. And 12 sources are not archived.
-Both are tracked in §6, and both are honest limitations rather than oversights. The third
+work.** The source worklist in §6 is not clear: 19 sources still carry `verified_on: null`,
+several of them because no terminal can verify them at all. And 10 sources are not archived.
+Both are tracked in §6, and both are honest limitations rather than oversights. **The count of
+19 fell on 2026-10-15 for a reason that is not progress** (a deleted record, not a verified
+one), while the CNIL entries in it became verifiable for the first time (§9 item 3). The third
 condition that used to sit here, the unsupported disclosure sentence on `/sources/`, closed in
 round 11 (§9 item 4).
 
@@ -1406,11 +1508,13 @@ tracks: source records a human has to open, and the cheap upgrades listed there.
 
 **Open questions carried forward, both small and both the maintainer's call:**
 
-- **The carbon figures divide by 2^30 and write "GB".** That is correct as GiB and wrong as GB,
-  and the difference is about 7%: the published 1.3 milligrams is 1.36 with decimal GB.
-  `scripts/measure-pages.py` prints both so the choice is one edit wide. Nothing else on the
-  site depends on it. The model's own documentation says "gigabytes per kilowatt-hour" without
-  settling which, which is why this is a question rather than a bug to fix quietly.
+- **The carbon figures divide by 2^30 rather than by a decimal billion.** That is correct as GiB
+  and wrong as GB, and the difference is about 7%. `scripts/measure-pages.py` prints both so the
+  choice is one line wide, and **nothing on the site depends on it any more**, because the page
+  that published the milligram figure was dropped on 2026-10-15. What was published as 1.3
+  milligrams was 1.26 GiB-based and 1.35 decimal, which is where the question came from. The
+  model's own documentation says "gigabytes per kilowatt-hour" without settling which, which is
+  why it stays a question rather than a bug to fix quietly.
 - **The long commit messages in the middle of the history.** The maintainer asked for short
   commits on 2026-10-14 and the rule is recorded in §7, but four commits from that session
   still carry paragraph-length bodies. Rewriting them means a force-push to a public
@@ -1424,12 +1528,16 @@ public and the correction route printed on `/sources/` now has something behind 
 site itself is public too as of the same day**: it is live at
 `https://third-party.statichost.page/`, verified by reading each page's own title, so the
 project has moved from "finished" to "published" and the footer's honesty about maintenance
-is now a promise made in public rather than a note in a file.
+is now a promise made in public rather than a note in a file. The 2026-10-15 drop is pushed but
+not deployed, so the live site is one version behind until the maintainer triggers it (§7).
 
 **Not blocked, and no longer blocked on content.** Round 11 closed `/`, `/receipts/`, the two
 unargued harms, the `edpb-consent-or-pay` record and both `/sources/` TODOs, removed the
 site's last em dash after discovering that the title it was protecting was not the publisher's
-wording, and dropped `/the-rules/` on the maintainer's instruction. **What remains needs a
-human rather than an agent**: the blanked links that have to be opened by hand, the 11 possible
-Wayback gaps, the domain and host decision, and the GitHub tracker setting that decides whether
-anonymous issue filing works (see §9 item 4).
+wording, and dropped `/the-rules/` on the maintainer's instruction. 2026-10-15 dropped
+`/swap-shop/` and `/receipts/` on the same instruction and rewrote every published sentence
+that depended on them. **What remains needs a
+human rather than an agent**: the blanked links that have to be opened by hand, the 9 possible
+Wayback gaps, and the GitHub tracker setting that decides whether
+anonymous issue filing works (see §9 item 4). The four CNIL links left this list on
+2026-10-15, when the domain started answering again.
