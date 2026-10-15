@@ -738,6 +738,9 @@ Items 1 to 6 are closed and are kept as stubs so the numbering does not shift.
 8. **The styling pass. This is the next job, and the maintainer sets the direction.** They said
    they would describe what they want rather than approving a proposal, so **do not start
    designing unilaterally**: ask for the direction, or implement the one you are given.
+   **One thing was decided in advance on 2026-10-15**: the site self-hosts one subsetted font,
+   on the conditions below. Layout, colour, spacing and type scale are all still the
+   maintainer's to describe.
 
    **What exists, so nothing is rebuilt from scratch.** `assets/css/main.css` is a token layer
    in `:root` (`--bg`, `--surface`, `--ink`, `--ink-muted`, `--rule`, `--accent`,
@@ -773,11 +776,40 @@ Items 1 to 6 are closed and are kept as stubs so the numbering does not shift.
    this file.
 
    **The constraints are not negotiable and are all in §8**: plain CSS (Hugo's bundled Sass is
-   frozen libsass, §7 gotcha 3), no framework, no webfont, no CDN, zero third-party requests,
-   WCAG 2.2 AA, `prefers-reduced-motion` honoured (which matters because
-   `scroll-behavior: smooth` is already set for the flagship page), and the under-100 KB page
-   budget. A page that loads a webfont to look better than the other pages has lost the
-   argument the site is making.
+   frozen libsass, §7 gotcha 3), no framework, no CDN, zero third-party requests, WCAG 2.2 AA,
+   `prefers-reduced-motion` honoured (which matters because `scroll-behavior: smooth` is
+   already set for the flagship page), and the under-100 KB page budget. **A font service is
+   out**, as are hosted CSS and icon CDNs. A page that loads a font from somebody else's server
+   to look better than the other pages has lost the argument the site is making.
+
+   **Fonts: one self-hosted woff2 is in scope, decided by the maintainer on 2026-10-15.** This
+   resolves an old contradiction in this file: §8 always allowed "system stack or self-hosted
+   woff2", while this section said "no webfont". Self-hosting one is now the direction, and the
+   conditions are these:
+
+   - **`fontok/` is a local library of source fonts, not repository content.** It is 32 MB
+     across 15 families and is in `.gitignore`. Subset from it; never commit it.
+   - **Commit the subset, its licence file, and the command that produced it.** A subset is not
+     reproducible without the family, version and flags, and OFL requires the licence text to
+     travel with the font, so put the subsetted `.woff2` and the family's licence in the
+     repository (an `assets/fonts/` directory is the natural home, served from this domain and
+     therefore still zero-third-party) and record the `pyftsubset` invocation here.
+   - **The tooling is installed**: `pyftsubset` (fontTools 4.63.0) and brotli, so
+     `pyftsubset <font> --flavor=woff2 --layout-features='*' --unicodes=...` works from this
+     machine. Subset to Latin plus the punctuation the site actually uses, not to the whole
+     face.
+   - **Read the licence before choosing the family, because they differ.**
+     `Archivo`, `Arsenal`, `Kanit`, `Playfair Display`, `Libertinus Sans`, `Theano Didot` and
+     `Spartan MB` ship **OFL**; `TeX Gyre Heros` is **GUST**; `URW Classico` is **AFPL**, which
+     restricts commercial distribution; and `Noway` and `General Sans` ship their own webfont
+     licence PDFs with their own terms. Pick a family whose terms this site can honestly
+     satisfy, and say so on `/sources/` under "How this site is built and checked", which
+     already commits the site to disclosing its own choices.
+   - **Watch the weight.** A subset is roughly 15 to 30 KB, added to every page because the
+     stylesheet and the font are shared. The median page is 9,126 bytes gzipped today, so there
+     is room, but re-run `measure-pages.py` (§2) and check both budget rows afterwards.
+   - **If the family does not work out, the system stack is the fallback** and needs no
+     decision: the existing token layer already declares two stacks.
 
    **The loop, and its one limitation.** There is no browser and no headless tooling here (§7),
    so **the agent cannot see the result**. Write CSS, hand it to the maintainer to look at, and

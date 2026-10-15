@@ -30,3 +30,9 @@ __pycache__/
 # NOTE: data/ must NOT be ignored. data/sources.yaml is the single source of truth for
 # every citation on the site and the citation graph cannot be rebuilt without it. It is
 # the most important non-content file in the repository.
+
+# A local library of source fonts (32 MB, 15 families), kept out of the repository on
+# purpose. What gets committed is the subsetted .woff2 the site actually serves, plus the
+# family's licence file and the pyftsubset command that produced it; see AGENT.md section
+# 9 item 8. An unignored 32 MB of TTF/OTF is one `git add -A` away from being published.
+fontok/
