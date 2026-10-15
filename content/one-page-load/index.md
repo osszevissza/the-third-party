@@ -121,6 +121,10 @@ Everything above happened because you loaded a page. That's the whole input.
 
 ---
 
+## The shape of it
+
+{{< diagram "one-page-load" "The request graph of one page load. One request leaves your browser and at least nine companies receive one: the site, the measurement layer, the consent vendor, the ad server, and five bidders. The five-bidder figure is the industry rule of thumb the page cites; the structure is from Google's own ad documentation." >}}
+
 ## What the same page looks like done properly
 
 Now the other version, because a page like this has an obligation to show its work.
@@ -128,6 +132,8 @@ Now the other version, because a page like this has an obligation to show its wo
 A site built to avoid this sends **zero third-party requests**. It serves its own fonts. It embeds nothing, or defers embeds behind a click. It measures with a tool that counts page views without identifying anybody, or reads its own server logs, which require no JavaScript at all and cannot be blocked.
 
 The result is a page that is faster, lighter, and cheaper to run, that needs no consent banner because there is nothing to consent to, and that you can verify with your browser's Network panel in about a minute.
+
+{{< diagram "two-page-loads" "The same page in two versions. The left column lists the companies a page contacts when it is built for extraction; the right lists what a self-contained page contacts, which is itself. The left is a composite of the practices this page documents rather than a count taken on any single site." >}}
 
 There is no trade-off being made here except effort. Nobody who visits such a site notices anything missing, because the only things removed are the things that were only ever for someone else's benefit.
 

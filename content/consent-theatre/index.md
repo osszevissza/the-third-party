@@ -110,8 +110,6 @@ Here is the whole thing in the order you meet it. Every step is a defect that su
 **This is one banner, not a survey.** It is assembled from the practices in that report, in a plausible order, so the sequence is a composite rather than a measurement of any particular site. Treat it as what you are likely to meet, not as a count.
 
 {{< interactive >}}
-### Eight clicks through one banner
-
 **Click 1. You accept.** Not because you decided to, but because this button was the only one in the banner, and reading further costs time you had earmarked for the article. The report records banners offering a button to accept and a route to further options, with no reject at all on the layer carrying the consent button. A vast majority of authorities held that this infringes the consent standard.
 
 **Click 2. You look for a way out.** You find the settings link, tiny, in the corner. This is the second layer, which is where the choices were moved to.
