@@ -1,22 +1,30 @@
 {{- /*
-  interactive.html — the static form of a page interactive, plus its enhancement hook.
+  interactive.html: the static form of a page interactive, plus its enhancement hook.
 
   PROGRESSIVE ENHANCEMENT IS MANDATORY ON THIS SITE (SITE_PLAN.md section 5, AGENT.md
-  section 8). The rule is not "add a fallback": the full content is plain HTML and the
-  script only adds motion. That is why this shortcode has no data file and no arguments.
+  section 8). The rule is not "add a fallback": the full content is plain HTML and the script
+  only adds motion. That is why this shortcode has no data file and no arguments.
 
   Call it with nothing:
 
       {{< interactive >}}
-      ### Heading
       The complete, readable content, with real citations.
       {{< /interactive >}}
 
-  The inner content is what a reader with JavaScript disabled gets, and it must therefore
-  be the whole thing rather than a teaser. When a script is added later it takes over
+  The inner content is what a reader with JavaScript disabled gets, and it must therefore be
+  the whole thing rather than a teaser. When a script is added later it takes over
   `.interactive[data-interactive]` and the markup underneath stays as it is, which is what
   keeps the page working with scripting off, on a slow connection, and under
   prefers-reduced-motion.
+
+  NO HEADING INSIDE THE BLOCK, and that is a rule rather than a style. The page writes the
+  heading above the block, so a heading inside it duplicates the page's own words and, as
+  `/consent-theatre/` did until 2026-10-15, produced a duplicate id: the page's `##` heading
+  and the block's `###` heading carried the same text, Goldmark generated the same id for
+  both, and the page's own fragment link then resolved to the wrong element. An interactive
+  section now carries an accessible name built from the page title and its position, so the
+  region announces as "Eight clicks through one banner, interactive" without a heading of its
+  own. See scripts/check-a11y.py, which fails the build on a duplicate id anywhere.
 
   TWO INTERACTIVES WERE PLANNED AND NEITHER IS BUILT. Read AGENT.md section 5 before
   starting either:
@@ -27,6 +35,7 @@
     is the false precision AGENT.md section 4 forbids. Build the measured sequence first,
     render it as a plain ordered list in the page, and only then add a counter.
 */ -}}
-<section class="interactive" data-interactive>
+<section class="interactive" data-interactive aria-labelledby="interactive-{{ .Ordinal }}-label" role="region">
+  <h2 class="visually-hidden" id="interactive-{{ .Ordinal }}-label">{{ .Page.Title }}, interactive content</h2>
 {{ .Inner | .Page.RenderString }}
 </section>

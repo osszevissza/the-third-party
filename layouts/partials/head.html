@@ -1,11 +1,28 @@
 {{- /*
   Head. Zero third-party requests is a load-bearing constraint, not a preference: no Google
-  Fonts, no CDN, no analytics script, no icon library. The system font stack is used until
-  a self-hosted woff2 is worth the bytes.
+  Fonts, no CDN, no analytics script, no icon library. The two font families are subsetted
+  from the local library in fontok/ into static/fonts/ by scripts/build-fonts.py, and served
+  from this origin, so the rule holds with real type rather than a system stack.
 
   The stylesheet goes through Hugo Pipes (resources.Get -> minify -> fingerprint) so it is
   served from this origin only, with a content hash in the filename for cache busting.
   Nothing loads from another origin. See SITE_PLAN.md section 6 for the asset rule.
+
+  The fonts are NOT referenced from here. They live in static/fonts/, because Hugo Pipes
+  cannot reach them: resources.Get reads assets/, and the build step that would fingerprint a
+  font is the step that would also have to keep a second copy in sync. A preload link was
+  tried for the body face and removed, and the reason is worth keeping, because it failed
+  silently rather than loudly. `with resources.Get "fonts/general-sans-400.woff2"` found
+  nothing (wrong directory), the `with` rendered nothing, and a page with no preload looks
+  exactly like a page whose preload rule is fine: the face still loads, from the
+  @font-face declaration, a moment later. Two things came out of it. The check that would
+  have caught it is in scripts/check-contrast.py, which verifies that every url() the
+  stylesheet names exists on disk. And the preload is not worth the wiring it needs: the
+  body face is 8 KB, it is fetched on the first page a reader sees and cached for every page
+  after that, and font-display: swap means the fallback renders immediately either way.
+
+  The font paths in the stylesheet are root-relative, which assumes the site stays at the
+  root of its domain. It does: baseURL is the domain root (hugo.toml).
 */ -}}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

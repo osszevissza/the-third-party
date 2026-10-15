@@ -27,7 +27,7 @@
     {{- if not (index $byID $id) }}
       {{- errorf "source-list shortcode: %s declares source id %q, which is not in data/sources.yaml" $.Page.File.Path $id }}
     {{- end }}
-    <li id="source-{{ $id }}">
+    <li><span class="source-anchor" id="source-{{ $id }}"></span>
       {{- partial "source-record.html" (dict "ctx" $ "id" $id "record" (index $byID $id)) }}
     </li>
     {{- end }}

@@ -1,0 +1,64 @@
+<svg viewBox="0 0 660 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="d1-title d1-desc" font-family="'General Sans', system-ui, sans-serif">
+  <title id="d1-title">Who receives a request during one page load</title>
+  <desc id="d1-desc">A browser requests one page from the site. The site in turn contacts a
+    measurement company and a consent vendor, and loads an ad tag. The ad tag instructs the
+    browser to request advertisements from five more companies, which run an auction. The
+    reader asked one site for one page, and at least nine companies received a request.</desc>
+
+  <!-- Browser -->
+  <rect x="0" y="10" width="150" height="40" rx="6" class="d-box d-box--accent"/>
+  <text x="75" y="27" class="d-label d-label--on-accent" text-anchor="middle">your browser</text>
+  <text x="75" y="42" class="d-small d-label--on-accent" text-anchor="middle">one request, one page</text>
+
+  <!-- The site -->
+  <rect x="230" y="10" width="200" height="40" rx="6" class="d-box d-box--surface"/>
+  <text x="330" y="27" class="d-label" text-anchor="middle">the site you visited</text>
+  <text x="330" y="42" class="d-small d-ink-muted" text-anchor="middle">serves the page</text>
+
+  <!-- Connection browser -> site -->
+  <line x1="150" y1="30" x2="230" y2="30" class="d-line"/>
+  <polygon points="230,30 221,26 221,34" class="d-arrow"/>
+
+  <!-- Three things the page then contacts -->
+  <rect x="60" y="95" width="170" height="38" rx="6" class="d-box d-box--surface"/>
+  <text x="145" y="111" class="d-small" text-anchor="middle">measurement layer</text>
+  <text x="145" y="125" class="d-small d-ink-muted" text-anchor="middle">third party</text>
+
+  <rect x="430" y="95" width="170" height="38" rx="6" class="d-box d-box--surface"/>
+  <text x="515" y="111" class="d-small" text-anchor="middle">consent layer</text>
+  <text x="515" y="125" class="d-small d-ink-muted" text-anchor="middle">often a third party too</text>
+
+  <rect x="230" y="160" width="200" height="38" rx="6" class="d-box d-box--surface"/>
+  <text x="330" y="176" class="d-small" text-anchor="middle">ad slot asks home</text>
+  <text x="330" y="190" class="d-small d-ink-muted" text-anchor="middle">returns a tag, not an ad</text>
+
+  <!-- Site to each of the three -->
+  <path d="M330 50 L330 70 L145 70 L145 95" class="d-line" fill="none"/>
+  <path d="M330 50 L330 70 L515 70 L515 95" class="d-line" fill="none"/>
+  <line x1="330" y1="50" x2="330" y2="160" class="d-line"/>
+  <polygon points="145,95 141,86 149,86" class="d-arrow"/>
+  <polygon points="515,95 511,86 519,86" class="d-arrow"/>
+  <polygon points="330,160 326,151 334,151" class="d-arrow"/>
+
+  <!-- Bidders -->
+  <line x1="330" y1="198" x2="330" y2="240" class="d-line"/>
+  <line x1="60" y1="240" x2="600" y2="240" class="d-line"/>
+  <text x="330" y="228" class="d-small d-ink-muted" text-anchor="middle">the tag broadcasts to everyone who might bid</text>
+
+  <g class="d-bidders">
+    <rect x="60" y="240" width="96" height="34" rx="6" class="d-box d-box--pop"/>
+    <text x="108" y="261" class="d-small d-label--on-pop" text-anchor="middle">bidder</text>
+    <rect x="171" y="240" width="96" height="34" rx="6" class="d-box d-box--pop"/>
+    <text x="219" y="261" class="d-small d-label--on-pop" text-anchor="middle">bidder</text>
+    <rect x="282" y="240" width="96" height="34" rx="6" class="d-box d-box--pop"/>
+    <text x="330" y="261" class="d-small d-label--on-pop" text-anchor="middle">bidder</text>
+    <rect x="393" y="240" width="96" height="34" rx="6" class="d-box d-box--pop"/>
+    <text x="441" y="261" class="d-small d-label--on-pop" text-anchor="middle">bidder</text>
+    <rect x="504" y="240" width="96" height="34" rx="6" class="d-box d-box--pop"/>
+    <text x="552" y="261" class="d-small d-label--on-pop" text-anchor="middle">bidder</text>
+  </g>
+
+  <!-- Summary -->
+  <text x="0" y="305" class="d-small d-ink-muted">Every box above receives a request from your browser, carrying your address and whatever identifiers can be attached.</text>
+  <text x="0" y="322" class="d-small d-ink-muted">The bid request goes to all five at once. There is no recipient list, because the mechanism has no concept of one.</text>
+</svg>

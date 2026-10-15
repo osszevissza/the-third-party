@@ -1,0 +1,50 @@
+<svg viewBox="0 0 660 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="d2-title d2-desc" font-family="'General Sans', system-ui, sans-serif">
+  <title id="d2-title">Two versions of the same page, and who each one contacts</title>
+  <desc id="d2-desc">The left column shows what a page built for extraction contacts: font
+    and script CDNs, an analytics service, a consent vendor, an ad server and its bidders, a
+    session recorder, and third-party embeds. The right column shows the same page built
+    differently: the site's own server, its own font file and its own icon, with no company
+    on the list except the site itself. The left column is a composite of common practice,
+    not a measurement of any particular site.</desc>
+
+  <text x="0" y="16" class="d-label">The version you meet</text>
+  <text x="0" y="32" class="d-small d-ink-muted">every request is a company</text>
+
+  <text x="400" y="16" class="d-label">The same page, done differently</text>
+  <text x="400" y="32" class="d-small d-ink-muted">one domain in the network panel</text>
+
+  <!-- Left: the extractive version -->
+  <rect x="0" y="48" width="240" height="30" rx="5" class="d-box d-box--pop"/>
+  <text x="12" y="67" class="d-small d-label--on-pop">font CDN</text>
+  <rect x="0" y="84" width="240" height="30" rx="5" class="d-box d-box--pop"/>
+  <text x="12" y="103" class="d-small d-label--on-pop">analytics service</text>
+  <rect x="0" y="120" width="240" height="30" rx="5" class="d-box d-box--pop"/>
+  <text x="12" y="139" class="d-small d-label--on-pop">consent vendor, loaded to ask</text>
+  <rect x="0" y="156" width="240" height="30" rx="5" class="d-box d-box--pop"/>
+  <text x="12" y="175" class="d-small d-label--on-pop">ad server, which returns a tag</text>
+  <rect x="0" y="192" width="240" height="30" rx="5" class="d-box d-box--pop"/>
+  <text x="12" y="211" class="d-small d-label--on-pop">five bidders, by broadcast</text>
+  <rect x="0" y="228" width="240" height="30" rx="5" class="d-box d-box--pop"/>
+  <text x="12" y="247" class="d-small d-label--on-pop">session recorder</text>
+  <rect x="0" y="264" width="240" height="30" rx="5" class="d-box d-box--pop"/>
+  <text x="12" y="283" class="d-small d-label--on-pop">embeds: video, map, comments</text>
+
+  <line x1="270" y1="48" x2="270" y2="330" class="d-line" stroke-dasharray="4 4"/>
+
+  <!-- Right: the same page, self-contained -->
+  <rect x="400" y="48" width="240" height="246" rx="8" class="d-box d-box--accent"/>
+  <text x="520" y="76" class="d-label d-label--on-accent" text-anchor="middle">your own server</text>
+  <line x1="424" y1="90" x2="616" y2="90" class="d-line" stroke="#ffffff" opacity="0.35"/>
+  <text x="416" y="112" class="d-small d-label--on-accent">the page itself</text>
+  <text x="416" y="136" class="d-small d-label--on-accent">its own font file</text>
+  <text x="416" y="160" class="d-small d-label--on-accent">its own stylesheet</text>
+  <text x="416" y="184" class="d-small d-label--on-accent">its own icon</text>
+  <text x="416" y="208" class="d-small d-label--on-accent">embeds behind a click</text>
+  <text x="416" y="232" class="d-small d-label--on-accent">a count, without an identity</text>
+  <text x="416" y="256" class="d-small d-label--on-accent">or the server's own logs</text>
+  <text x="416" y="282" class="d-small d-label--on-accent">no cookies, so nothing to ask</text>
+
+  <!-- The outcome line -->
+  <text x="0" y="322" class="d-small d-ink-muted">Nothing above requires a banner on the right, because there is nothing to consent to.</text>
+  <text x="0" y="338" class="d-small d-ink-muted">The list on the left is built from the practices this page documents, not from a count taken on any one site.</text>
+</svg>

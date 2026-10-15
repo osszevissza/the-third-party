@@ -1,0 +1,34 @@
+{{- /*
+  {{< diagram "one-page-load" >}} inlines an SVG from assets/diagrams/<name>.svg.
+
+  WHY INLINE RATHER THAN <img>. Three reasons, in order of weight. Inline SVG inherits the
+  page's colours, so a diagram is drawn from the same tokens as the text and switches with
+  prefers-color-scheme instead of needing a second file for the dark scheme. It costs zero
+  requests, which is the constraint this site is arguing about. And its text is real text, so
+  it scales with the browser's font size and can be selected and translated.
+
+  WHAT IT IS NOT FOR. A diagram is not allowed to be the only place a fact appears. The
+  numbers in a figure are in the prose as well, because an image is not readable to everyone
+  and is not searchable by anyone. If a figure carries a claim the text does not, the claim
+  is unsourced with extra steps.
+
+  The caption is passed in rather than stored beside the SVG, because the caption is prose
+  about the page the figure sits on and the SVG is a drawing. Keep it short: what the figure
+  shows, and where the numbers in it come from.
+*/ -}}
+{{- $name := .Get 0 -}}
+{{- if not $name -}}
+  {{- errorf "diagram shortcode: no diagram name given in %s" .Page.File.Path -}}
+{{- end -}}
+{{- $caption := .Get 1 | default "" -}}
+{{- $resource := resources.Get (printf "diagrams/%s.svg" $name) -}}
+{{- if not $resource -}}
+  {{- errorf "diagram shortcode: no asset at assets/diagrams/%s.svg, referenced by %s" $name .Page.File.Path -}}
+{{- else }}
+<figure class="diagram diagram--{{ $name }}" role="group"{{ with $caption }} aria-label="{{ . }}"{{ end }}>
+  {{- $resource.Content | safeHTML }}
+  {{- with $caption }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>
+{{- end -}}
