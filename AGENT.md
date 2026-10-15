@@ -5,9 +5,12 @@ Read this first. It assumes no memory of previous sessions.
 **Session date when written:** 2026-10-15. Run `date -u`. The repository keeps no other
 timestamp, and pages carry `status_as_of` fields that need refreshing after a long gap.
 
-**State: the site is live, ten pages, all four checks pass, and the styling pass is next
-(§9 item 8).** Nothing is blocked. What is left is the styling, the source worklist in §6,
-and the small hosting gaps in §9 item 7.
+**State: the site is live, ten pages, all checks pass, and the styling pass is done
+(§9 item 8).** Colour is now checked by a script rather than by hand, the site self-hosts
+two subsets of two families, and the styling added about 27 KB of type to every page, which
+puts the raw reading of the 100 KB budget over for the first time in the project's history
+(§7, and §9 item 9, which is the maintainer's call). What is left is the source worklist in
+§6, the small hosting gaps in §9 item 7, and that budget line.
 
 Three rules about this file itself: no em dashes anywhere (§3), commit messages are a few
 words on one line (§7), and the reasoning behind a change belongs here rather than in a
@@ -99,12 +102,28 @@ merged page, and a copy that looks canonical is a trap for the next session.
 python3 scripts/check-content.py   # frontmatter, YAML, citation graph. exit 1 on error
 python3 scripts/check-links.py     # resolves every source URL. exit 1 only if truly dead
 python3 scripts/check-dashes.py    # house punctuation rule. exit 1 on any em dash
+python3 scripts/check-contrast.py  # WCAG AA, from the tokens in assets/css/main.css
 python3 scripts/render-bibliography.py --check   # exit 1 if /sources/ is out of date
+python3 scripts/build-fonts.py --check           # the served subsets exist and cover the text
+python3 scripts/check-a11y.py      # the static half of the AA claim. READS public/, so it
+                                   # runs after the build rather than before it
 ```
 
-Run all four before ending a session, and run `render-bibliography.py` **without** `--check`
-whenever `data/sources.yaml` or a page's `sources` list changes, because that rewrites the
-generated block on `/sources/`.
+**Six checks run from `scripts/build.sh`**, five of them before the build and
+`check-a11y.py` after it, because it reads the built output. `/sources/` publishes six in
+prose, and the count in this file and there have to move together. `check-contrast.py` was written on 2026-10-15 for this pass: it parses
+the `:root` block and the `prefers-color-scheme: dark` block out of the stylesheet and
+computes WCAG relative luminance for every pair the site renders, failing below 4.5:1 for
+text and 3:1 for the focus ring, then it verifies that every `url()` the stylesheet names
+exists on disk. **It is what makes a colour edit safe**, and it earned its place immediately:
+the first run of the love2d-derived palette failed on 15 pairs, including every focus ring
+in the dark scheme, and none of them would have been visible by eye.
+
+Run `render-bibliography.py` **without** `--check` whenever `data/sources.yaml` or a page's
+`sources` list changes, because that rewrites the generated block on `/sources/`. Run
+`build-fonts.py` **without** `--check` only when the text gains a character the subsets do
+not carry, or when a family changes; it writes into `static/fonts/`, so a build that quietly
+rewrote its own inputs is not what `build.sh` does.
 
 A fifth script is deliberately not a check and does not run in the build:
 `python3 scripts/measure-pages.py` prints every built page's weight, the median, the heaviest
@@ -123,6 +142,23 @@ any more, so it is an internal check: use it rather than a `du` of `public/`.
   than editing a quotation**, but only for a dash genuinely inside text a source published,
   and name the snapshot you checked it against. The key is a **line number**, so it goes stale
   the moment `data/sources.yaml` is edited above it: re-verify the text, do not bump the number.
+- `check-contrast.py` → `all 20 text pairs at or above 4.5:1 (lowest 4.66:1), 12 non-text
+  pairs at or above 3.0:1, in both schemes`. It prints the decorative hairlines as `info`
+  rather than as passes, because those are not held to 3:1 on purpose: a rule that clears
+  3:1 against a pale ground stops being a hairline and becomes a second heading. The record
+  of which reference-palette values were moved and why is printed at the end of every run,
+  so that the next person does not helpfully restore them.
+- `build-fonts.py --check` → `2 families, 4 subsets, 113 code points, all covered`. The
+  code point count is derived from the site's own text, so it moves when the prose does.
+- `check-a11y.py` → `a11y: every static invariant holds (headings, landmarks, alt text, ids,
+  focus, target sizes)`. **It is not an audit and says so on every run.** It checks what is
+  decidable from markup and the stylesheet: one h1 and no skipped levels, alt text on images,
+  an accessible name on every inline SVG, no duplicate id, a skip link that resolves,
+  discernible link text, every `outline: none` paired with a replacement, and the 24px
+  minimum of WCAG 2.5.8 read out of the `.cite a` rule. What it cannot see is focus order,
+  screen reader output, zoom, or whether the result is usable. **It found two real defects on
+  its first run**, both recorded below, and one bug in itself: `<a\b` also matches `<abbr`,
+  which is how it reported fifty-seven empty links that were never links.
 - `check-content.py` → `19 warning(s), 0 error(s)`. Warnings are the source worklist:
   unverified or blanket-blocked URLs awaiting a human, plus one with no URL at all (§6).
   **A falling count is only progress when a link was genuinely opened.** The fall to 19 was
@@ -257,12 +293,18 @@ scripts/check-links.py     network URL resolver with bot-block detection
 scripts/check-dashes.py    the house punctuation rule, with a reasoned allowlist
 scripts/render-bibliography.py   regenerates the generated block on /sources/ (writes)
 scripts/measure-pages.py   page weights against the 100 KB budget (reads public/, never writes)
+scripts/check-contrast.py  WCAG AA from the stylesheet's own tokens, plus font url() checks
+scripts/check-a11y.py      the static half of the WCAG claim, on the built output. Not an audit
+scripts/build-fonts.py     subsets fontok/ into static/fonts/ (writes; --check to verify)
 content/_index.md      the home page
 content/<slug>/index.md    one directory per page
 layouts/               baseof.html, index.html (home), _default/single.html
 layouts/partials/      head.html, nav.html (generated from the page tree), footer.html, source-record.html
-layouts/shortcodes/    cite.html, source-list.html, interactive.html
-assets/                css/main.css, favicon.svg (Hugo Pipes: minify + fingerprint)
+layouts/shortcodes/    cite.html, source-list.html, interactive.html, diagram.html
+assets/                css/main.css, favicon.svg, diagrams/*.svg (Hugo Pipes: minify + fingerprint)
+static/fonts/          the four subsetted woff2 files, their licence texts, README.txt.
+                       Static, NOT assets/: Hugo Pipes cannot reach static/, and a check in
+                       check-contrast.py verifies every url() the stylesheet names exists
 drafts/README.md       the voice decision, and the reasoning behind it
 drafts/nothing-to-hide--B-objections.md   the adopted shape, marked superseded
 ```
@@ -301,6 +343,41 @@ matters because a page can pass every script and still fail to render.
   current page is marked `aria-current="page"`. Two of the pages that were once missing from
   the old hand-written list have since been dropped, and the generated menu followed with no
   edit: nine links, in weight order, no gap.
+- **`resources.Get` cannot see `static/`, and a `with` that finds nothing renders
+  nothing.** The self-hosted fonts live in `static/fonts/` because a font file has to be
+  served verbatim and Hugo Pipes would fingerprint a copy. A preload link for the body face
+  was written against `assets/fonts/`, `with resources.Get` returned nil, and **the page
+  rendered with no preload and no warning**: the face still loaded, a moment later, from its
+  `@font-face` rule. The failure mode is the important part, because a missing preload looks
+  exactly like a working one. Two things came out of it: the preload was removed as
+  unnecessary for an 8 KB face, and `check-contrast.py` now fails if the stylesheet names a
+  `url()` that is not on disk. **Reach for an explicit `if`/`else` with an `errorf` in the
+  else branch when a template depends on a resource that has to exist.**
+- **A checker's own bugs are the first thing to suspect when it reports fifty failures.**
+  `check-a11y.py`'s first run produced 59 problems; 57 were its own regex. `<a\b` matches
+  `<abbr`, so every abbreviation in the body text was reported as a link with no text. **A
+  checker that cries wolf is worse than no checker**, because the next person stops reading
+  it, so a mass failure should be diagnosed as a pattern before it is believed as a finding.
+  The two real ones it found in the same run are in gotcha 17.
+- **An `<a>` with no `href` and no text is not a harmless anchor.** The site used one as the
+  citation target, once per source record, and `/sources/` carried 57 of them: assistive
+  technology announces each as a link, and nobody can follow or activate it. **The target is a
+  `<span class="source-anchor">` now**, in both the shortcode and `render-bibliography.py`,
+  because an id is all `:target` needs. Anything that emits markup in more than one place has
+  to be changed in every one of them: the two renderings are kept in step by hand.
+- **Two headings with the same text on one page produce the same id twice.** `/consent-theatre/`
+  had `## Eight clicks through one banner` on the page and `### Eight clicks through one
+  banner` inside the interactive block, and Goldmark generated one id for both, so the page's
+  own fragment link resolved to the wrong element. **The rule is that the interactive block
+  contains no heading**: the page writes the heading above it, and the block carries an
+  accessible name of its own (`<h2 class="visually-hidden">`, plus `role="region"` and
+  `aria-labelledby`). `check-a11y.py` fails the build on a duplicate id anywhere now, which is
+  the only reason this stayed fixed.
+- **Template syntax is not rendered text, and treating it as text creates font requirements.**
+  `build-fonts.py` scans the layouts for characters to include, and a regex in a shortcode
+  contains `$1`, so a caret was demanded of every family. The scan strips `{{ ... }}` and HTML
+  comments first now. The same confusion is available in `check-dashes.py`, which reads source
+  files: it already skips generated blocks for the same reason.
 - **When checking minified output, accept both attribute forms.** `--minify` strips quotes
   from simple attributes (`<sup class=cite>`), so a quote-only regex reports zero citations on
   a page that has seventeen.
@@ -475,6 +552,15 @@ before being recorded, so these are upgrades rather than guesses.
 **Installed:** Hugo `v0.150.0+extended`, Python 3.14.8 with PyYAML 6.0.3, Node v22.22.2
 (unused by this build), git 2.56.0, curl 8.18.0, `pdftotext` 26.01.0. Fedora Linux 44.
 
+**Also installed for the styling pass:** `pyftsubset` (fontTools 4.63.0) and brotli, used by
+`scripts/build-fonts.py`. **There is no browser and no rasteriser for HTML**, so a rendered
+page cannot be inspected here. What *can* be rendered is a font: Pillow is installed, and
+type specimens were rendered with it to choose the display family from real pixel sizes
+rather than from a description. **That is the technique to reuse**: a typeface question is a
+picture question, and it can be answered from this machine even though a page cannot.
+`tmp/style-direction.png`, `tmp/type-specimen.png` and `tmp/display-face-choice.png` came out
+of it, and the maintainer chose Arsenal from the last of them.
+
 **Not installed:** Go, so `hugo mod` cannot pin the Hugo version and `.tool-versions` does it
 instead. **No headless browser tooling at all** (no Lighthouse, axe, Playwright, Puppeteer,
 geckodriver, pa11y), and the flatpak Firefox cannot be launched from an agent shell
@@ -519,15 +605,32 @@ md5  fda82cb39476a96c1ea458fc69b3859a
 58 sources: 48 with an `archive:` value, 10 without, 19 `verified_on: null`
 ```
 
-**Page weights, measured after the drop:** median 9,126 bytes gzipped and 25,216 raw; heaviest
-`/sources/` at 26,440 gzipped and 89,184 raw, 2.90 times the median; the whole site with its
-shared stylesheet and icon counted once at 91,789 bytes gzipped. **Both readings of the 100 KB
-budget pass for the first time**, because `/sources/` lost 1,453 words of generated
-bibliography with the 12 deleted records; the raw row used to be over the line at 103,681.
-These move with any content edit, since `/sources/` is both the heaviest page and the
-bibliography. **The old rule that excluded `/receipts/` from the median is retired**: it existed
-to protect a published statistic, and nothing publishes one now. Do not reintroduce an
-exclusion to match an old sentence.
+`data/sources.yaml` was not touched by the styling pass, which is why that md5 is unchanged
+from the line above it. The pass added four font files, two diagrams, two scripts and one
+shortcode, and edited the stylesheet, the head partial, the build script, the measurement
+script, two pages, and this file.
+
+**Page weights, measured after the styling pass on 2026-10-15:** median 40,512 bytes gzipped
+and 61,768 raw; heaviest `/sources/` at 57,743 gzipped and 125,131 raw, 1.43 times the median;
+the whole site with its shared stylesheet, fonts and icon counted once at 124,972 bytes
+gzipped. Before the pass the same rows were 9,126 / 25,216 median and 26,440 / 89,184
+heaviest, so **the type added about 27 KB to every page and the stylesheet grew from 7.3 KB to
+8.8 KB**.
+
+**The gzip row still passes. The raw row does not, and it is not a mistake in the numbers.**
+WOFF2 is already compressed, so gzip cannot compress it: the four font files are 29,420 bytes
+raw and 29,415 gzipped, a saving of five bytes across the set. Every font byte therefore lands
+in full on the raw row and barely at all on the transferred one. The honest statement is the
+one `measure-pages.py` prints: **a reader downloads 57,743 bytes for the heaviest page, and
+125,131 is the sum of the files involved rather than the number that crosses the wire.** Two
+things follow. `/sources/` is now over the raw line by 22,731 bytes rather than by the 1,326 it
+was under it before, and that is a decision for the maintainer rather than a bug: §9 item 9
+records it. And the budget's two readings are no longer interchangeable, so **quote the transferred
+one when the claim is about a reader** and say which reading is meant.
+
+**The old rule that excluded `/receipts/` from the median is retired**: it existed to protect a
+published statistic, and nothing publishes one now. Do not reintroduce an exclusion to match an
+old sentence.
 
 ### Gotchas that have already cost time: don't repeat them
 
@@ -670,8 +773,18 @@ itself is hypocritical.
 - **Accessibility: WCAG 2.2 AA.** Semantic HTML, keyboard-operable interactives, visible focus,
   4.5:1 contrast, meaningful alt text, and `prefers-reduced-motion` respected, which is
   critical because the flagship page is scroll-animated.
-- **Performance budget:** under 100 KB per page, under 20 requests, LCP under 1.5 s. Both
-  readings of the weight line pass as of 2026-10-15 (§7).
+- **Performance budget:** under 100 KB per page, under 20 requests, LCP under 1.5 s. **As of
+  2026-10-15 the transferred reading passes and the raw one does not** (57,743 against 125,131
+  for the heaviest page), because four self-hosted font files cannot be compressed by gzip a
+  second time. §7 has the measured comparison and §9 item 9 the three ways to resolve it.
+  Requests are unaffected: nine per page, four of them fonts, all from this origin. **LCP has
+  never been measured**, because there is no browser here and no LCP figure has ever been
+  published; that has not changed.
+- **The checks are part of the test, and there are five of them** (§2), with a sixth script
+  measuring page weight outside the build. Where a figure is computed here, the script prints
+  what it computed: contrast ratios, page weights in two readings, carbon estimates. **The
+  stylesheet's own contrast is asserted nowhere and computed in `check-contrast.py`**, which
+  fails the build rather than trusting the person who edited the colours.
 - **Every figure the site publishes must be measured, not asserted, with its method named.**
   Nothing publishes the site's own figures any more (`/receipts/` was dropped), so this is now
   about any future page: re-adding a page of them is a decision the maintainer has already
@@ -735,101 +848,114 @@ Items 1 to 6 are closed and are kept as stubs so the numbering does not shift.
      provisioned, so the DNS record is a wildcard. Verify by fetching a page and reading its
      own title, which is how the 2026-10-14 deploy was checked: twelve pages, twelve correct
      titles and canonicals.
-8. **The styling pass. This is the next job, and the maintainer sets the direction.** They said
-   they would describe what they want rather than approving a proposal, so **do not start
-   designing unilaterally**: ask for the direction, or implement the one you are given.
-   **One thing was decided in advance on 2026-10-15**: the site self-hosts one subsetted font,
-   on the conditions below. Layout, colour, spacing and type scale are all still the
-   maintainer's to describe.
+8. **~~The styling pass.~~ Done on 2026-10-15.** The direction came from the maintainer and
+   was implemented in full: **General Sans for body text, Arsenal for display, and a palette
+   derived from love2d.org**, which they named as the reference. What it produced, so a later
+   session does not rebuild it:
 
-   **What exists, so nothing is rebuilt from scratch.** `assets/css/main.css` is a token layer
-   in `:root` (`--bg`, `--surface`, `--ink`, `--ink-muted`, `--rule`, `--accent`,
-   `--accent-ink`, `--measure`, two font stacks), a full dark scheme under
-   `prefers-color-scheme`, visible focus everywhere, the skip link, the header and its
-   generated nav, `main`/`.page`/`.page-header`, a heading scale, paragraphs, `hr` dividers,
-   lists, blockquote, inline `code`, images, tables, the citation marker, the source list and
-   its records, the footer, and a print stylesheet. It goes through Hugo Pipes (minify,
-   fingerprint), so CSS edits need no build changes and no new tooling.
+   - **Two families, four subsets, 29.4 KB, self-hosted, zero third-party requests.**
+     `scripts/build-fonts.py` derives the character set from the site's own text (113 code
+     points), instances and subsets the sources in `fontok/`, and writes `static/fonts/`.
+     Arsenal 400 and 700 carry the display text; General Sans 400 and 600 carry the body and
+     the interface. **Arsenal was chosen from a rendered specimen**, after Proza Libre was
+     implemented and rejected and Theano Didot was rejected for having one weight: the site
+     needs a display face with a real bold, because at h3 size a single-weight face renders
+     lighter than the body text it introduces (see the environment note in §7 on how to render
+     a specimen here).
+   - **Colour is now checked, not maintained.** `scripts/check-contrast.py` reads the tokens
+     out of `assets/css/main.css` and computes every ratio. The first run failed on 15 pairs.
+     The reference palette's own interface colours do not pass AA as text on its background
+     (its blue is 2.34:1, its pink 4.07:1 on white), so the hues were kept and the lightnesses
+     moved; `NOTES` in the script and the closing lines of every run record each substitution.
+     **The focus ring is two rings** in both schemes, an outer ring and a 2px band of the page
+     ground, because no single colour clears 3:1 against a pale ground, a dark ground and both
+     filled controls at once.
+   - **`section.interactive` is styled**, which was the largest hole on the site, and the
+     citation marker is now a padded control with a tinted plate in place of
+     `font-size: 0.75em; line-height: 0`. **That closes both defects this section used to
+     track**, the WCAG 2.5.8 target-size failure among them. A `.interactive[data-steps]`
+     modifier exists for turning the eight-click walkthrough into a numbered sequence, and is
+     **not applied**: the marker is never empty because the words "Click 3." are still in the
+     markup, so applying it would double the numbering. Apply it only if the words go.
+   - **Diagrams are hand-written inline SVG**, inlined by `layouts/shortcodes/diagram.html`
+     from `assets/diagrams/`, painted through classes so they follow the dark scheme. Two
+     exist, both on `/one-page-load/`. **A diagram may never be the only place a fact
+     appears**, and neither figure carries a number the prose does not already carry.
+   - **The loop that remains is the maintainer's eyes.** There is no browser here (§7), so the
+     CSS was written against tokens, ratios and geometry and reviewed by them. `sh
+     scripts/build.sh serve` is the loop, and it needs a port nothing else is on: **port 1313
+     was found occupied by a server outside this shell's process namespace on 2026-10-15**,
+     answering HTTP 500 from a stale template error, and the working preview ran on 1314.
+     Check what answers on 1313 before concluding that a server was not started.
 
-   **Two concrete defects it should close**, both of which used to be published on the dropped
-   `/receipts/` page and are recorded here instead:
+   **Two things this pass did not do, both deliberate.** It did not add a tagline to the header,
+   because that is new copy and copy is not styling. And it did not set `font-synthesis-weight`,
+   because Arsenal and General Sans both have real cuts for every weight the stylesheet asks
+   for.
 
-   - **`section.interactive` has no styling at all.** The shortcode emits
-     `<section class="interactive" data-interactive>` and no rule matches it, so the eight-click
-     walkthrough on `/consent-theatre/` and the harms block on `/nothing-to-hide/` render as
-     bare stacked text. This is the largest visual hole on the site, and where a new visual idea
-     would show first.
-   - **Citation markers.** `.cite` is `font-size: 0.75em; line-height: 0`, which is the WCAG
-     2.5.8 target-size failure: the clickable area is a few pixels high, and with CSS off they
-     are bare numbers with no affordance. Both are style problems rather than markup ones.
-
-   **Before touching colour, build the contrast check.** The site used to publish that contrast
-   is computed from the values in that file rather than trusted, with a lowest ratio of 6.66:1
-   and every pair passing 4.5:1 in both schemes. Nothing publishes it now, and it is worth
-   keeping true anyway, because it was maintained by hand and a colour edit can break AA with
-   nothing to say so. **Write `scripts/check-contrast.py` first**: parse the `:root` tokens and
-   the dark block, compute WCAG 2.1 relative luminance for each pair the site renders (`--ink`
-   and `--ink-muted` on `--bg` and on `--surface`, `--accent` on `--bg`, `--accent-ink` on
-   `--accent`, and the focus ring against both backgrounds), fail below 4.5:1 for text and 3:1
-   for the ring, and wire it into `scripts/build.sh` as a fifth check. Then update the places
-   that state how many checks run: `/sources/` says "four scripts" in prose, and §2 and §8 of
-   this file.
-
-   **The constraints are not negotiable and are all in §8**: plain CSS (Hugo's bundled Sass is
-   frozen libsass, §7 gotcha 3), no framework, no CDN, zero third-party requests, WCAG 2.2 AA,
-   `prefers-reduced-motion` honoured (which matters because `scroll-behavior: smooth` is
-   already set for the flagship page), and the under-100 KB page budget. **A font service is
-   out**, as are hosted CSS and icon CDNs. A page that loads a font from somebody else's server
-   to look better than the other pages has lost the argument the site is making.
-
-   **Fonts: one self-hosted woff2 is in scope, decided by the maintainer on 2026-10-15.** This
-   resolves an old contradiction in this file: §8 always allowed "system stack or self-hosted
-   woff2", while this section said "no webfont". Self-hosting one is now the direction, and the
-   conditions are these:
+   **What is left from this item is the maintainer's review and one decision**, §9 item 9.
+   The conditions this section used to carry are unchanged and were all met: plain CSS, no
+   framework, no CDN, zero third-party requests, WCAG 2.2 AA, `prefers-reduced-motion`
+   honoured, and a font service ruled out (a page that loads a font from somebody else's server
+   to look better than the other pages has lost the argument the site is making).
+   **The font decision, and the rules that outlive it.** Self-hosting was decided in advance
+   and both families are now committed, so what follows is the part a later session needs
+   rather than the plan it replaced:
 
    - **`fontok/` is a local library of source fonts, not repository content.** It is 32 MB
-     across 15 families and is in `.gitignore`. Subset from it; never commit it.
-   - **Commit the subset, its licence file, and the command that produced it.** A subset is not
-     reproducible without the family, version and flags, and OFL requires the licence text to
-     travel with the font, so put the subsetted `.woff2` and the family's licence in the
-     repository (an `assets/fonts/` directory is the natural home, served from this domain and
-     therefore still zero-third-party) and record the `pyftsubset` invocation here.
-   - **The tooling is installed**: `pyftsubset` (fontTools 4.63.0) and brotli, so
-     `pyftsubset <font> --flavor=woff2 --layout-features='*' --unicodes=...` works from this
-     machine. Subset to Latin plus the punctuation the site actually uses, not to the whole
-     face.
-   - **Read the licence before choosing the family, because they differ.**
+     across 15 families and is in `.gitignore`. Subset from it; never commit it. The subsets
+     are committed instead, in `static/fonts/`, beside their licence texts.
+   - **A subset is a distribution, so the licence text travels with it.** Arsenal is OFL 1.1
+     and its text is committed. **General Sans is the open end of this pass:** it ships under
+     Fontshare's own free licence, whose text is rendered by the publisher's site from a script
+     and cannot be fetched, so `static/fonts/general-sans-licence.txt` currently holds a
+     header, a record of the three endpoints probed, and instructions for the maintainer to
+     paste the terms in. **`/sources/` describes the family and does not yet claim what its
+     licence is**, which is deliberate: the site cannot say "open source" about a licence whose
+     text it does not hold, and the honest position until then is that the terms are the
+     publisher's. Read the licence before adding a third family, because they differ:
      `Archivo`, `Arsenal`, `Kanit`, `Playfair Display`, `Libertinus Sans`, `Theano Didot` and
      `Spartan MB` ship **OFL**; `TeX Gyre Heros` is **GUST**; `URW Classico` is **AFPL**, which
-     restricts commercial distribution; and `Noway` and `General Sans` ship their own webfont
-     licence PDFs with their own terms. Pick a family whose terms this site can honestly
-     satisfy, and say so on `/sources/` under "How this site is built and checked", which
-     already commits the site to disclosing its own choices.
-   - **Watch the weight.** A subset is roughly 15 to 30 KB, added to every page because the
-     stylesheet and the font are shared. The median page is 9,126 bytes gzipped today, so there
-     is room, but re-run `measure-pages.py` (§2) and check both budget rows afterwards.
-   - **If the family does not work out, the system stack is the fallback** and needs no
-     decision: the existing token layer already declares two stacks.
+     restricts commercial distribution; and `Noway` and `General Sans` ship their own terms.
+   - **If a family does not work out, the system stack is the fallback** and needs no decision:
+     the token layer declares two stacks behind each family. That is also why
+     `build-fonts.py --check --allow-missing` exists: a clone without `fontok/` still builds.
+   - **Watch the weight, because the stylesheet and the fonts are in every page.** The pass
+     added 27 KB per page and put the raw reading of the budget over (§7); §9 item 9 is the
+     decision that follows from it.
 
-   **The loop, and its one limitation.** There is no browser and no headless tooling here (§7),
-   so **the agent cannot see the result**. Write CSS, hand it to the maintainer to look at, and
-   iterate on what they describe. `sh scripts/build.sh serve` gives them
-   `http://localhost:1313` with live reload, but remember gotcha 12: restart the server after
-   adding any template file, and never delete `public/` while it runs. Everything measurable is
-   still checkable here: contrast, page weight, the static accessibility list, and zero
-   third-party requests.
+   **The loop, and its one limitation.** There is no browser here (§7), so **the agent cannot
+   see the result**. Write CSS, hand it to the maintainer to look at, and iterate on what they
+   describe. `sh scripts/build.sh serve` is the loop, but **check the port first**: 1313 was
+   occupied on 2026-10-15 by a server outside this shell's namespace. Everything measurable is
+   still checkable here: contrast, page weight, the font coverage check, and zero third-party
+   requests.
 
-   **When it is done, re-measure**, because the stylesheet is in every page's weight: run
-   `python3 scripts/measure-pages.py` (§2) and check that both readings of the budget still
-   pass. Then commit, push, and the maintainer deploys (§7).
+9. **Two decisions the styling pass hands back, new on 2026-10-15.**
+
+   - **The raw reading of the 100 KB page budget is over, and the transferred one is not.**
+     `/sources/` is 125,131 raw bytes against a 102,400 budget, and 57,743 gzipped, which
+     passes. The cause is that WOFF2 is already compressed, so 29,420 bytes of font lands in
+     full on the raw row and saves five bytes on the transferred one. §7 has the full
+     comparison. The three honest options are: **raise the raw budget** to a number that
+     accounts for pre-compressed assets, **drop a font weight** (Proza Libre's 400 was cut for
+     exactly this reason during the pass, and any further cut starts costing the display face
+     its bold), or **accept and state** that the raw row measures files rather than traffic.
+     Nothing else on the site depends on the answer, and the claim a reader cares about is the
+     transferred one. **Do not fix this by quietly rewording §8.**
+   - **The General Sans licence text has to be pasted in by hand.** Fontshare renders it from
+     a script, so no fetch works; `static/fonts/general-sans-licence.txt` explains where to get
+     it and what is missing. Until then the site serves a font whose terms its own repository
+     cannot show, on a site whose entire argument is that claims should be checkable. It is a
+     two minute job for someone with a browser and it is the one loose end of the pass.
 
 ---
 
 ## 10. What "done" means for the current goal
 
 Ten core pages of portfolio-quality, fully sourced Markdown, with every factual claim grounded
-in a verified, dated citation. **All ten exist**, all four scripts pass with 0 errors, and the
-build renders every page.
+in a verified, dated citation. **All ten exist and are styled**, all five build checks pass
+with 0 errors, and the build renders every page.
 
 **Two conditions of the original definition of done are still open, and neither is writing
 work.** The source worklist in §6 is not clear: 19 sources carry `verified_on: null`, several
@@ -838,11 +964,13 @@ rather than oversights, both are tracked in §6, and the count of 19 fell on 202
 reason that was not progress. The third condition that used to sit here, the unsupported
 disclosure sentence on `/sources/`, closed in round 11 (§9 item 4).
 
-**The written work is done, and the last piece of unwritten work is the styling** (§9 item 8).
-The maintainer is choosing its direction, so ask rather than design. Everything else left is
-maintenance of the kind §6 tracks.
+**The written work is done and the styling pass is done** (§9 item 8). What the styling pass
+leaves is the maintainer's review of it on a real screen, two decisions recorded in §9 item 9,
+and a licence text that has to be pasted in from Fontshare. Everything else left is maintenance
+of the kind §6 tracks.
 
-**Open questions carried forward, both small and both the maintainer's call:**
+**Open questions carried forward**, all small, all the maintainer's call. The first two are
+new on 2026-10-15 and both come out of the styling pass:
 
 - **The carbon figures divide by 2^30 rather than by a decimal billion**, which is correct as
   GiB and wrong as GB, a difference of about 7%. `measure-pages.py` prints both, and **nothing
