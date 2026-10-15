@@ -5,17 +5,31 @@ Read this first. It assumes no memory of previous sessions.
 **Session date when written:** 2026-10-15. Run `date -u`. The repository keeps no other
 timestamp, and pages carry `status_as_of` fields that need refreshing after a long gap.
 
-**State: the site is live, ten pages, all checks pass, and the styling pass is done
-(§9 item 8).** Colour is now checked by a script rather than by hand, the site self-hosts
-two subsets of two families, and the styling added about 27 KB of type to every page, which
-puts the raw reading of the 100 KB budget over for the first time in the project's history
-(§7, and §9 item 9, which is the maintainer's call). What is left is the source worklist in
-§6, the small hosting gaps in §9 item 7, and that budget line.
+**State: the site is live, ten pages, all six checks pass, the styling pass is finished and
+the work is pushed, with `origin/main` at `6f4c24a` and nothing uncommitted.** The styling
+pass produced everything §9 item 8 describes: two self-hosted subsets of two families,
+colour that a script checks rather than a person, type with measured floors, two inline SVG
+diagrams, and a collapsed sources disclosure. It added about 27 KB of type to every page,
+which puts the raw reading of the 100 KB budget over for the first time in the project's
+history (§7, and §9 item 9, which is the maintainer's call).
+
+**The site is live but the live site is the pre-styling version.** Every commit from this
+session is pushed and none of it is deployed, because the deploy is triggered by hand from
+statichost's dashboard (§7). Until the maintainer triggers one, the live site shows the old
+palette, the old 34rem measure and the old 17px type, and it still serves the two pages the
+repository dropped on 2026-10-15.
+
+**What is left needs the maintainer, not an agent:** the two items in §9 item 9 (the raw
+byte budget and a licence text that has to be pasted in from a browser), the source worklist
+in §6, and the small hosting gaps in §9 item 7.
 
 Three rules about this file itself: no em dashes anywhere (§3), commit messages are a few
 words on one line (§7), and the reasoning behind a change belongs here rather than in a
-commit body. **History that is not a live constraint has been deliberately cut**; `git log`
-and `SITE_PLAN.md` hold the rest.
+commit body. **Do not quote a head hash as a fact about the repository**: the hash above was
+correct when this was written and `git log --oneline -1` is what settles it now.
+
+**History that is not a live constraint has been deliberately cut**; `git log` and
+`SITE_PLAN.md` hold the rest.
 
 ---
 
@@ -548,6 +562,21 @@ survive in `SITE_PLAN.md` §4**, so a later session does not re-add them out of 
    sub-item is still open and lives in §9 item 4: whether GitHub accepts anonymous issue filing
    on the repository, which decides whether the published contact route can receive anything.
 
+**New on 2026-10-15, and the only item in this file that a browser finishes in two minutes.**
+
+8. **The General Sans licence text has to be pasted in by hand.** The site serves a subset of
+   General Sans under Fontshare's own free licence (see §9 item 8), and **the terms are not in
+   the repository**: Fontshare renders the licence from a script, so
+   `https://www.fontshare.com/licenses/itf-ffl` returns a 691 byte shell saying "Enable
+   javascript to use this application", and all three endpoints tried behaved the same way.
+   `static/fonts/general-sans-licence.txt` holds a header, a record of what was probed, and
+   instructions. **Until it carries the terms, the site serves a font whose licence its own
+   repository cannot show**, on a site whose entire argument is that claims should be
+   checkable. This is why `/sources/` describes the family without claiming what its licence
+   is: it says General Sans "is free to use under Fontshare's own terms", which is true, rather
+   than "open source", which cannot be shown. Arsenal's OFL text is committed and can be
+   pointed at.
+
 **Nice to have, each a small edit to `data/sources.yaml`.** Each was read and control-probed
 before being recorded, so these are upgrades rather than guesses.
 
@@ -604,6 +633,16 @@ merely unnoticed. **Commit messages are a few words on one line** (§7, and the 
 restated it), with one exception: a correction of something already published earns a sentence
 saying what was wrong, because a reader may come looking for it.
 
+**The preview server, and the port that is already taken.** `sh scripts/build.sh serve` is the
+maintainer's review loop and it wants port 1313, **which on 2026-10-15 was held by a Hugo
+server outside this shell's process namespace**: `ps` showed nothing, `fuser` found nothing,
+and the server answering there returned HTTP 500 from a stale template error. A working
+preview therefore ran on **1314** with `hugo server --bind 127.0.0.1 --port 1314
+--disableFastRender`. Two consequences worth carrying: **check what answers on 1313 before
+concluding a server was not started**, and **do not run `scripts/build.sh` (without `serve`)
+while a server is running**, because it deletes `public/` and a server started without
+`--renderToMemory` serves from disk.
+
 **A push does not deploy.** The deploy is triggered by hand from statichost's dashboard and has
 always worked that way, so the manual step is routine rather than a fault: do not re-diagnose
 it, do not look for a webhook setting, and do not spend a session on it. **The consequence is
@@ -623,18 +662,41 @@ pages the repository no longer contains.
 with a 13-byte body), which is what makes its codes worth reading. Local `gzip -9` figures are
 the reproducible ones and the host compresses more loosely, so the wire runs about 3% larger.
 
-**Known-good state on 2026-10-15.** All four checks pass with 19 warnings and 0 errors, the
-build renders all ten pages, and `data/sources.yaml` is:
+**Known-good state on 2026-10-15, at the end of the styling pass.** Six checks, all green,
+with 19 warnings and 0 errors; the build renders all ten pages; `origin/main` is level with
+`HEAD`; and `data/sources.yaml` is:
 
 ```
 md5  fda82cb39476a96c1ea458fc69b3859a
 58 sources: 48 with an `archive:` value, 10 without, 19 `verified_on: null`
 ```
 
-`data/sources.yaml` was not touched by the styling pass, which is why that md5 is unchanged
-from the line above it. The pass added four font files, two diagrams, two scripts and one
-shortcode, and edited the stylesheet, the head partial, the build script, the measurement
-script, two pages, and this file.
+**That md5 is unchanged because the styling pass never touched the sources file**, which is
+the one thing in the repository the pass was not allowed to affect: not one claim, citation,
+id or verification date moved. The pass added four font files, two diagrams, three scripts,
+one shortcode and a static fonts directory; it rewrote the stylesheet and the sources
+shortcode; and it edited the head partial, the bibliography renderer, the build and
+measurement scripts, three pages and this file.
+
+**The six checks and what a green run prints**, so that a red one is obvious:
+
+```
+19 warning(s), 0 error(s)                      check-content.py
+no em dashes in 24 file(s), 0 allowlisted      check-dashes.py
+contrast: all 33 text pairs at or above 4.5:1 (lowest 4.53:1),
+          16 non-text pairs at or above 3.0:1, in both schemes
+  tokens: 21 colour tokens, 0 unused, 0 undefined
+bibliography is up to date                     render-bibliography.py --check
+check-fonts: 2 families, 4 subsets, 112 code points, all covered
+a11y: every static invariant holds (headings, landmarks, alt text, ids, focus, target sizes)
+```
+
+**Two of those numbers are new today and both are load-bearing**: the a11y line prints the
+smallest text on the site (12px), the body size it read out of the stylesheet (1.125rem) and
+the characters per line it measured from the served font (64.2 against the 80 of WCAG 1.4.8);
+and the token line exists because `--warm` was once defined, documented and rendered by
+nothing. **A check whose output you have to interpret is a check nobody runs**, so the exact
+strings above are here to be diffed rather than read.
 
 **Page weights, measured after the styling pass on 2026-10-15:** median 40,785 bytes gzipped
 and 64,816 raw; heaviest `/sources/` at 58,513 gzipped and 130,508 raw, 1.43 times the median;
@@ -1023,15 +1085,24 @@ Items 1 to 6 are closed and are kept as stubs so the numbering does not shift.
      a script, so no fetch works; `static/fonts/general-sans-licence.txt` explains where to get
      it and what is missing. Until then the site serves a font whose terms its own repository
      cannot show, on a site whose entire argument is that claims should be checkable. It is a
-     two minute job for someone with a browser and it is the one loose end of the pass.
+     two minute job for someone with a browser and it is the one loose end of the pass. §6 item
+     8 is the same item, recorded where the worklist lives.
+   - **The deploy, which is the largest gap between the repository and the site.** Nine commits
+     of styling are pushed and none of it is live (§7). The maintainer triggers deploys by hand
+     from the dashboard; there is nothing for an agent to do here and nothing to diagnose. When
+     it is triggered, **check it by reading a page rather than by trusting the push**: the
+     palette, the 42rem measure and the 18px body text are all visible in a curl, and
+     `public/fonts/arsenal-400.woff2` is the file that proves the fonts shipped, since a static
+     host serving an old build would 404 it.
 
 ---
 
 ## 10. What "done" means for the current goal
 
 Ten core pages of portfolio-quality, fully sourced Markdown, with every factual claim grounded
-in a verified, dated citation. **All ten exist and are styled**, all five build checks pass
-with 0 errors, and the build renders every page.
+in a verified, dated citation. **All ten exist, are styled, and are pushed.** Six checks pass
+with 0 errors, the build renders every page, and the styling pass added no claim to any page
+that the pass did not also check.
 
 **Two conditions of the original definition of done are still open, and neither is writing
 work.** The source worklist in §6 is not clear: 19 sources carry `verified_on: null`, several
@@ -1040,10 +1111,17 @@ rather than oversights, both are tracked in §6, and the count of 19 fell on 202
 reason that was not progress. The third condition that used to sit here, the unsupported
 disclosure sentence on `/sources/`, closed in round 11 (§9 item 4).
 
-**The written work is done and the styling pass is done** (§9 item 8). What the styling pass
-leaves is the maintainer's review of it on a real screen, two decisions recorded in §9 item 9,
-and a licence text that has to be pasted in from Fontshare. Everything else left is maintenance
-of the kind §6 tracks.
+**The written work is done and the styling pass is done** (§9 item 8). What it leaves is the
+deploy, the maintainer's look at it on a real screen, the two decisions in §9 item 9, and one
+licence text that needs a browser. Everything else left is maintenance of the kind §6 tracks.
+
+**A note for whoever picks this up next, because it is the easiest mistake to make here.** The
+styling pass was reviewed and redirected twice by the maintainer: the first palette was too
+timid and they asked for the colour back, and the display face was changed twice before they
+chose. **Both corrections came from them looking at a rendered result, not from anything a
+check could have said**, and both were cheap to act on because the numbers were already
+measured and written down. Keep the loop that way: measure what can be measured, state the
+trade in the file where the trade is made, and hand over something a person can look at.
 
 **Open questions carried forward**, all small, all the maintainer's call. The first two are
 new on 2026-10-15 and both come out of the styling pass:
