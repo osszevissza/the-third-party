@@ -54,40 +54,62 @@ NONTEXT_MIN = 3.0
 # colour on any surface, and what matters is what a reader has to read. Adding a colour pair
 # to the stylesheet means adding its line here, which is the reminder to check it.
 TEXT_PAIRS = [
-    ("body text on the page", "ink", "bg"),
-    ("body text on a surface (code, interactive)", "ink", "surface"),
-    ("body text on a tinted surface", "ink", "surface-2"),
-    ("headings on the page", "ink-heading", "bg"),
-    ("headings on a surface", "ink-heading", "surface"),
-    ("muted text on the page", "ink-muted", "bg"),
-    ("muted text on a surface (captions, source meta)", "ink-muted", "surface"),
-    ("muted text on a tinted surface", "ink-muted", "surface-2"),
-    ("faint text on the page (status stamp)", "ink-faint", "bg"),
-    ("faint text on a surface", "ink-faint", "surface"),
-    ("links on the page", "accent", "bg"),
-    ("links on a surface", "accent", "surface"),
-    ("links on a tinted surface", "accent", "surface-2"),
-    ("citation marker on its plate", "accent", "accent-quiet"),
-    ("text on a filled accent button", "accent-ink", "accent"),
-    ("text on a filled pink button", "pop-ink", "pop"),
-    ("attention text on the page", "pop", "bg"),
-    ("attention text on a surface", "pop", "surface"),
-    ("callout text on the callout ground", "ink", "pop-quiet"),
-    ("text in an accented list row (:target)", "ink", "surface"),
+    # The ground is the sky and the sheet sits on it, so both are real reading surfaces.
+    ("body text on the sky ground", "ink", "bg"),
+    ("headings on the sky ground", "ink-heading", "bg"),
+    ("muted text on the sky ground", "ink-muted", "bg"),
+    ("links on the sky ground", "accent", "bg"),
+    ("body text on the sheet", "ink", "sheet"),
+    ("headings on the sheet", "ink-heading", "sheet"),
+    ("muted text on the sheet", "ink-muted", "sheet"),
+    ("faint text on the sheet (the status stamp)", "ink-faint", "sheet"),
+    ("links on the sheet", "accent", "sheet"),
+    ("links under a heading", "pop", "sheet"),
+    ("a hovered link on the sheet", "pop", "sheet"),
+    ("a hovered link on the sky ground", "pop", "bg"),
+    # The header is a filled band, which is the reference site's loud colour doing the job it
+    # is loud for: white on it is 5.9:1.
+    ("the header band's text", "accent-ink", "accent"),
+    # Blocks inside a sheet.
+    ("body text on an inset surface", "ink", "surface"),
+    ("faint text on an inset surface", "ink-faint", "surface"),
+    ("body text on the inner tint", "ink", "surface-2"),
+    ("muted text on the inner tint", "ink-muted", "surface-2"),
+    ("links on an inset surface", "accent", "surface"),
+    ("links on the inner tint", "accent", "surface-2"),
+    # The tinted blocks, and the tinted footer.
+    ("the walkthrough block's text", "ink", "accent-quiet"),
+    ("the walkthrough block's headings", "ink-heading", "accent-quiet"),
+    ("the walkthrough block's links", "accent", "accent-quiet"),
+    ("blockquotes on the sheet", "pop", "sheet"),
+    ("a callout's text", "ink", "pop-quiet"),
+    ("a callout's attention text", "pop", "pop-quiet"),
+    ("an action block's text", "ink", "good-quiet"),
+    ("an action block's accent", "good", "good-quiet"),
+    ("the footer's muted text", "ink-muted", "surface"),
+    ("the footer's links", "accent", "surface"),
+    # Filled controls.
+    ("text on a filled accent control", "accent-ink", "accent"),
+    ("text on a filled pink control", "pop-ink", "pop"),
+    ("the citation marker on its plate", "accent", "accent-quiet"),
+    ("text in a highlighted source row (:target)", "ink", "surface"),
 ]
 
 NONTEXT_PAIRS = [
-    ("focus ring on the page", "ring", "bg"),
-    ("focus ring on a surface", "ring", "surface"),
-    ("focus ring on a tinted surface", "ring", "surface-2"),
-    ("citation marker border on its plate", "rule-control", "accent-quiet"),
+    ("focus ring on the sky ground", "ring", "bg"),
+    ("focus ring on the sheet", "ring", "sheet"),
+    ("focus ring on an inset surface", "ring", "surface"),
+    ("focus ring on the inner tint", "ring", "surface-2"),
+    ("focus ring on the walkthrough block", "ring", "accent-quiet"),
+    ("a control's edge on its plate", "rule-control", "accent-quiet"),
+    ("section rules on the sheet", "rule-strong", "sheet"),
+    ("section rules on the sky ground", "rule-strong", "bg"),
 ]
 
 # The focus indicator is two rings in both schemes: the ring colour outside, then a 2px band
-# of the page ground, then the control. That structure exists because no single colour clears
-# 3:1 against a pale ground, a dark ground, and both filled controls at once, and the marker
-# is a filled control. What has to hold is checked here as two steps: the ring is separated
-# from the band, and the band is separated from the fill it is drawn on.
+# of the surface it is drawn on, then the control. That structure exists because no single
+# colour clears 3:1 against both a pale sheet and a saturated fill at once, and the citation
+# marker is a filled control. What has to hold is checked as two steps.
 HALO_PAIRS = [
     ("focus ring against the focus band", "ring", "ring-halo"),
     ("focus band against a filled accent control", "ring-halo", "accent"),
@@ -95,37 +117,50 @@ HALO_PAIRS = [
 ]
 
 # Lines drawn where the line itself carries information a reader needs: a source section
-# starting, a table header ending, a control's edge. 3:1, WCAG 1.4.11.
+# starting, a table header ending, a panel's edge. 3:1, WCAG 1.4.11.
 LINE_PAIRS = [
-    ("section rules on the page", "rule-strong", "bg"),
-    ("section rules on a surface", "rule-strong", "surface"),
+    ("the source section's top rule", "ink-heading", "surface"),
+    ("the footer's top rule", "accent", "surface"),
 ]
 
 # Hairlines that group rather than inform: card edges, list rows, the line above a caption.
 # Deliberately not held to 3:1, because a rule that passes 3:1 against a pale ground stops
 # being a hairline and starts being a second heading. They are printed so the values stay
-# visible, and the two that *do* carry meaning are in LINE_PAIRS above.
+# visible, and the ones that *do* carry meaning are in LINE_PAIRS above.
 DECORATIVE_PAIRS = [
-    ("hairline rules on the page", "rule", "bg"),
-    ("hairline rules on a surface", "rule", "surface"),
-    ("hairline rules on a tinted surface", "rule", "surface-2"),
-    ("table row rules on the page", "rule", "bg"),
+    ("hairline rules on the sheet", "rule", "sheet"),
+    ("hairline rules on the sky ground", "rule", "bg"),
+    ("table row rules on the sheet", "rule", "sheet"),
+    ("the sheet's own border against the sky", "rule", "bg"),
 ]
 
-# Substitutions made to the reference palette, kept where the values live so that the next
-# person to look at this file sees why the site does not use love2d.org's own values.
+# How this palette departs from the reference site, kept where the values live so that the
+# next person to look at this file sees the reasoning rather than having to reconstruct it.
 NOTES = [
-    ("#25aae1 interface blue", "#0a6c93",
-     "2.34:1 on the reference background as text, below AA"),
-    ("#ea316e pink", "#c2185b",
-     "4.07:1 on white as text, below AA; used here for attention, which is text"),
-    ("#e0f4fc sky ground", "#f6fbfd",
-     "the reference ground carried over as a surface instead, with a lighter page ground "
-     "for a three thousand word read"),
-    ("#1b4d68 and #383f4a", "kept",
-     "the reference's own heading and body colours, which already pass comfortably"),
+    ("the sky ground", "#e0f4fc, kept as the page ground",
+     "the reference site's own background is now the page background; the first version of "
+     "this pass lifted it to near-white and the maintainer asked for the colour back"),
+    ("the sheet", "#f8fdff, added",
+     "the reference puts its prose straight on the sky; at three thousand words the sky under "
+     "the text is harder to read than a lighter sheet on top of it, so the prose moved onto a "
+     "sheet and the sky stayed around it"),
+    ("#25aae1 bright blue", "#0a6c93 as text, the loud value kept as a fill",
+     "2.34:1 as text on the reference's own ground, which cannot be read; the hue is kept and "
+     "used where a fill is wanted, under white text"),
+    ("#ea316e pink", "#c2185b as text, #fbd9e7 as a tint",
+     "4.07:1 on white as text; the tint carries the callouts and the darkened pink carries "
+     "links on hover"),
+    ("#00a651 green", "#096f36 as text, #d2f0e0 as a tint",
+     "3.19:1 on white as text; this is the reference's third colour and it marks the "
+     "constructive half of a page, which is one job and not three"),
+    ("#1b4d68 and #383f4a", "kept exactly",
+     "the reference's heading and body colours, which pass comfortably on every ground here"),
+    ("#f2a33c gold", "not used",
+     "the reference uses it to highlight numbers in code samples, which this site has almost "
+     "none of. A fourth colour was tried for the two ladders on /start-here/ and removed "
+     "again: they are one kind of thing, so they take one colour, and a token nothing "
+     "renders is a claim about the palette that is not true"),
 ]
-
 
 def lum(hex_colour: str) -> float:
     """WCAG 2.1 relative luminance."""
@@ -222,6 +257,31 @@ def check_scheme(name: str, tokens: dict[str, str]) -> list[str]:
     return failures
 
 
+def check_tokens(css: str) -> list[str]:
+    """Every colour token has to be used, and every token used has to be defined.
+
+    Both halves caught something real. A defined-but-unused token is a claim about the palette
+    that nothing on the site renders (--warm, removed after this check was written), and a
+    used-but-undefined one is a silently broken declaration, which CSS does not report.
+    """
+    failures: list[str] = []
+    # Only colour tokens: the measures, fonts and radii are not part of this question.
+    defined = set(re.findall(r"^\s*(--(?:bg|sheet|surface|ink|rule|accent|pop|good|ring)[\w-]*)\s*:",
+                             css, re.M))
+    used = set(re.findall(r"var\((--[\w-]+)", css))
+    unused = sorted(defined - used)
+    undefined = sorted(t for t in used - defined if not t.startswith("--font") and t not in
+                       {"--measure", "--wide", "--shell", "--radius", "--radius-lg"})
+    for token in unused:
+        failures.append(f"{token} is defined and never used: a palette token nothing renders "
+                        f"is a claim about the palette that is not true")
+    for token in undefined:
+        failures.append(f"{token} is used but never defined")
+    print(f"  tokens: {len(defined)} colour tokens, {len(unused)} unused, "
+          f"{len(undefined)} undefined")
+    return failures
+
+
 def check_fonts(css: str) -> list[str]:
     """Every url() the stylesheet references has to exist in the tree that ships."""
     failures: list[str] = []
@@ -259,6 +319,7 @@ def main() -> int:
     else:
         print("  dark scheme: no overrides found in the stylesheet")
     print()
+    failures += check_tokens(css)
     failures += check_fonts(css)
 
     print()

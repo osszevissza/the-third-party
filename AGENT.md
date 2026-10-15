@@ -142,8 +142,11 @@ any more, so it is an internal check: use it rather than a `du` of `public/`.
   than editing a quotation**, but only for a dash genuinely inside text a source published,
   and name the snapshot you checked it against. The key is a **line number**, so it goes stale
   the moment `data/sources.yaml` is edited above it: re-verify the text, do not bump the number.
-- `check-contrast.py` → `all 20 text pairs at or above 4.5:1 (lowest 4.66:1), 12 non-text
-  pairs at or above 3.0:1, in both schemes`. It prints the decorative hairlines as `info`
+- `check-contrast.py` → `all 33 text pairs at or above 4.5:1 (lowest 4.53:1), 16 non-text
+  pairs at or above 3.0:1, in both schemes`, plus `tokens: 21 colour tokens, 0 unused,
+  0 undefined`. **The token count is a check and it caught something**: `--warm` was defined,
+  documented in three places and rendered by nothing, which makes it a claim about the palette
+  that is not true. A defined-but-unused token and a used-but-undefined one both fail now. It prints the decorative hairlines as `info`
   rather than as passes, because those are not held to 3:1 on purpose: a rule that clears
   3:1 against a pale ground stops being a hairline and becomes a second heading. The record
   of which reference-palette values were moved and why is printed at the end of every run,
@@ -378,6 +381,14 @@ matters because a page can pass every script and still fail to render.
   contains `$1`, so a caret was demanded of every family. The scan strips `{{ ... }}` and HTML
   comments first now. The same confusion is available in `check-dashes.py`, which reads source
   files: it already skips generated blocks for the same reason.
+- **Goldmark has no fenced-div extension, and a config key for one is silently inert.**
+  `::: panel` was configured to produce `<div class="panel">` blocks; nothing rendered and the
+  `:::` appeared as literal text on the page. **The key did not even appear in `hugo config`**,
+  so the thing that would have caught it was looking at the output rather than at the config.
+  Hugo's Goldmark options are the ones in Hugo's own documentation and there is no
+  `extras.fencedDiv`. Raw HTML blocks work instead, because `unsafe = true` is set, but **a
+  `<div>` in Markdown has to balance**: one opener went in without its closer in this round and
+  the closing tag sat alone until the rendered output was counted rather than the source.
 - **When checking minified output, accept both attribute forms.** `--minify` strips quotes
   from simple attributes (`<sup class=cite>`), so a quote-only regex reports zero citations on
   a page that has seventeen.
@@ -610,9 +621,9 @@ from the line above it. The pass added four font files, two diagrams, two script
 shortcode, and edited the stylesheet, the head partial, the build script, the measurement
 script, two pages, and this file.
 
-**Page weights, measured after the styling pass on 2026-10-15:** median 40,617 bytes gzipped
-and 62,295 raw; heaviest `/sources/` at 58,081 gzipped and 127,264 raw, 1.43 times the median;
-the whole site with its shared stylesheet, fonts and icon counted once at 125,543 bytes
+**Page weights, measured after the styling pass on 2026-10-15:** median 40,950 bytes gzipped
+and 63,806 raw; heaviest `/sources/` at 58,413 gzipped and 128,775 raw, 1.43 times the median;
+the whole site with its shared stylesheet, fonts and icon counted once at 125,968 bytes
 gzipped. Before the pass the same rows were 9,126 / 25,216 median and 26,440 / 89,184
 heaviest, so **the type added about 27 KB to every page and the stylesheet grew from 7.3 KB to
 8.8 KB**.
@@ -621,9 +632,9 @@ heaviest, so **the type added about 27 KB to every page and the stylesheet grew 
 WOFF2 is already compressed, so gzip cannot compress it: the four font files are 29,420 bytes
 raw and 29,415 gzipped, a saving of five bytes across the set. Every font byte therefore lands
 in full on the raw row and barely at all on the transferred one. The honest statement is the
-one `measure-pages.py` prints: **a reader downloads 58,081 bytes for the heaviest page, and
-127,264 is the sum of the files involved rather than the number that crosses the wire.** Two
-things follow. `/sources/` is now over the raw line by 24,864 bytes rather than by the 1,326 it
+one `measure-pages.py` prints: **a reader downloads 58,413 bytes for the heaviest page, and
+128,775 is the sum of the files involved rather than the number that crosses the wire.** Two
+things follow. `/sources/` is now over the raw line by 26,375 bytes rather than by the 1,326 it
 was under it before, and that is a decision for the maintainer rather than a bug: §9 item 9
 records it. And the budget's two readings are no longer interchangeable, so **quote the transferred
 one when the claim is about a reader** and say which reading is meant.
@@ -774,7 +785,7 @@ itself is hypocritical.
   4.5:1 contrast, meaningful alt text, and `prefers-reduced-motion` respected, which is
   critical because the flagship page is scroll-animated.
 - **Performance budget:** under 100 KB per page, under 20 requests, LCP under 1.5 s. **As of
-  2026-10-15 the transferred reading passes and the raw one does not** (58,081 against 127,264
+  2026-10-15 the transferred reading passes and the raw one does not** (58,413 against 128,775
   for the heaviest page), because four self-hosted font files cannot be compressed by gzip a
   second time. §7 has the measured comparison and §9 item 9 the three ways to resolve it.
   Requests are unaffected: nine per page, four of them fonts, all from this origin. **LCP has
@@ -867,9 +878,17 @@ Items 1 to 6 are closed and are kept as stubs so the numbering does not shift.
      The reference palette's own interface colours do not pass AA as text on its background
      (its blue is 2.34:1, its pink 4.07:1 on white), so the hues were kept and the lightnesses
      moved; `NOTES` in the script and the closing lines of every run record each substitution.
-     **The focus ring is two rings** in both schemes, an outer ring and a 2px band of the page
-     ground, because no single colour clears 3:1 against a pale ground, a dark ground and both
-     filled controls at once.
+     **The maintainer rejected the first attempt for being too timid and asked for the colour
+     back**, and the second attempt is structural rather than a recolour: the reference's sky is
+     the *page ground*, a lighter *sheet* sits on top of it holding the prose, the header and
+     footer are bands of their own colour, and the loud values are spent on tinted blocks
+     (`.interactive`, `.callout`, `.actions`, `.panel`). Grey shadows became accent-tinted
+     ones, because a grey shadow under a blue page is what makes a colourful design look dirty.
+     **The saturated values are fills and never text**, which is the whole of the AA work:
+     #25aae1 is 2.34:1 as text on its own ground and 5.9:1 under white as a fill.
+     **The focus ring is two rings** in both schemes, an outer ring and a 2px band of the
+     surface under it, because no single colour clears 3:1 against a pale ground, a dark
+     ground and both filled controls at once.
    - **`section.interactive` is styled**, which was the largest hole on the site, and the
      citation marker is now a padded control with a tinted plate in place of
      `font-size: 0.75em; line-height: 0`. **That closes both defects this section used to
@@ -877,6 +896,12 @@ Items 1 to 6 are closed and are kept as stubs so the numbering does not shift.
      modifier exists for turning the eight-click walkthrough into a numbered sequence, and is
      **not applied**: the marker is never empty because the words "Click 3." are still in the
      markup, so applying it would double the numbering. Apply it only if the words go.
+   - **Links are ruled with `border-bottom`, not `text-decoration`**, at the maintainer's
+     request. The trade is real and is recorded where it is made: a border draws once per box,
+     so a link that wraps across two lines gets one rule at the end instead of one under each
+     line. The border is present in every state so nothing moves on hover, and hover moves to
+     the attention colour rather than to a darker blue, because getting brighter says "this is
+     live" and getting darker says "this is broken".
    - **Diagrams are hand-written inline SVG**, inlined by `layouts/shortcodes/diagram.html`
      from `assets/diagrams/`, painted through classes so they follow the dark scheme. Two
      exist, both on `/one-page-load/`. **A diagram may never be the only place a fact
@@ -934,7 +959,7 @@ Items 1 to 6 are closed and are kept as stubs so the numbering does not shift.
 9. **Two decisions the styling pass hands back, new on 2026-10-15.**
 
    - **The raw reading of the 100 KB page budget is over, and the transferred one is not.**
-     `/sources/` is 127,264 raw bytes against a 102,400 budget, and 58,081 gzipped, which
+     `/sources/` is 128,775 raw bytes against a 102,400 budget, and 58,413 gzipped, which
      passes. The cause is that WOFF2 is already compressed, so 29,420 bytes of font lands in
      full on the raw row and saves five bytes on the transferred one. §7 has the full
      comparison. The three honest options are: **raise the raw budget** to a number that

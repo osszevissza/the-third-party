@@ -79,65 +79,89 @@
 /* ---------------------------------------------------------------------------
    Tokens
 
-   Colour. The palette started from the LÖVE game framework's site, which the maintainer
-   named as the reference on 2026-10-15: a pale sky ground, deep sea blue for headings, a
-   saturated blue for interface, and a pink used sparingly for the thing you are meant to
-   notice. Its values were measured from love2d.org's own stylesheet and then moved, because
-   the reference site's interface colours do not pass AA as text on its own background:
-   #25aae1 is 2.34:1 on #e0f4fc and the pink #ea316e is 4.07:1 on white, both below the
-   4.5:1 the site promises. So the hues are kept and the lightnesses are not.
+   Colour. The palette is love2d.org, which the maintainer named as the reference. It was
+   read off that site's own stylesheet rather than guessed at, and love2d.org's structure is
+   what this file copies: a **saturated sky ground** carrying the whole page, a **lighter
+   sheet** on top of it holding the prose, tinted blocks for the loud parts, and a dark
+   footer. Its exact values are:
+
+     #e0f4fc sky ground      #383f4a body text      #1b4d68 headings
+     #25aae1 bright blue     #ea316e pink           #00a651 green
+     #1a1a1a footer          #7798a9 grey           #f2a33c gold
+
+   The bright ones are kept as *fills* and replaced as *text*. That distinction is the whole
+   of the AA work here: #25aae1 as text on its own sky ground is 2.34:1 and the pink is
+   4.07:1 on white, so neither can be a link or a label; the same hues darkened until they
+   pass (--accent, --pop, --good) are indistinguishable from them at a glance and legible to
+   everyone. A fill can be as loud as it likes behind white or near-black text, so the loud
+   values stay in the blocks.
+
+   The first version of this pass was too timid and the maintainer said so: it made the sky
+   almost white and spent the colour on hairlines. This one puts the sky back on the page, as
+   the reference does, and the sheet on top of it is lighter than its ground rather than the
+   other way round.
 
    Every pair this file renders is checked by scripts/check-contrast.py, which reads these
    declarations and fails the build below 4.5:1 for text and 3:1 for the focus ring. Change
-   a value here and run `python3 scripts/check-contrast.py`: it reads the tokens from this
-   file rather than from a copy, so it cannot drift from what ships.
+   a value here and run `python3 scripts/check-contrast.py`: it reads this file rather than a
+   copy of it, so it cannot drift from what ships.
    --------------------------------------------------------------------------- */
 
 :root {
   color-scheme: light dark;
 
-  /* Ground and surfaces */
-  --bg: #f6fbfd;          /* pale sky, the reference site's #e0f4fc lifted for less glare */
-  --surface: #e3f4fc;     /* cards, code, the interactive block */
-  --surface-2: #d3ecf7;   /* inside a surface: the tinted rows of a diagram table */
+  /* The ground: the reference site's own sky, which is what "colourful background" means
+     here. Ink on it is 9.4:1 and headings 8.0:1, so it is a page anyone can read. */
+  --bg: #e0f4fc;
+
+  /* The sheet the prose sits on: the reference ground is the page ground, so the sheet is
+     lighter than it, and every surface a reader reads on is one of these two. */
+  --sheet: #f8fdff;
+  --surface: #e3f4fc;     /* blocks inside a sheet: code, an inset panel, a table head */
+  --surface-2: #d3ecf7;   /* a step further in */
 
   /* Text */
-  --ink: #383f4a;         /* the reference site's own body colour, 10.2:1 on --bg */
-  --ink-heading: #1b4d68; /* its heading colour, 8.7:1: the deep sea blue that carries the
-                             family resemblance */
-  --ink-muted: #54646f;   /* captions, status lines, source metadata: 5.9:1 */
-  --ink-faint: #5f6e79;   /* the smallest step that still passes 4.5:1 on every ground,
-                             which is what the status stamp and list markers use */
+  --ink: #383f4a;         /* the reference's own body colour */
+  --ink-heading: #1b4d68; /* its heading colour */
+  --ink-muted: #54646f;   /* captions, status lines, source metadata */
+  --ink-faint: #5f6e79;   /* the smallest step that still passes on every ground */
 
-  /* Lines. The two are not interchangeable: --rule-strong is drawn where the line carries
-     meaning a reader needs (a source section starts here, a table header ends here) and it
-     clears 3:1 against the page. --rule is a decorative hairline on cards, rows and
-     surfaces, and is deliberately subtle; see the note in scripts/check-contrast.py. */
+  /* Lines. --rule-strong is drawn where the line carries meaning a reader needs and clears
+     3:1; --rule is a decorative hairline and is deliberately subtle; --rule-control is the
+     edge of something clickable, so it has to clear 3:1 on the ground it sits on. */
   --rule: #a3c6d8;
   --rule-strong: #5f8fa9;
-  --rule-control: #5f8fa9; /* the edge of a control, so it has to clear 3:1 on its ground */
+  /* The edge of a control. It is darker than --rule-strong because a citation marker sits on
+     the saturated tint rather than on a pale plate, and a border tuned for one ground is not
+     automatically visible on the other. */
+  --rule-control: #0a6c93;
 
-  /* Interface: links, buttons, focus. The reference's #25aae1 darkened until it passes as
-     text, so the hue survives and the contrast does too. */
+  /* Interface: links, citations, the focus ring family. The reference's #25aae1 is a fill
+     below, and this is the same hue at a lightness that can be read. */
   --accent: #0a6c93;
   --accent-ink: #ffffff;  /* on --accent */
-  --accent-quiet: #e3f4fc;
+  --accent-quiet: #c7e9f8; /* the loud tint: the walkthrough block, a citation marker */
 
-  /* The attention colour. Pink is the one loud thing in the reference palette and it is
-     used here the same way: for the reader's own action, never for decoration. */
+  /* Attention. The reference uses its pink for the thing you are meant to notice, and so
+     does this: never decoration, always the reader's own move. */
   --pop: #c2185b;
   --pop-ink: #ffffff;     /* on --pop */
-  --pop-quiet: #fbe9f0;
+  --pop-quiet: #fbd9e7;   /* the pink tint for a callout */
+
+  /* The third colour. The reference's green is a syntax highlight; here it marks the
+     constructive half of a page, which is what a reader is meant to leave with. */
+  --good: #096f36;
+  --good-quiet: #d2f0e0;
 
   /* Focus ring: two rings, and the reason is worth keeping. The ring colour has to differ
-     from the accent, because on a link the accent is the thing being outlined and a ring
-     the same colour as its target is invisible (measured, 1.55:1). It also has to stay
-     visible on a control that is *filled* with the accent, which is what the citation
-     marker is, and no single colour clears 3:1 against both a pale ground and both fills.
-     So: an outer ring, then a 2px gap of --ring-halo, then the control. The halo is the
-     page ground, which is why it reads as a gap rather than as a third colour. */
+     from the accent, because on a link the accent is the thing being outlined and a ring the
+     same colour as its target is invisible (measured, 1.55:1). It also has to stay visible on
+     a control *filled* with the accent, which the citation marker is, and no single colour
+     clears 3:1 against a pale ground and both fills at once. So: an outer ring, then a 2px
+     gap of --ring-halo, then the control. The halo is the sheet, which is why it reads as a
+     gap rather than as a third colour. */
   --ring: #1b4d68;
-  --ring-halo: #f6fbfd;   /* the page ground, drawn as a gap between ring and control */
+  --ring-halo: #f8fdff;
 
   /* Measures and rhythm. 34rem is roughly 66 characters at 17px, which is the top of the
      comfortable range for prose this long. */
@@ -155,35 +179,41 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0c1922;
-    --surface: #12242f;
-    --surface-2: #173040;
+    /* Same structure, inverted: the ground stays the deepest plane and the sheet lifts off
+       it, so the "sky with a page on it" reading survives the colour scheme changing. */
+    --bg: #0a1a24;
+    --sheet: #10242f;
+    --surface: #16303d;
+    --surface-2: #1c3b4a;
 
     --ink: #e6f4fb;
-    --ink-heading: #d3e8f4;
+    --ink-heading: #a8ddf6;
     --ink-muted: #a7c0ce;
     --ink-faint: #93aebb;
 
-    --rule: #3e6073;
+    --rule: #2b4a59;
     --rule-strong: #5f8a9e;
-    --rule-control: #4f7386;
+    --rule-control: #7fc4e2;
 
     --accent: #5cc7ee;
     --accent-ink: #062130;
-    --accent-quiet: #12242f;
+    --accent-quiet: #16303d;
 
-    --pop: #ff7aa8;
+    --pop: #ff8fb4;
     --pop-ink: #2a0713;
-    --pop-quiet: #3a1526;
+    --pop-quiet: #3d1626;
+
+    --good: #6fd39b;
+    --good-quiet: #12351f;
 
     /* Dark needed one extra thing the light scheme did not. Here the ring has to be light
-       enough to read against a dark page (4.5:1) while the filled accent button is *also*
-       light (9.2:1), so a light ring on that button would vanish. The halo is the page
-       ground drawn between the two: ring, then a 2px gap of --ring-halo, then the control,
-       so the ring is separated from the fill it outlines by contrast rather than by luck.
-       Both numbers are checked as pairs in scripts/check-contrast.py. */
-    --ring: #1089ba;
-    --ring-halo: #0c1922;
+       enough to read against a dark ground while the filled accent button is *also* light,
+       so a light ring on that button would vanish. The halo is the sheet drawn between them.
+       Both steps are checked as pairs in scripts/check-contrast.py. */
+    /* Widened from #1089ba, which measured 2.99:1 on the new mid-tone surface: 0.01 under
+       the requirement, and the kind of miss that only a check catches. */
+    --ring: #128ec1;
+    --ring-halo: #10242f;
   }
 }
 
@@ -241,12 +271,37 @@ body {
   border-radius: 3px;
 }
 
+/* Links are ruled with a border rather than with text-decoration, which is what the
+   maintainer asked for. The trade is stated rather than hidden: a border-bottom draws once per
+   box, so a link that wraps across two lines gets one rule at the end of it instead of one
+   under each line. The site's links are short against a 34rem measure, so this is a choice
+   about looks that costs a little clarity on the few that wrap.
+
+   The border is present in every state, including the resting one, so nothing moves on hover:
+   the colour changes and the weight does not. The offset keeps descenders clear of the rule,
+   which an underline does automatically and a border does not. */
 a {
   color: var(--accent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.15em;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.1em;
 }
-a:hover { text-decoration-thickness: 2px; }
+/* Hover moves to the attention colour rather than to a darker blue. The rule's job here is
+   to say "this is live", and getting brighter says it; getting darker says "this is broken".
+   Both schemes pass: the pink is 5.2:1 on the sky and 5.7:1 on the sheet in light, and 8.3:1
+   and 7.5:1 in dark. */
+a:hover {
+  color: var(--pop);
+  border-bottom-width: 2px;
+  margin-bottom: -1px;  /* a thicker rule must not nudge the line beneath it */
+}
+
+/* A link inside a heading is a door rather than a phrase, so it keeps the heading's colour
+   and marks itself with the rule alone. */
+h1 a, h2 a, h3 a, h4 a {
+  color: inherit;
+  border-bottom-color: var(--pop);
+}
 
 ::selection { background: var(--pop); color: var(--pop-ink); }
 
@@ -285,30 +340,35 @@ a:hover { text-decoration-thickness: 2px; }
    generated from the page tree (see partials/nav.html); nothing here depends on its order.
    --------------------------------------------------------------------------- */
 
+/* The header is a band of the accent colour rather than a line above the prose, so the page
+   opens in colour the way the reference site's does. This is the saturated blue as a fill,
+   which is what the loud value is for: white text on it measures 5.9:1. */
 .site-header {
-  border-bottom: 1px solid var(--rule);
-  padding: 1.1rem 1.5rem 0.9rem;
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 1.15rem 2.5rem 1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1.5rem;
   align-items: baseline;
   max-width: var(--shell);
   margin: 0 auto;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 }
 
 .site-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   letter-spacing: -0.01em;
   line-height: 1.1;
+  color: var(--accent-ink);
   text-decoration: none;
-  text-decoration-color: var(--pop);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0.25em;
-  color: var(--ink-heading);
+  border-bottom: 0;
+  padding-bottom: 0;
 }
-.site-title:hover { text-decoration-line: underline; }
+.site-title:hover { color: var(--accent-ink); border-bottom: 0; }
+.site-header a { padding-bottom: 0.05em; }
 
 .site-header nav ul {
   display: flex;
@@ -321,29 +381,54 @@ a:hover { text-decoration-thickness: 2px; }
 }
 
 .site-header nav a {
-  color: var(--ink-muted);
+  color: var(--accent-ink);
+  opacity: 0.86;
   text-decoration: none;
+  /* Transparent rather than absent, so hovering or marking the current page does not move
+     the row. */
+  border-bottom: 2px solid transparent;
+  padding-bottom: 0.05em;
 }
-.site-header nav a:hover { color: var(--accent); text-decoration: underline; }
+.site-header nav a:hover {
+  color: var(--accent-ink);
+  opacity: 1;
+  border-bottom-color: var(--pop-quiet);
+  margin-bottom: 0;
+}
 
 /* The current page, marked in the markup with aria-current="page" and shown here as the
    only menu item that is not muted. The attribute is what a screen reader announces; this
    rule is only so that sighted readers get the same information, and the underline is a
    second cue because the colour difference alone is subtle by design. */
 .site-header nav a[aria-current="page"] {
-  color: var(--ink-heading);
+  color: var(--accent-ink);
+  opacity: 1;
   font-weight: 600;
-  text-decoration: underline;
-  text-decoration-color: var(--pop);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0.2em;
+  border-bottom-color: var(--pop-quiet);
 }
 
 /* ---------------------------------------------------------------------------
    Page
    --------------------------------------------------------------------------- */
 
-main { display: block; padding: 0 1.5rem 3rem; }
+main { display: block; padding: 0 1.25rem; }
+
+/* The structural idea, and it is the reference site's: the sky ground carries the whole page
+   and a lighter sheet sits on top of it holding the prose. The sheet is a box with a maximum
+   width rather than a full-bleed band, so the sky stays visible down both sides on a wide
+   screen, which is the part that reads as colourful. On a narrow screen the sky retreats to a
+   frame and the sheet takes the width it needs. */
+.sheet {
+  max-width: var(--shell);
+  margin: 0 auto 3.5rem;
+  padding: 0.5rem 2.5rem 3.5rem;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  /* A shadow tinted with the accent rather than grey: a grey shadow under a sky-blue page is
+     the fastest way to make a colourful design look dirty. */
+  box-shadow: 0 10px 30px -12px rgba(7, 74, 104, 0.28);
+}
 
 .page { max-width: var(--measure); margin: 0 auto; }
 
@@ -413,15 +498,21 @@ h4 {
 }
 
 /* A section opener: an h2 whose short pink rule marks a new movement without a divider. */
+/* The rule above a section heading cycles through the palette rather than always being pink.
+   A page of this length has eight or ten h2s, and one colour repeated ten times stops being
+   an accent and becomes furniture. The cycle is by position among the h2s, so it is stable
+   for a given page and needs no markup. */
 h2::before {
   content: "";
   display: block;
-  width: 2.25rem;
-  height: 3px;
+  width: 2.5rem;
+  height: 4px;
   margin-bottom: 0.6rem;
   background: var(--pop);
   border-radius: 2px;
 }
+h2:nth-of-type(3n + 2)::before { background: var(--accent); }
+h2:nth-of-type(3n + 3)::before { background: var(--good); }
 
 p { margin: 0 0 1.05rem; text-wrap: pretty; }
 p + p { margin-top: 0; }
@@ -487,6 +578,7 @@ th {
   font-family: var(--font-display);
   font-weight: 700;
   color: var(--ink-heading);
+  background: var(--surface-2);
   border-bottom: 2px solid var(--rule-strong);
 }
 
@@ -584,8 +676,10 @@ figcaption {
 
 .page-sources {
   margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 2px solid var(--rule-strong);
+  padding: 1.5rem 1.5rem 0.5rem;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border-top: 4px solid var(--ink-heading);
 }
 
 .page-sources h2 { margin-top: 0; font-size: 1.25rem; }
@@ -640,10 +734,14 @@ figcaption {
    scripting, and nothing here would break if a script started adding classes.
    --------------------------------------------------------------------------- */
 
+/* The loud block. This is where the reference site spends its colour and where the first
+   version of this pass spent almost none, which is what the maintainer objected to: the
+   saturated blue as a tint under a saturated blue rule, on the sheet, so it reads as a panel
+   laid on the page rather than as more prose. */
 .interactive {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-left: 4px solid var(--pop);
+  background: var(--accent-quiet);
+  border: 1px solid var(--accent);
+  border-left: 6px solid var(--accent);
   border-radius: var(--radius-lg);
   padding: 1.5rem 1.75rem 1.25rem;
   margin: 2rem 0 2.5rem;
@@ -691,24 +789,54 @@ figcaption {
 /* Standalone callout, for a single paragraph that should stop the eye. */
 .callout {
   background: var(--pop-quiet);
+  border-left: 6px solid var(--pop);
   border-radius: var(--radius-lg);
   padding: 1.1rem 1.25rem;
   margin: 1.75rem 0;
 }
+
+/* The constructive half of a page: what a reader can do about it. Green is the reference
+   site's third colour and it is used for exactly one thing, so meeting it means something. */
+.actions {
+  background: var(--good-quiet);
+  border-left: 6px solid var(--good);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem;
+  margin: 1.75rem 0;
+}
+.actions > :last-child { margin-bottom: 0; }
+
+/* A quiet panel for material worth separating from the prose without shouting: a definition,
+   an aside, a note about method. */
+.panel {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem;
+  margin: 1.75rem 0;
+}
+.panel > :last-child { margin-bottom: 0; }
 .callout > :last-child { margin-bottom: 0; }
 
 /* ---------------------------------------------------------------------------
    Footer
    --------------------------------------------------------------------------- */
 
+/* The footer is a band of its own colour, which is the reference site's third structural
+   plane and the reason the page ends in colour rather than in grey. A tint rather than the
+   saturated fill, because the footer is all small text: ink on this tint is 8.2:1, where the
+   same words on the filled blue would have to be white and would then be the loudest thing
+   on the page. */
 .site-footer {
-  border-top: 1px solid var(--rule);
-  padding: 1.75rem 1.5rem;
+  background: var(--surface);
+  border-top: 4px solid var(--accent);
+  padding: 1.75rem 2.5rem;
   font-size: 0.9rem;
   color: var(--ink-muted);
   max-width: var(--shell);
-  margin: 0 auto;
+  margin: 0 auto 2rem;
+  border-radius: var(--radius-lg);
 }
+.site-footer a { color: var(--accent); }
 .site-footer p { margin: 0 0 0.5rem; }
 .footer-note { font-size: 0.85rem; }
 
@@ -730,6 +858,19 @@ figcaption {
   /* A citation marker printed as a link target is noise, and the sources are listed at
      the foot of the page anyway. */
   .cite a { border: 0; background: none; padding: 0; min-width: 0; min-height: 0; }
-  .interactive, .callout { background: none; border: 1px solid #999; }
+  /* Printing is the one place the colour has to go: a sheet of saturated blocks wastes ink
+     and reads worse on paper than plain rules do. Every block keeps its left rule, in black,
+     so the structure survives the colour being removed. */
+  .sheet, .site-footer, .interactive, .callout, .actions, .panel, .page-sources {
+    background: none;
+    box-shadow: none;
+    border: 1px solid #999;
+    border-radius: 0;
+  }
+  .site-header { background: none; color: #000; border-bottom: 2px solid #000; }
+  .site-header .site-title, .site-header nav a { color: #000; opacity: 1; }
+  .interactive, .callout, .actions { border-left-width: 4px; }
+  h2::before { background: #000; }
+  .source-anchor { display: inline; }
   figure, table { page-break-inside: avoid; }
 }
