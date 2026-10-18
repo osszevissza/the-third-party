@@ -1351,6 +1351,8 @@ JSON-LD block costs about 0.3 KB gzipped per page; the medians moved 41,650 to
 60% of the 100 KB budget, and the transferred reading still passes. **Deliberately
 not done:** per-page og images, `hreflang` (one language), `og:locale` guessing,
  submitting anywhere. **Still open** (none new): the CSP half of §9 item 7,
-`statichost.yml`, and whether the host runs the checks. **Uncommitted, with §12**:
-the whole of today's two passes waits on the maintainer's word, push is not deploy,
-and nothing gets a fix formally published until a deploy shows it live.
+`statichost.yml`, and whether the host runs the checks. **Both of today's passes are
+committed, at the maintainer's request, in two commits (the infographic pass, then
+this one); the push was deliberately not run**, because push is not deploy and the
+deploy is triggered by hand from the statichost dashboard: nothing here is formally
+published until a deploy shows it live.
