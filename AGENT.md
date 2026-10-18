@@ -323,12 +323,17 @@ scripts/measure-pages.py   page weights against the 100 KB budget (reads public/
 scripts/check-contrast.py  WCAG AA from the stylesheet's own tokens, plus font url() checks
 scripts/check-a11y.py      the static half of the WCAG claim, on the built output. Not an audit
 scripts/build-fonts.py     subsets fontok/ into static/fonts/ (writes; --check to verify)
+scripts/render-og.py       renders assets/og-card.png, the link card (writes; run by hand
+                           when the card's wording changes: crawlers read it, readers never do)
 content/_index.md      the home page
 content/<slug>/index.md    one directory per page
-layouts/               baseof.html, index.html (home), _default/single.html
+layouts/               baseof.html, index.html (home), _default/single.html, 404.html,
+                       robots.txt (template; published as robots.txt with a sitemap pointer)
 layouts/partials/      head.html, nav.html (generated from the page tree), footer.html, source-record.html
 layouts/shortcodes/    cite.html, source-list.html, interactive.html, diagram.html, flow-ledger.html
-assets/                css/main.css, js/flow.js, favicon.svg, diagrams/*.svg (Hugo Pipes: minify + fingerprint; the JS goes through js.Build)
+assets/                css/main.css, js/flow.js, favicon.svg, og-card.png, diagrams/*.svg
+                       (Hugo Pipes: minify + fingerprint; the JS goes through js.Build;
+                       og-card.png is a committed image referenced verbatim, never fingerprinted)
 static/fonts/          the four subsetted woff2 files, their licence texts, README.txt.
                        Static, NOT assets/: Hugo Pipes cannot reach static/, and a check in
                        check-contrast.py verifies every url() the stylesheet names exists
@@ -899,7 +904,8 @@ itself is hypocritical.
   `nosniff` and a revalidating cache policy, and no `content-security-policy`. A site claiming
   "no third-party requests" should have the browser check that claim rather than a reader
   taking it on trust, so the missing header is tracked here rather than waved away as somebody
-  else's server. `robots.txt` also does not point at the sitemap.
+  else's server. (The other half of this bullet, the `robots.txt` sitemap pointer, was fixed
+  in the SEO pass of 2026-10-18, §13.)
 - **Honesty about maintenance belongs on the page, not only in this file.** The footer states
   on every page that the site was written in October 2026, that it is not maintained on a
   schedule, that there is no capacity to keep every page current, and that the claims dating
@@ -947,8 +953,14 @@ Items 1 to 6 are closed and are kept as stubs so the numbering does not shift.
      stylesheet fingerprint matches a local build exactly, so the host ran the same Hugo, but
      that image carries Hugo rather than Python and PyYAML. **Assume the checks ran locally and
      nowhere else**: a push that fails one and is not caught locally would deploy anyway.
-   - **No `content-security-policy`, and `robots.txt` does not point at the sitemap.** Both are
-     one-line fixes on a host that already sends HSTS and `nosniff` (§8).
+   - **~~No `content-security-policy`, and `robots.txt` does not point at the sitemap.~~**
+     Half closed on 2026-10-18: `robots.txt` now points at the sitemap (§13). The
+     `content-security-policy` half stays open, and it is the harder half: a meaningful
+     policy here (all assets same-origin, inline style allowed for the SVG timing
+     variables, and zero directives that would ever permit a third party) is a
+     host-side header, and the host's build configuration is still not in the
+     repository (statichost.yml, above). Kept tracked here until it is seen to hold in
+     a real response, not until it is written down here once.
    - **Do not read a resolving hostname as proof of a deploy.** Every `*.statichost.page` name
      resolves, including names that cannot exist, and all refuse TLS until a site is
      provisioned, so the DNS record is a wildcard. Verify by fetching a page and reading its
@@ -1224,3 +1236,47 @@ infographics for the harms taxonomy and the bid request anatomy (§0's direction
 the interactive network explorer (direction 4), and no motion on any other page until
 this one has been looked at. Nothing here publishes a new figure anywhere, and no
 claim moved: the sources file is untouched, as it was through the styling pass.
+
+---
+
+## 12. The infographic pass (2026-10-18, after §11)
+
+The second slice of the maintainer's visual brief: two inline-SVG infographics, one
+per page, both drawn exclusively from facts the prose already states and cites. No
+new claim, no new source, and the sources file is untouched again.
+
+1. **`boring-fields.svg` on `/nothing-to-hide/`, placed at the end of section 2.** The
+   aggregation pipeline: three ordinary fields (five-digit ZIP code, date of birth,
+   sex) converge on a box that reads "lined up together: 87% of the US population can
+   be singled out", an arrow leads to a pink box reading "a decision about you:
+   credit, price, housing", and a closing note carries the page's own line about a
+   join you cannot consent to in advance. The 87% is Sweeney's 2000 estimate, already
+   cited in the section; the caption says so.
+2. **`three-buckets.svg` on `/what-leaves-your-browser/`, placed just before "Bucket
+   one".** The page's three-bucket structure as one map: what you hand over, what is
+   observed, what is deduced, with the first two feeding a bracket into the third and
+   the annotation "what gets used: the conclusion, not the record". It carries no
+   number at all; it is a structure, not a statistic.
+
+Both figures opt into the §11 motion system with zero new CSS: the fields figure has
+three converging packets and the two outcome boxes flash as packets land, and the
+buckets figure's rows and bracket arrive in sequence via `d-arrive`. With scripting
+off both render complete and still, as before.
+
+**Check drift from this pass:** `check-contrast.py` gained two TEXT pairs (diagram
+labels and diagram subtitles on an inset surface: 8.06:1 and 5.43:1 in light), so the
+contrast line now prints **35 text pairs, 18 non-text pairs**, and `check-a11y.py`
+checked **4 inline SVGs** (was 2). All six checks green. Page weights: `/nothing-to-hide/`
+79,912 raw / 45,357 gzipped (+3.4 KB raw for its figure) and
+`/what-leaves-your-browser/` 65,563 raw / 41,325 gzipped (+2.3 KB); median 41,650
+gzipped; the transferred budget still passes and the raw reading is still over (§9
+item 9). One hygiene fix rode along: an XML comment in `one-page-load.svg` had named
+the packet stagger token, and a double hyphen inside an XML comment is invalid XML,
+so the comment now says "stagger value" instead. Nothing depends on the difference;
+it is the only kind of edit that gets made twice if left.
+
+**Still open from the visual brief:** the interactive network explorer, and any
+illustration work on the home page. Both are untouched, and the §11 review note
+applies to this pass too: nothing here has been looked at by a person yet, and
+neither figure is committed-published until the maintainer says so and a deploy
+happens.

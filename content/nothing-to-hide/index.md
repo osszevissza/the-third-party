@@ -55,6 +55,8 @@ Thelma Arnold's searches were boring too, and that is why the identification wor
 
 You cannot consent to a join you can't foresee. That's why anonymity by deleting names keeps failing: you can remove a name from a file, but you can't remove the fact that the file is joinable.
 
+{{< diagram "boring-fields" "How boring data becomes a decision: three ordinary fields single out an estimated 87% of the US population (Sweeney's 2000 estimate, cited above), and once a file can be joined against others, the end product is a decision about you that you cannot inspect." >}}
+
 ## 3. "It's all legal, so it must be fine."
 
 This one is fair, and half right. The practices described here are mostly lawful. But legality is a floor, set by a negotiation between regulators and the industry being regulated, so it reflects what was arguable at the time, not what is harmless.

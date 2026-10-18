@@ -21,6 +21,8 @@ That is before any cookie. Before any account. Before you have been asked anythi
 
 Most explanations of this subject start with cookies, which is a bit like explaining air travel by starting with the peanuts. Cookies are real and they matter, but they're a mechanism. The interesting question is what the information *is*, and what happens to it after it arrives, and for that it helps to separate three things that get discussed as though they were one.
 
+{{< diagram "three-buckets" "The page in one picture: the first two buckets are what a request carries, and what the systems actually use is the conclusion drawn from them, which is bucket three." >}}
+
 ## Bucket one: what you hand over
 
 This is the part everyone thinks about, and it is the least interesting.

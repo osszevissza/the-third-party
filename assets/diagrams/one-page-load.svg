@@ -61,8 +61,8 @@
   <!-- Flow packets: decorative duplicates of the request paths above, painted by CSS
        (class d-packet in main.css) and rendered only once flow.js adds d-run to the
        figure, so without JavaScript nothing here draws at all. pathLength="100"
-       normalises every route so one dash rule serves all lengths, and the --d value
-       staggers each packet to the order the page's ledger describes. -->
+       normalises every route so one dash rule serves all lengths, and the stagger
+       value on each element orders the packets the way the page's ledger describes. -->
   <g aria-hidden="true">
     <path d="M150 30 L230 30" pathLength="100" class="d-packet" style="--d:0s"/>
     <path d="M330 50 L330 70 L145 70 L145 95" pathLength="100" class="d-packet" style="--d:.5s"/>

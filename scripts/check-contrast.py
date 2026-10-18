@@ -73,6 +73,9 @@ TEXT_PAIRS = [
     # Blocks inside a sheet.
     ("body text on an inset surface", "ink", "surface"),
     ("faint text on an inset surface", "ink-faint", "surface"),
+    # Diagram text, which sits inside the inset boxes: d-label and the small subtitles.
+    ("diagram labels on an inset surface", "ink-heading", "surface"),
+    ("diagram subtitles on an inset surface", "ink-muted", "surface"),
     ("body text on the inner tint", "ink", "surface-2"),
     ("muted text on the inner tint", "ink-muted", "surface-2"),
     ("links on an inset surface", "accent", "surface"),

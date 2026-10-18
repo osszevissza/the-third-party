@@ -1,0 +1,40 @@
+<svg viewBox="0 0 660 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="d4-title d4-desc" font-family="'General Sans', system-ui, sans-serif">
+  <title id="d4-title">Three buckets, and the one that gets used</title>
+  <desc id="d4-desc">Three stacked rows: what you hand over, described as deliberate and
+    legible, like a form, a login or an upload; what is observed, the IP address, user
+    agent, screen and fonts carried by every request; and what is deduced, a conclusion
+    drawn from the other two. The first two rows feed a bracket on the right that
+    points into the third, and a label beside it reads: what gets used, the conclusion,
+    not the record.</desc>
+
+  <g class="d-arrive" style="--d:0s">
+    <rect x="0" y="24" width="430" height="48" rx="6" class="d-box"/>
+    <text x="16" y="46" class="d-label">what you hand over</text>
+    <text x="16" y="66" class="d-small d-ink-muted">deliberate, legible, visible: a form, a login, an upload</text>
+  </g>
+
+  <g class="d-arrive" style="--d:.3s">
+    <rect x="0" y="100" width="430" height="48" rx="6" class="d-box"/>
+    <text x="16" y="122" class="d-label">what is observed</text>
+    <text x="16" y="142" class="d-small d-ink-muted">your IP, user agent, screen and fonts, carried by every request</text>
+  </g>
+
+  <g class="d-arrive" style="--d:.6s">
+    <rect x="0" y="186" width="430" height="48" rx="6" class="d-box d-box--pop"/>
+    <text x="16" y="208" class="d-label d-label--on-pop">what is deduced</text>
+    <text x="16" y="228" class="d-small d-label--on-pop">a conclusion drawn from the other two</text>
+  </g>
+
+  <!-- The raw material bracket: the first two rows feed the third. The final leg runs
+       into the pink row and the annotation sits beside it. -->
+  <path d="M430 48 L470 48" class="d-line"/>
+  <path d="M430 124 L470 124" class="d-line"/>
+  <path d="M470 48 L470 210 L438 210" class="d-line"/>
+  <polygon points="430,210 439,206 439,214" class="d-arrow"/>
+
+  <g class="d-arrive" style="--d:1s">
+    <text x="495" y="192" class="d-label">what gets used</text>
+    <text x="495" y="214" class="d-small d-ink-muted">the conclusion,</text>
+    <text x="495" y="232" class="d-small d-ink-muted">not the record</text>
+  </g>
+</svg>
