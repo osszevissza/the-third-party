@@ -1,0 +1,25 @@
+{{- /*
+  flow-ledger.html: the wrapper for the scroll-driven request ledger on /one-page-load/.
+
+  WHY A WRAPPER. The ledger prose is the content and it stays in the page exactly as it
+  is (AGENT.md section 5: the ledger IS the fallback). This shortcode adds two things
+  the prose does not carry: a hook the script looks for, and the script tag itself,
+  bundled through Hugo Pipes the same way the stylesheet is. With JavaScript disabled
+  the wrapper is a plain div and flow.js builds no receipt: nothing on the page
+  depends on it.
+
+  The script is bundled with js.Build (esbuild ships inside Hugo extended, so there is
+  no node_modules) and fingerprinted like the stylesheet, so it stays one same-origin
+  request with a cache-busting name. It is emitted only on pages that use this
+  shortcode, which is currently one page.
+*/ -}}
+{{- $js := "" -}}
+{{- with resources.Get "js/flow.js" -}}
+  {{- $js = . | js.Build | minify | fingerprint -}}
+{{- else -}}
+  {{- errorf "flow-ledger shortcode: assets/js/flow.js not found, referenced by %s" .Page.File.Path -}}
+{{- end -}}
+<div class="flow-ledger" data-flow-ledger>
+{{ .Inner | .Page.RenderString }}
+</div>
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>

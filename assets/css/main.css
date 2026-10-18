@@ -930,6 +930,163 @@ details:has(> .page-sources-body .source-anchor:target) > .page-sources-summary 
 .callout > :last-child { margin-bottom: 0; }
 
 /* ---------------------------------------------------------------------------
+   Motion: animated data flow, and the receipt on /one-page-load/
+
+   The one place the site moves, and the rules it moves under. Two pieces: the
+   diagram packets, and the receipt card that assets/js/flow.js fills as the reader
+   scrolls the request ledger.
+
+   Everything here is an addition, never a replacement. With JavaScript off the
+   diagrams render complete and still (d-run is never added, so no packet or flash
+   ever renders), and the receipt is never built at all. prefers-reduced-motion is
+   honoured twice over: the global rule at the top of this file collapses every
+   animation to nothing, and flow.js declines to run at all. Colours come from the
+   checked tokens, and the packet pairs are in scripts/check-contrast.py like every
+   other pair the site renders.
+
+   The packet mechanics: each packet is a duplicate of one request path, normalised
+   with pathLength="100" so a single dash rule works for every length of edge. The
+   dash pattern is 12 units of dash in 200 of period, so exactly one dash is ever
+   visible and it crosses the full path between the 0% and 42% keyframes, then holds
+   off-screen for the rest of the 2.6s cycle. The stagger comes from a --d custom
+   property set on the element, which is why one animation rule serves every edge.
+   --------------------------------------------------------------------------- */
+
+.d-packet {
+  fill: none;
+  stroke: var(--pop);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 12 188;
+  stroke-dashoffset: 100;
+  opacity: 0;
+}
+
+.d-run .d-packet {
+  opacity: 1;
+  animation: d-travel 2.6s linear infinite;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes d-travel {
+  0%   { stroke-dashoffset: 100; }
+  42%  { stroke-dashoffset: -100; }
+  100% { stroke-dashoffset: -100; }
+}
+
+/* A node lights for a moment as its packet arrives. Two keyframe sets, because the
+   surface boxes light in the attention colour and the filled pink ones would swallow
+   it: a pink packet flashing across a pink box needs the box's own ink to flash in. */
+.d-run .d-flash { animation: d-flash 2.6s linear infinite; animation-delay: var(--d, 0s); }
+.d-run .d-box--pop.d-flash { animation-name: d-flash-pop; }
+
+@keyframes d-flash {
+  0%, 100% { }
+  3%       { stroke: var(--pop); stroke-width: 3; }
+  20%      { }
+}
+
+@keyframes d-flash-pop {
+  0%, 100% { }
+  3%       { stroke: var(--pop-ink); stroke-width: 3; }
+  20%      { }
+}
+
+/* The comparison diagram: the extractive column arrives one request at a time and
+   the self-contained one does not move at all, which is the page's argument in one
+   gesture. Runs once on reveal; d-arrive is also the receipt's item transition. */
+.d-run .d-arrive { animation: d-arrive 0.5s ease-out both; animation-delay: var(--d, 0s); }
+
+@keyframes d-arrive {
+  from { opacity: 0.1; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* The receipt. It carries no fact the prose does not carry, it does not exist
+   without JavaScript, and it can be dismissed. Wide screens get the running list;
+   a narrow screen gets a slim bar with the count and the latest item, so the
+   fixed element never eats a phone screen. */
+.flow-receipt {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 30;
+  width: min(17rem, calc(100vw - 2.5rem));
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-top: 4px solid var(--pop);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px -12px rgba(7, 74, 104, 0.28);
+  padding: 0.7rem 1rem 0.75rem;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+.flow-receipt[hidden] { display: none !important; }
+
+.flow-receipt-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1rem 0.6rem;
+  margin: 0 0 0.35rem;
+}
+
+.flow-receipt-label {
+  font-weight: 600;
+  color: var(--ink-heading);
+}
+
+.flow-receipt-count {
+  margin-left: auto;
+  padding: 0 0.55rem;
+  border-radius: 999px;
+  background: var(--pop);
+  color: var(--pop-ink);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.flow-receipt-close {
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  padding: 0.2rem 0.4rem;
+  cursor: pointer;
+}
+.flow-receipt-close:hover { color: var(--pop); }
+
+.flow-receipt-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  max-height: min(38vh, 20rem);
+  overflow: auto;
+}
+.flow-receipt-list li {
+  margin-bottom: 0.2rem;
+  animation: d-arrive 0.3s ease-out both;
+}
+
+.flow-receipt-latest {
+  margin: 0.25rem 0 0;
+  color: var(--ink-muted);
+  display: none;
+}
+
+@media (max-width: 48rem) {
+  .flow-receipt {
+    left: 1rem;
+    right: 1rem;
+    bottom: 0.75rem;
+    width: auto;
+    padding-bottom: 0.55rem;
+  }
+  .flow-receipt-list { display: none; }
+  .flow-receipt-latest { display: block; }
+  .flow-receipt-count { margin-left: 0; }
+}
+
+/* ---------------------------------------------------------------------------
    Footer
    --------------------------------------------------------------------------- */
 
@@ -957,7 +1114,7 @@ details:has(> .page-sources-body .source-anchor:target) > .page-sources-summary 
    --------------------------------------------------------------------------- */
 
 @media print {
-  .site-header nav, .skip-link { display: none; }
+  .site-header nav, .skip-link, .flow-receipt { display: none; }
   body {
     background: #fff;
     color: #000;

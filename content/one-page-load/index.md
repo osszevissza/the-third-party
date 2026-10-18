@@ -28,6 +28,7 @@ Timings are illustrative. The order and the mechanics are not.
 
 ## The ledger
 
+{{< flow-ledger >}}
 ### `t+0 ms`: you press enter
 
 The browser resolves the domain name and opens an encrypted connection. Your internet provider can see which hostname you're connecting to, even though the content itself is encrypted. If you're on someone else's network, so can they.
@@ -118,6 +119,8 @@ A video player, a social widget, a map, a comment system. Each is a third party 
 ### `t+1200 ms`: you still haven't clicked anything
 
 Everything above happened because you loaded a page. That's the whole input.
+
+{{< /flow-ledger >}}
 
 ---
 

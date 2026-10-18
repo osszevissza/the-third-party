@@ -104,6 +104,11 @@ NONTEXT_PAIRS = [
     ("a control's edge on its plate", "rule-control", "accent-quiet"),
     ("section rules on the sheet", "rule-strong", "sheet"),
     ("section rules on the sky ground", "rule-strong", "bg"),
+    # The animated request packets in the diagrams (main.css, class d-packet). They are
+    # decorative motion, but they are rendered pairs all the same, and the attention
+    # colour crossing a pale ground is the promise being checked.
+    ("a data-flow packet over the sheet", "pop", "sheet"),
+    ("a data-flow packet over an inset surface", "pop", "surface"),
 ]
 
 # The focus indicator is two rings in both schemes: the ring colour outside, then a 2px band
@@ -270,8 +275,11 @@ def check_tokens(css: str) -> list[str]:
                              css, re.M))
     used = set(re.findall(r"var\((--[\w-]+)", css))
     unused = sorted(defined - used)
+    # --d is the per-element animation stagger for the diagram packets (class d-packet).
+    # It is a timing value, not a colour, and it is defined on each SVG element with a
+    # style attribute rather than in :root, which is why the grep above cannot see it.
     undefined = sorted(t for t in used - defined if not t.startswith("--font") and t not in
-                       {"--measure", "--wide", "--shell", "--radius", "--radius-lg"})
+                       {"--measure", "--wide", "--shell", "--radius", "--radius-lg", "--d"})
     for token in unused:
         failures.append(f"{token} is defined and never used: a palette token nothing renders "
                         f"is a claim about the palette that is not true")

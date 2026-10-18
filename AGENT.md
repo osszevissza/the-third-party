@@ -2,12 +2,13 @@
 
 Read this first. It assumes no memory of previous sessions.
 
-**Session date when written:** 2026-10-15. Run `date -u`. The repository keeps no other
+**Session date when written:** 2026-10-18. Run `date -u`. The repository keeps no other
 timestamp, and pages carry `status_as_of` fields that need refreshing after a long gap.
 
 **State: the site is live, ten pages, all six checks pass, the styling pass is finished and
-the work is pushed, with `origin/main` at `6f4c24a` and nothing uncommitted.** The styling
-pass produced everything §9 item 8 describes: two self-hosted subsets of two families,
+pushed, and a motion pass sits on top of it, written 2026-10-18, uncommitted and not yet
+looked at by a person (§11).** The styling pass produced everything §9 item 8 describes:
+two self-hosted subsets of two families,
 colour that a script checks rather than a person, type with measured floors, two inline SVG
 diagrams, and a collapsed sources disclosure. It added about 27 KB of type to every page,
 which puts the raw reading of the 100 KB budget over for the first time in the project's
@@ -326,8 +327,8 @@ content/_index.md      the home page
 content/<slug>/index.md    one directory per page
 layouts/               baseof.html, index.html (home), _default/single.html
 layouts/partials/      head.html, nav.html (generated from the page tree), footer.html, source-record.html
-layouts/shortcodes/    cite.html, source-list.html, interactive.html, diagram.html
-assets/                css/main.css, favicon.svg, diagrams/*.svg (Hugo Pipes: minify + fingerprint)
+layouts/shortcodes/    cite.html, source-list.html, interactive.html, diagram.html, flow-ledger.html
+assets/                css/main.css, js/flow.js, favicon.svg, diagrams/*.svg (Hugo Pipes: minify + fingerprint; the JS goes through js.Build)
 static/fonts/          the four subsetted woff2 files, their licence texts, README.txt.
                        Static, NOT assets/: Hugo Pipes cannot reach static/, and a check in
                        check-contrast.py verifies every url() the stylesheet names exists
@@ -481,17 +482,22 @@ survive in `SITE_PLAN.md` §4**, so a later session does not re-add them out of 
   French, and it establishes only that the joint index Ecosia built with Qwant exists and that
   French users are served from it directly, saying nothing about coverage elsewhere or result
   quality.
-- **The interactives have no scripts, and that is the correct state.** Two were planned
-  (`SITE_PLAN.md` §5). `layouts/shortcodes/interactive.html` renders any content as static
-  HTML inside `<section class="interactive" data-interactive>`, so the enhancement hook and
-  the no-JavaScript fallback are the same thing. Use it as
-  `{{< interactive >}} ... {{< /interactive >}}`. `/consent-theatre/`'s "Eight clicks through
-  one banner" is the model: an eight-step walkthrough where **every step is a defect the EDPB
-  Cookie Banner Taskforce recorded**, ordered the way a user meets them, with the page saying
-  out loud that it is a composite and not a measurement. The planned 47-click counter was
-  abandoned because a counter has to count something real, and inventing "47" is exactly the
-  false precision §4 forbids. **If a real click count is ever measured, add it as
-  enhancement**; do not replace the sourced content with it.
+- **The interactive blocks render their full content as static HTML, and the one script
+  the site ships adds motion only.** `layouts/shortcodes/interactive.html` renders any
+  content as static HTML inside `<section class="interactive" data-interactive>`, so the
+  enhancement hook and the no-JavaScript fallback are the same thing. Use it as
+  `{{< interactive >}} ... {{< /interactive >}}`. `/consent-theatre/`'s "Eight clicks
+  through one banner" is the model: an eight-step walkthrough where **every step is a
+  defect the EDPB Cookie Banner Taskforce recorded**, ordered the way a user meets them,
+  with the page saying out loud that it is a composite and not a measurement. The planned
+  47-click counter was abandoned because a counter has to count something real, and
+  inventing "47" is exactly the false precision §4 forbids. **If a real click count is
+  ever measured, add it as enhancement**; do not replace the sourced content with it.
+  Since the motion pass (§11) the site does ship one script: `assets/js/flow.js`, which
+  starts the diagram packet animation and fills the /one-page-load/ receipt. It takes
+  the same rules: full content readable with scripting off, motion only, and the ledger
+  prose stays the source of truth (the script reads the ledger's own headings and quits
+  if the count does not match rather than summarise a page that changed).
 - **`/nothing-to-hide/` is complete.** The seven harms are listed with a one-line explanation
   and a pointer to the section arguing each, and the two that had only been named, `secondary
   use` and `dignity`, are written out in "Two harms that needed arguing". Two things to know
@@ -1145,3 +1151,76 @@ maintainer triggers it (§7).
 agent: the links that have to be opened by hand, the 9 possible Wayback gaps, and the GitHub
 tracker setting that decides whether anonymous issue filing works (§9 item 4). The four CNIL
 links left that list on 2026-10-15, when the domain started answering again.
+
+---
+
+## 11. The motion pass (2026-10-18)
+
+The maintainer lifted the course framing and asked for a visually exciting site:
+interactive networks, animated data flows, illustrations, infographics that keep a long
+read moving. This section records the first slice, which is done and green but **has not
+been looked at by a person**, because there is no browser here (§7). It is also
+**uncommitted**: check `git status` for its state rather than trusting this paragraph.
+
+**What it is.** Two pieces, both on `/one-page-load/`:
+
+1. **The diagrams animate their request flow.** Each request path in
+   `one-page-load.svg` carries a duplicate drawn as a class `d-packet` (pink, 3 units
+   wide) that travels the edge over a 2.6 second loop, and each receiving box carries
+   class `d-flash` and lights for a moment as its packet arrives, so the drawing
+   replays the order the ledger describes. In `two-page-loads.svg` the extractive
+   column's seven rows arrive one at a time (class `d-arrive`) and the self-contained
+   column does not move at all, which is the page's argument in one gesture. The
+   stagger is a `--d` custom property set on each element; `pathLength="100"`
+   normalises every route so one dash rule serves all lengths. The animation only
+   starts when `flow.js` adds `d-run` to the figure as it scrolls into view: **with
+   scripting off the diagrams render complete and still**, which is the progressive
+   enhancement rule (§8) applied to motion.
+2. **The receipt.** `flow.js` builds a small fixed card, dismissible, that fills in as
+   the reader scrolls the ledger: one entry per data item the prose states, a count in
+   a pink chip, and the latest item. Wide screens get the running list, a narrow
+   screen gets a slim bar with the count and the latest item. It is built by script
+   only, so with JavaScript off it does not exist and nothing is missing; every fact
+   it shows is already in the prose, and the count is the count of the card's own
+   list, not a measurement of anything. `prefers-reduced-motion` ends the whole
+   script: the receipt is motion by construction.
+
+**How it is wired.** `content/one-page-load/index.md` wraps the ledger's h3 sequence in
+`{{< flow-ledger >}} ... {{< /flow-ledger >}}` (new shortcode, prose untouched); the
+shortcode emits the wrapper and one `<script defer>` built by `js.Build | minify |
+fingerprint` from `assets/js/flow.js`, so the script is one same-origin request with an
+integrity attribute, on this one page only. The script reads the ledger's own headings
+and walks away if the count does not match its 14 expected steps, rather than summarise
+a page that changed under it. `flow.js` is about 2.5 KB minified.
+
+**Files changed:** `assets/js/flow.js` (new), `layouts/shortcodes/flow-ledger.html`
+(new), both diagrams in `assets/diagrams/` (classes and `--d` values only; no text
+changed), `assets/css/main.css` (a Motion section before the footer; the print block
+hides the receipt), `content/one-page-load/index.md` (the wrap), and
+`scripts/check-contrast.py`, which gained two entries in NONTEXT_PAIRS for the packet
+pair (pop over the sheet at 5.73:1 and over an inset surface at 5.21:1 in light, 7.48
+and 6.46 in dark) and excluded `--d` from its token check as a timing value defined
+inline on the SVG elements rather than in `:root`.
+
+**Numbers after the pass.** All six checks green. Two recorded strings drift and are
+now different here rather than in §7: the contrast line prints **18 non-text pairs**
+(was 16: the two packet pairs), and the page weights moved to **median 41,292 gzipped
+and 66,917 raw, heaviest `/sources/` at 59,023 gzipped and 132,609 raw, site total
+127,214 gzipped**; the transferred budget still passes, the raw one is still over as
+recorded in §9 item 9, and the motion pass added about 500 gzipped bytes to every page
+(CSS) plus about 1.2 KB to `/one-page-load/` alone (the script). The exact §7 strings
+for the other checks are unchanged.
+
+**What the maintainer should look at, since no one has yet:** the packet rhythm (the
+`--d` values are first guesses and were tuned without eyes), whether the receipt's
+fixed position collides with anything on a real screen, whether its pink chip and the
+"Hide" control feel right, and the whole thing with scripting off, with
+`prefers-reduced-motion` on, and in the dark scheme. The review loop is §9 item 8's:
+`sh scripts/build.sh serve`, and because this pass added a template file, **a server
+that was already running must be restarted** (§7 gotcha 12).
+
+**Deliberately not in this pass, all live candidates for the next one:** the
+infographics for the harms taxonomy and the bid request anatomy (§0's direction 3),
+the interactive network explorer (direction 4), and no motion on any other page until
+this one has been looked at. Nothing here publishes a new figure anywhere, and no
+claim moved: the sources file is untouched, as it was through the styling pass.
