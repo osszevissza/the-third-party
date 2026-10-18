@@ -1280,3 +1280,77 @@ illustration work on the home page. Both are untouched, and the §11 review note
 applies to this pass too: nothing here has been looked at by a person yet, and
 neither figure is committed-published until the maintainer says so and a deploy
 happens.
+## 13. The SEO pass (2026-10-18, after §12)
+
+The other request of 2026-10-18: bring the site's findability up to healthy basics,
+without making a discipline of it. The honest summary is that the site was already
+stronger on this front than on most: every page has always had an exact-claim
+description and a canonical, headings are single and structural (the a11y check
+polices this ten times over), URLs are clean slugs, performance is the argument of
+§8, and freshness is stated in a stamp on every page. What was missing was the
+plumbing that lets a machine connect any of that to a page result, plus one page
+that should exist in any site of any kind. Five pieces:
+
+1. **`layouts/robots.txt`** (new). `enableRobotsTXT` had been true all along, and
+   Hugo's default output said `User-agent: *` and stopped, which advertises the
+   sitemap to nobody: the pointer is the discoverable link between the
+   disallow-everything-nothing rule and the map. The template adds `Allow: /` and a
+   `Sitemap:` line at the absolute URL via `absURL`. Nothing is disallowed, by
+   deliberate design: the whole site is meant to be read.
+2. **The sitemap itself was inspected and left alone.** Hugo's default `sitemap.xml`
+   has all ten pages and nothing extra. It carries no `lastmod`, on purpose: pages
+   deliberately carry no "date" at all, because the only date a page legitimately
+   has is the per-claim `status_as_of` stamp, and mass-producing a fake page-date
+   from git metadata or anything else would manufacture freshness the prose does
+   not claim.
+3. **`layouts/404.html`** (new). The site had no 404 page at all; a miss got the
+   host's bare file. It now gets a house-voice page reusing the `.page`,
+   `.page-header` and `.content` classes with zero new CSS, saying exactly what
+   happened: the address led nowhere, nothing was recorded, nobody was informed,
+   start here instead. (A site with no consent banner losing its best poetic
+   moment, the "what happens next is nothing", to a default error page,
+   was the kind of waste this file exists to stop.)
+4. **`head.html`: the Open Graph set now covers every page**, home included, where
+   it reads as `og:type website` with the site title rather than "article". Added
+   over what existed: `og:site_name`, `og:url`, `twitter:card summary_large_image`,
+   and a shared link card. The card is `assets/og-card.png`, one committed
+   1200x630 PNG (37 KB) rendered by **`scripts/render-og.py`** from fontok/'s
+   Arsenal Bold and General Sans and the stylesheet's own palette tokens, with
+   layout assertions that fail loudly if the wording ever outgrows the card.
+   Crawlers fetch it and readers never do, so it enters no page budget and argues
+   nothing: it previews the site the visitor is about to land on, from this origin
+   like everything else. The asset is published through `.RelPermalink`, exactly
+   how `favicon.svg` gets out: the first version printed the URL with `printf` and
+   never touched the resource, so `public/` had no og-card.png and the meta pointed
+   at nothing, which is precisely the preload failure again, one directory over
+   and four sections later. A missing card also fails the build loudly from
+   `head.html`, mirroring the stylesheet's errorf.
+5. **JSON-LD, hand-built and minimal.** Every article gets a `BlogPosting`, the home
+   page a `WebSite`, and the 404 gets none, because there is nothing legitimate to
+   assert about a requested address that does not exist. The objects state only
+   what the prose already states: author, publisher and `inLanguage` ("en"),
+   `license` as CC0 1.0 (`LICENSE` at the repository root, the deed URL in the
+   object), `mainEntityOfPage` as the canonical's `@id`, `headline` and
+   `description` matching what the head already prints, and a `dateModified` that
+   reads `status_as_of` **raw, through the same `{{ . }}` expression that
+   `single.html` stamps into the page header**, so the human-rendered date and the
+   machine-readable date can never drift apart. Built as a dict and encoded with
+   `jsonify`, which escapes whatever the prose turns out to contain; the HTML
+   minifier strips the attribute's quotes (`type=application/ld+json`), which
+   twice fooled a strict grep during verification, a documented gotcha with
+   feelings. The GEO argument is the same one the site makes everywhere: give an
+   engine the facts, with the source, in a form it can quote, and hold it to them.
+   No keyword meta, no FAQPage schema on `/myths/` (the page is an argument, not a
+   lookup table, and faking one reads exactly like the theater this site documents).
+
+**Check drift:** `check-dashes.py` now scans 25 files (render-og.py included; zero em
+dashes), `check-a11y.py` still accounts 10 checked pages (`404.html` is not an
+index.html, it is looked at exactly as much as any error page). **Weights:** the
+JSON-LD block costs about 0.3 KB gzipped per page; the medians moved 41,650 to
+41,954 gzipped and the heaviest page `/sources/` 59,023 to 59,363, still less than
+60% of the 100 KB budget, and the transferred reading still passes. **Deliberately
+not done:** per-page og images, `hreflang` (one language), `og:locale` guessing,
+ submitting anywhere. **Still open** (none new): the CSP half of §9 item 7,
+`statichost.yml`, and whether the host runs the checks. **Uncommitted, with §12**:
+the whole of today's two passes waits on the maintainer's word, push is not deploy,
+and nothing gets a fix formally published until a deploy shows it live.

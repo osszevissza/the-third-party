@@ -1,0 +1,11 @@
+{{- /*
+  robots.txt. The default output Hugo generates stops at "User-agent: *", which
+  never mentions the sitemap: the pointer that ties the two together is what
+  makes the map discoverable, and its absence was a tracked gap in AGENT.md
+  section 9, item 7. One allow, one map. There is nothing worth disallowing:
+  the whole point of this site is that everything on it is readable.
+*/ -}}
+User-agent: *
+Allow: /
+
+Sitemap: {{ "sitemap.xml" | absURL }}

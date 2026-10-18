@@ -23,6 +23,20 @@
 
   The font paths in the stylesheet are root-relative, which assumes the site stays at the
   root of its domain. It does: baseURL is the domain root (hugo.toml).
+
+  The Open Graph set below covers every page, home included, where it reads as "website".
+  The link card is a PNG rendered once by scripts/render-og.py from the site's own faces
+  and palette; crawlers fetch it, readers never do, so it costs a page load nothing. Like
+  the stylesheet it must be on disk when the build runs: a missing og:image is the
+  preload problem again, a silent hole that looks identical to a working preview, so its
+  absence fails the build loudly.
+
+  The JSON-LD block states only what the prose already states, in machine-readable form:
+  author, license, language, and for articles a dateModified that reads the same
+  status_as_of stamp the page header prints, through the same unparsed {{ . }} of the
+  parameter, so the two can never drift apart. That is the whole GEO story this site
+  needs: frontmatter a generative engine can quote, and nothing to blow its own horn
+  with, from an origin that loads nothing it has not justified.
 */ -}}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,10 +45,43 @@
 <meta name="description" content="{{ $desc }}">
 <meta name="color-scheme" content="light dark">
 <link rel="canonical" href="{{ .Permalink }}">
-{{- if .IsPage }}
-<meta property="og:title" content="{{ .Title }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
 <meta property="og:description" content="{{ $desc }}">
-<meta property="og:type" content="article">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+{{- with resources.Get "og-card.png" }}
+<meta property="og:image" content="{{ printf "%s%s" $.Site.BaseURL (strings.TrimPrefix "/" .RelPermalink) }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Third Party: the web is more extractive than it looks.">
+<meta name="twitter:card" content="summary_large_image">
+{{- else }}
+  {{- errorf "head.html: assets/og-card.png not found; link previews would have no image" }}
+{{- end }}
+{{- /* Structured data, hand-built as a dict and encoded by jsonify, which emits valid
+  JSON and escapes anything the prose turns out to contain. Articles and the home
+  page get an object; other kinds (the 404) get none, because there is nothing
+  legitimate to assert about a requested address that does not exist. */ -}}
+{{- $person := dict "@type" "Person" "name" "Underdog Guild" "url" "https://barsimarina.hu" }}
+{{- $cc0 := "https://creativecommons.org/publicdomain/zero/1.0/" }}
+{{- $ld := dict "@context" "https://schema.org" }}
+{{- if .IsPage }}
+  {{- $ld = merge $ld (dict "@type" "BlogPosting" "mainEntityOfPage" (dict "@id" .Permalink)
+        "headline" .Title "description" $desc "inLanguage" "en"
+        "author" $person "publisher" $person "license" $cc0) }}
+  {{- with .Params.status_as_of }}
+    {{- $ld = merge $ld (dict "dateModified" (printf "%s" .)) }}
+  {{- end }}
+{{- else if .IsHome }}
+  {{- $ld = merge $ld (dict "@type" "WebSite" "url" .Permalink "name" .Site.Title
+        "description" $desc "inLanguage" "en" "publisher" $person "license" $cc0) }}
+  {{- with .Params.status_as_of }}
+    {{- $ld = merge $ld (dict "dateModified" (printf "%s" .)) }}
+  {{- end }}
+{{- end }}
+{{- if gt (len $ld) 1 }}
+<script type="application/ld+json">{{ $ld | jsonify }}</script>
 {{- end }}
 {{- with resources.Get "css/main.css" }}
   {{- $css := . | minify | fingerprint }}
